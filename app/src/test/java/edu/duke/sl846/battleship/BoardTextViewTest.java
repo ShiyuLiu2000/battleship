@@ -32,7 +32,7 @@ public class BoardTextViewTest {
     assertThrows(IllegalArgumentException.class, () -> new BoardTextView(wideBoard));
     assertThrows(IllegalArgumentException.class, () -> new BoardTextView(tallBoard));
   }
-  
+
   private void emptyBoardHelper(int width, int height, String expectedHeader, String expectedBody) {
     Board testBoard = new BattleShipBoard(width, height);
     BoardTextView testView = new BoardTextView(testBoard);
@@ -41,21 +41,30 @@ public class BoardTextViewTest {
     String expectedBoard = expectedHeader + expectedBody + expectedHeader;
     assertEquals(expectedBoard, testView.displayMyOwnBoard());
   }
-  
+
   @Test
   public void test_display_empty_2by2() {
-    Board testBoard = new BattleShipBoard(2, 2);
-    BoardTextView testView = new BoardTextView(testBoard);
     String expectedHeader = "  0|1\n";
-    assertEquals(expectedHeader, testView.makeHeader());
-    String expectedBodyLineA = "A  |  A\n";
-    assertEquals(expectedBodyLineA, testView.makeBodyLine('A'));
-    String expected =
-      expectedHeader +
-      "A  |  A\n" +
-      "B  |  B\n" +
-      expectedHeader;
-    assertEquals(expected, testView.displayMyOwnBoard());
+    String expectedBody = "A  |  A\n" + "B  |  B\n";
+    emptyBoardHelper(2, 2, expectedHeader, expectedBody);
   }
 
+  @Test
+  public void test_display_empty_3by2() {
+    String expectedHeader = "  0|1|2\n";
+    String expectedBody = "A  | |  A\n" + "B  | |  B\n";
+    emptyBoardHelper(3, 2, expectedHeader, expectedBody);
+  }
+  
+  @Test
+  public void test_display_empty_3by5() {
+    String expectedHeader = "  0|1|2\n";
+    String expectedBody =
+      "A  | |  A\n" +
+      "B  | |  B\n" +
+      "C  | |  C\n" +
+      "D  | |  D\n" +
+      "E  | |  E\n";
+    emptyBoardHelper(3, 5, expectedHeader, expectedBody);
+  }
 }

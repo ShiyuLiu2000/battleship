@@ -12,8 +12,15 @@ public class BattleShipBoard {
    * 
    * @param width  is the width of this Board.
    * @param height is the height of this Board.
+   * @throws IllegalArgumentException if width or height is not positive.
    */
   public BattleShipBoard(int width, int height) {
+    if (width <= 0) {
+      throw new IllegalArgumentException("BattleShipBoard's width must be positive but is " + width);
+    }
+    if (height <= 0) {
+      throw new IllegalArgumentException("BattleShipBoard's height must be positive but is " + height);
+    }
     this.width = width;
     this.height = height;
   }

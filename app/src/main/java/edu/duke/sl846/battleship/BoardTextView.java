@@ -29,7 +29,15 @@ public class BoardTextView {
    * @return the textual display of the Board.
    */
   public String displayMyOwnBoard() {
-    return ""; // placeholder
+    StringBuilder ans = new StringBuilder();
+    ans.append(makeHeader());
+    char c = 'A';
+    for (int i = 0; i < toDisplay.getHeight(); i++) {
+      ans.append(makeBodyLine(c));
+      c++;
+    }
+    ans.append(makeHeader());
+    return ans.toString();
   }
 
   /**

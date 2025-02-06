@@ -36,11 +36,7 @@ public class BoardTextView {
   public String displayMyOwnBoard() {
     StringBuilder ans = new StringBuilder();
     ans.append(makeHeader());
-    char c = 'A';
-    for (int i = 0; i < toDisplay.getHeight(); i++) {
-      ans.append(makeBodyLine(c));
-      c++;
-    }
+    ans.append(makeEmptyBody());
     ans.append(makeHeader());
     return ans.toString();
   }
@@ -86,6 +82,20 @@ public class BoardTextView {
     ans.append(" ");
     ans.append(c);
     ans.append("\n");
+    return ans.toString();
+  }
+
+  /**
+   * Builds the whole body of the empty Board.
+   * @return the String of the whole body of the empty Board.
+   */
+  String makeEmptyBody() {
+    StringBuilder ans = new StringBuilder();
+    char c = 'A';
+    for (int i = 0; i < toDisplay.getHeight(); i++) {
+      ans.append(makeBodyLine(c));
+      c++;
+    }
     return ans.toString();
   }
 }

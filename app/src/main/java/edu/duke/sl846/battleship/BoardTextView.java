@@ -18,8 +18,13 @@ public class BoardTextView {
    * Constructs a BoardView, given the board it will display.
    * 
    * @param toDisplay is the Board to Display.
+   * @throws IllegalArgumentException if the board is larger than 10x26.
    */
   public BoardTextView(Board toDisplay) {
+    if (toDisplay.getHeight() > 26 || toDisplay.getWidth() > 10) {
+      throw new IllegalArgumentException("To have a textual representation, Board must be no larger than 10x26, but is "
+          + toDisplay.getWidth() + "x" + toDisplay.getHeight());
+    }
     this.toDisplay = toDisplay;
   }
 

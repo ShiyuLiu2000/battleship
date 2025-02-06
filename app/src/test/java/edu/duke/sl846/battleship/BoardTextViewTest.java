@@ -11,6 +11,8 @@ public class BoardTextViewTest {
     BoardTextView testView = new BoardTextView(testBoard);
     String expectedBodyLineA = "A  | |  A\n";
     assertEquals(expectedBodyLineA, testView.makeBodyLine('A'));
+    String expectedBodyLineZ = "Z  | |  Z\n";
+    assertEquals(expectedBodyLineZ, testView.makeBodyLine('Z'));
     assertThrows(IllegalArgumentException.class, () -> testView.makeBodyLine('a'));
     assertThrows(IllegalArgumentException.class, () -> testView.makeBodyLine('3'));
   }
@@ -29,5 +31,13 @@ public class BoardTextViewTest {
       "B  |  B\n" +
       expectedHeader;
     assertEquals(expected, testView.displayMyOwnBoard());
+  }
+
+  @Test
+  public void test_invalid_board_size() {
+    Board wideBoard = new BattleShipBoard(11, 20);
+    Board tallBoard = new BattleShipBoard(5, 27);
+    assertThrows(IllegalArgumentException.class, () -> new BoardTextView(wideBoard));
+    assertThrows(IllegalArgumentException.class, () -> new BoardTextView(tallBoard));
   }
 }

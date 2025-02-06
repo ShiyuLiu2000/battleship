@@ -12,7 +12,7 @@ public class BattleShipBoard implements Board {
    * 
    * @param width  is the width of this Board.
    * @param height is the height of this Board.
-   * @throws IllegalArgumentException if width or height is not positive.
+   * @throws IllegalArgumentException if width or height is negative or zero.
    */
   public BattleShipBoard(int width, int height) {
     if (width <= 0) {

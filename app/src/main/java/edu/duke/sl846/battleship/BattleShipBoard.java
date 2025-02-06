@@ -10,7 +10,7 @@ public class BattleShipBoard {
   /**
    * Constructs a Board with given width and height.
    * 
-   * @param width  is the width of this Board.
+   * @param width is the width of this Board.
    * @param height is the height of this Board.
    * @throws IllegalArgumentException if width or height is not positive.
    */

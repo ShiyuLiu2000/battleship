@@ -1,7 +1,8 @@
 package edu.duke.sl846.battleship;
 
 /**
- * Handles textual display of a Board (i.e., converting it to a string to show
+ * Handles textual display of a {@link Board} (i.e., converting it to a string
+ * to show
  * to the user).
  * It supports two ways to display the Board:
  * - one for the player's own board,
@@ -22,7 +23,56 @@ public class BoardTextView {
     this.toDisplay = toDisplay;
   }
 
+  /**
+   * Gives textual display of the Board.
+   * 
+   * @return the textual display of the Board.
+   */
   public String displayMyOwnBoard() {
     return ""; // placeholder
+  }
+
+  /**
+   * Makes the header line, e.g. 0|1|2|3\n
+   * 
+   * @return the String that is the header line of the given Board.
+   */
+  String makeHeader() {
+    StringBuilder ans = new StringBuilder("  ");
+    // start with nothing to separate, then switch to '|' to separate
+    String sep = "";
+    for (int i = 0; i < toDisplay.getWidth(); i++) {
+      ans.append(sep);
+      ans.append(i);
+      sep = "|";
+    }
+    ans.append("\n");
+    return ans.toString();
+  }
+
+  /**
+   * Makes the body line, e.g. A | | | A\n
+   * 
+   * @param c is the character printed inside the line as an indicator.
+   * @return the String that makes up the body of the given Board.
+   * @throws IllegalArgumentException if c is not from A to Z.
+   */
+  String makeBodyLine(char c) {
+    if (c < 'A' || c > 'Z') {
+      throw new IllegalArgumentException("Character indicator must be from A to Z, but is " + c);
+    }
+    StringBuilder ans = new StringBuilder();
+    ans.append(c);
+    ans.append(" ");
+    String sep = "";
+    for (int i = 0; i < toDisplay.getWidth(); i++) {
+      ans.append(sep);
+      ans.append(" "); // For now, we only build empty boards.
+      sep = "|";
+    }
+    ans.append(" ");
+    ans.append(c);
+    ans.append("\n");
+    return ans.toString();
   }
 }

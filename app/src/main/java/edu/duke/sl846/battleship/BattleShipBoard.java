@@ -1,0 +1,38 @@
+package edu.duke.sl846.battleship;
+
+/**
+ * Represents a Board in our battleship game.
+ */
+public class BattleShipBoard {
+  private final int width;
+  private final int height;
+
+  /**
+   * Constructs a Board with given width and height.
+   * 
+   * @param width  is the width of this Board.
+   * @param height is the height of this Board.
+   */
+  public BattleShipBoard(int width, int height) {
+    this.width = width;
+    this.height = height;
+  }
+
+  /**
+   * Gets the width of the Board.
+   * 
+   * @return the width of the Board.
+   */
+  public int getWidth() {
+    return width;
+  }
+
+  /**
+   * Gets the height of the Board.
+   * 
+   * @return the height of the Board.
+   */
+  public int getHeight() {
+    return height;
+  }
+}

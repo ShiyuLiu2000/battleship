@@ -27,6 +27,33 @@ public class Placement {
   }
 
   /**
+   * Constructs a Placement from description String, e.g. C8H, r3v
+   * 
+   * @param description is the description String. It should be composed of 3
+   *                    characters: the first two can build a valid
+   *                    {@link Coordinate}, and the last is either v/V for
+   *                    vertical, or h/H for horizontal.
+   * @throws IllegalArgumentException if the description String is either not of
+   *                                  length 3, not beginning with valid
+   *                                  Coordinate description substring, or not
+   *                                  ending with valid orientation character.
+   */
+  public Placement(String description) throws IllegalArgumentException {
+    if (description.length() != 3) {
+      throw new IllegalArgumentException("Placement description string should be of length 3, but is " + description);
+    }
+    String coordinateDescription = description.substring(0, 2);
+    Coordinate coordinate = new Coordinate(coordinateDescription); // may throw IllegalArgumentException
+    this.where = coordinate;
+    char uppercaseOrientation = Character.toUpperCase(description.charAt(2));
+    if (uppercaseOrientation != 'V' && uppercaseOrientation != 'H') {
+      throw new IllegalArgumentException(
+          "Orientation must be vertical (v/V) or horizontal (h/H), but is " + description.charAt(2));
+    }
+    this.orientation = uppercaseOrientation;
+  }
+
+  /**
    * Gets the Coordinate of the Placement.
    * 
    * @return the Coordinate of the Placement.

@@ -50,4 +50,26 @@ public class PlacementTest {
     assertEquals("(5, 3), V", p3.toString());
     assertEquals("(5, 3), H", p4.toString());
   }
+
+  
+  @Test
+  public void test_constructor_from_description() {
+    Placement p1 = new Placement("a3v");
+    Placement p2 = new Placement("A3v");
+    Placement p3 = new Placement("a3V");
+    Placement p4 = new Placement("A3V");
+    Coordinate c1 = new Coordinate(0, 3);
+    Placement p5 = new Placement(c1, 'v');
+    assertEquals(p1, p1);
+    assertEquals(p1, p2);
+    assertEquals(p1, p3);
+    assertEquals(p1, p4);
+    assertEquals(p1, p5);
+    assertEquals(p1.hashCode(), p5.hashCode());
+    assertThrows(IllegalArgumentException.class, () -> new Placement("3"));
+    assertThrows(IllegalArgumentException.class, () -> new Placement("Z9!"));
+    assertThrows(IllegalArgumentException.class, () -> new Placement("!3V"));
+    assertThrows(IllegalArgumentException.class, () -> new Placement(""));
+  }
+
 }

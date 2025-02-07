@@ -43,5 +43,42 @@ public class Placement {
   public char getOrientation() {
     return orientation;
   }
-  
+
+  /**
+   * Compares two Placements to see if they are equal: same Coordinate, same
+   * orientation (case insensitive).
+   * 
+   * @param object is the Object being compared to.
+   * @return true if the two Placements have the same Coordinate to place and the
+   *         same orientation, false otherwise.
+   */
+  @Override
+  public boolean equals(Object object) {
+    if (object.getClass().equals(getClass())) {
+      Placement placement = (Placement) object;
+      return where.equals(placement.getWhere()) && orientation == placement.getOrientation();
+    }
+    return false;
+  }
+
+  /**
+   * Gives textual representation of the Placement, e.g. (1, 2), V
+   * 
+   * @return textual representation of the Placement.
+   */
+  @Override
+  public String toString() {
+    return where.toString() + ", " + orientation;
+  }
+
+  /**
+   * Generates hashcode for a Placement.
+   * (Use the fact that Java's String have a good hashcode)
+   * 
+   * @return hashcode of a Placement.
+   */
+  @Override
+  public int hashCode() {
+    return toString().hashCode();
+  }
 }

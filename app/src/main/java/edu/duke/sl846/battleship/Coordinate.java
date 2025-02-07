@@ -37,7 +37,8 @@ public class Coordinate {
   }
 
   /**
-   * Compares two Coordinates to see if they have equality.
+   * Compares two Coordinates to see if they are equal: same row number, same
+   * column number.
    * 
    * @param object is the Object being compared to.
    * @return true if the two Coordinates have the same row number and column

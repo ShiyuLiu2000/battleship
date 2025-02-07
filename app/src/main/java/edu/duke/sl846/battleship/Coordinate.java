@@ -35,4 +35,16 @@ public class Coordinate {
   public int getColumn() {
     return column;
   }
+
+  /**
+   * Compares two Coordinates to see if they have equality.
+   */
+  @Override
+  public boolean equals(Object object) {
+    if (object.getClass().equals(getClass())) {
+      Coordinate coordinate = (Coordinate) object;
+      return row == coordinate.row && column == coordinate.column;
+    }
+    return false;
+  }
 }

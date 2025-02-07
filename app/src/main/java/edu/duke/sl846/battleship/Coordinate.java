@@ -53,7 +53,7 @@ public class Coordinate {
   }
 
   /**
-   * Gives textual representation of the Coordinate, e.g. (1,2)
+   * Gives textual representation of the Coordinate, e.g. (1, 2)
    * 
    * @return textual representation of the Coordinate.
    */
@@ -74,7 +74,7 @@ public class Coordinate {
   }
 
   /**
-   * Constructs a Coordinate from description String, e.g. A3
+   * Constructs a Coordinate from description String, e.g. A3, c7
    * 
    * @param description is the description String. It should be composed of 2
    *                    characters: the first is a-z or A-Z to indicate the row,

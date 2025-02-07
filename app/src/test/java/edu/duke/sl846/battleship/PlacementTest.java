@@ -51,7 +51,6 @@ public class PlacementTest {
     assertEquals("(5, 3), H", p4.toString());
   }
 
-  
   @Test
   public void test_constructor_from_description() {
     Placement p1 = new Placement("a3v");
@@ -71,5 +70,4 @@ public class PlacementTest {
     assertThrows(IllegalArgumentException.class, () -> new Placement("!3V"));
     assertThrows(IllegalArgumentException.class, () -> new Placement(""));
   }
-
 }

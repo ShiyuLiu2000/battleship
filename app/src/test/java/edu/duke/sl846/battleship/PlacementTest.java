@@ -31,19 +31,20 @@ public class PlacementTest {
     Coordinate c2 = new Coordinate(5, 3);
     Placement p1 = new Placement(c1, 'h');
     Placement p2 = new Placement(c1, 'H');
-    assertEquals(p1, p2);
-    assertEquals(p1, p1);
     Placement p3 = new Placement(c2, 'v');
     Placement p4 = new Placement(c2, 'h');
+    // equals
+    assertEquals(p1, p2);
+    assertEquals(p1, p1);
     assertNotEquals(p1, p4);
     assertNotEquals(p3, p4);
     assertNotEquals(p2, p4);
     assertNotEquals(p4, "(5, 3), H");
-    
+    // hashCode
     assertEquals(p1.hashCode(), p2.hashCode());
     assertNotEquals(p1.hashCode(), p4.hashCode());
     assertNotEquals(p3.hashCode(), p4.hashCode());
-
+    // toString
     assertEquals("(2, 4), H", p1.toString());
     assertEquals("(2, 4), H", p2.toString());
     assertEquals("(5, 3), V", p3.toString());

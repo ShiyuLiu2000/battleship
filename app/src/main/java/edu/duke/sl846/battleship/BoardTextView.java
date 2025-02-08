@@ -12,7 +12,7 @@ public class BoardTextView {
   /**
    * The Board to display.
    */
-  private final Board toDisplay;
+  private final Board<Character> toDisplay;
 
   /**
    * Constructs a BoardView, given the board it will display.
@@ -20,7 +20,7 @@ public class BoardTextView {
    * @param toDisplay is the Board to Display.
    * @throws IllegalArgumentException if the board is larger than 10x26.
    */
-  public BoardTextView(Board toDisplay) {
+  public BoardTextView(Board<Character> toDisplay) {
     if (toDisplay.getHeight() > 26 || toDisplay.getWidth() > 10) {
       throw new IllegalArgumentException("To have a textual representation, Board must be no larger than 10x26, but is "
           + toDisplay.getWidth() + "x" + toDisplay.getHeight());
@@ -87,6 +87,7 @@ public class BoardTextView {
 
   /**
    * Builds the whole body of the empty Board.
+   * 
    * @return the String of the whole body of the empty Board.
    */
   String makeEmptyBody() {

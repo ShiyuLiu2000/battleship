@@ -4,7 +4,7 @@ package edu.duke.sl846.battleship;
  * Represents a general Board for our battleship game.
  * The Board interface provides getters for width and height of the Board.
  */
-public interface Board {
+public interface Board<T> {
 
   /**
    * Gets the width of the Board.

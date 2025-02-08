@@ -3,7 +3,7 @@ package edu.duke.sl846.battleship;
 /**
  * Represents a Board in our battleship game.
  */
-public class BattleShipBoard implements Board {
+public class BattleShipBoard<T> implements Board<T> {
   private final int width;
   private final int height;
 

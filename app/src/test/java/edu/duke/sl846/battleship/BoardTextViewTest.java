@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class BoardTextViewTest {
   @Test
   public void test_makeBodyLine() {
-    Board testBoard = new BattleShipBoard(3, 3);
+    Board<Character> testBoard = new BattleShipBoard<Character>(3, 3);
     BoardTextView testView = new BoardTextView(testBoard);
     String expectedBodyLineA = "A  | |  A\n";
     assertEquals(expectedBodyLineA, testView.makeBodyLine('A'));
@@ -19,7 +19,7 @@ public class BoardTextViewTest {
 
   @Test
   public void test_makeBody() {
-    Board testBoard = new BattleShipBoard(2, 2);
+    Board<Character> testBoard = new BattleShipBoard<Character>(2, 2);
     BoardTextView testView = new BoardTextView(testBoard);
     String expectedBody = "A  |  A\n" + "B  |  B\n";
     assertEquals(expectedBody, testView.makeEmptyBody());
@@ -27,14 +27,14 @@ public class BoardTextViewTest {
 
   @Test
   public void test_invalid_board_size() {
-    Board wideBoard = new BattleShipBoard(11, 20);
-    Board tallBoard = new BattleShipBoard(5, 27);
+    Board<Character> wideBoard = new BattleShipBoard<Character>(11, 20);
+    Board<Character> tallBoard = new BattleShipBoard<Character>(5, 27);
     assertThrows(IllegalArgumentException.class, () -> new BoardTextView(wideBoard));
     assertThrows(IllegalArgumentException.class, () -> new BoardTextView(tallBoard));
   }
 
   private void emptyBoardHelper(int width, int height, String expectedHeader, String expectedBody) {
-    Board testBoard = new BattleShipBoard(width, height);
+    Board<Character> testBoard = new BattleShipBoard<Character>(width, height);
     BoardTextView testView = new BoardTextView(testBoard);
     assertEquals(expectedHeader, testView.makeHeader());
     assertEquals(expectedBody, testView.makeEmptyBody());

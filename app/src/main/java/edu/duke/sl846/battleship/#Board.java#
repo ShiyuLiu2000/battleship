@@ -20,7 +20,6 @@ public interface Board<T> {
    */
   public int getHeight();
 
-  
   /**
    * Attempts to add a Ship on the Board.
    * 

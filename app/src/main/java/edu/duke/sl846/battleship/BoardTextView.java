@@ -36,7 +36,8 @@ public class BoardTextView {
   public String displayMyOwnBoard() {
     StringBuilder ans = new StringBuilder();
     ans.append(makeHeader());
-    ans.append(makeEmptyBody());
+    // ans.append(makeEmptyBody());
+    ans.append(makeBody());
     ans.append(makeHeader());
     return ans.toString();
   }
@@ -62,11 +63,12 @@ public class BoardTextView {
   /**
    * Makes the body line, e.g. A | | | A\n
    * 
-   * @param c is the character printed inside the line as an indicator.
+   * @param c   is the character printed inside the line as an indicator.
+   * @param row is the row number used to check the existence of ships inside it.
    * @return the String that makes up the body of the given Board.
    * @throws IllegalArgumentException if c is not from A to Z.
    */
-  String makeBodyLine(char c) {
+  String makeBodyLine(char c, int row) {
     if (c < 'A' || c > 'Z') {
       throw new IllegalArgumentException("Character indicator must be from A to Z, but is " + c);
     }
@@ -74,9 +76,14 @@ public class BoardTextView {
     ans.append(c);
     ans.append(" ");
     String sep = "";
-    for (int i = 0; i < toDisplay.getWidth(); i++) {
+    for (int column = 0; column < toDisplay.getWidth(); column++) {
       ans.append(sep);
-      ans.append(" "); // For now, we only build empty boards.
+      Character s = toDisplay.whatIsAt(new Coordinate(row, column));
+      if (s != null) {
+        ans.append(s.toString());
+      } else {
+        ans.append(" ");
+      }
       sep = "|";
     }
     ans.append(" ");
@@ -94,7 +101,22 @@ public class BoardTextView {
     StringBuilder ans = new StringBuilder();
     char c = 'A';
     for (int i = 0; i < toDisplay.getHeight(); i++) {
-      ans.append(makeBodyLine(c));
+      ans.append(makeBodyLine(c, 0));
+      c++;
+    }
+    return ans.toString();
+  }
+
+  /**
+   * Builds the whole body of the Board with Ships.
+   * 
+   * @return the String of the whole body of the Board with Ships.
+   */
+  String makeBody() {
+    StringBuilder ans = new StringBuilder();
+    char c = 'A';
+    for (int row = 0; row < toDisplay.getHeight(); row++) {
+      ans.append(makeBodyLine(c, row));
       c++;
     }
     return ans.toString();

@@ -10,15 +10,15 @@ public class BoardTextViewTest {
     Board<Character> testBoard = new BattleShipBoard<Character>(3, 3);
     BoardTextView testView = new BoardTextView(testBoard);
     String expectedBodyLineA = "A  | |  A\n";
-    assertEquals(expectedBodyLineA, testView.makeBodyLine('A'));
+    assertEquals(expectedBodyLineA, testView.makeBodyLine('A', 0));
     String expectedBodyLineZ = "Z  | |  Z\n";
-    assertEquals(expectedBodyLineZ, testView.makeBodyLine('Z'));
-    assertThrows(IllegalArgumentException.class, () -> testView.makeBodyLine('a'));
-    assertThrows(IllegalArgumentException.class, () -> testView.makeBodyLine('3'));
+    assertEquals(expectedBodyLineZ, testView.makeBodyLine('Z', 0));
+    assertThrows(IllegalArgumentException.class, () -> testView.makeBodyLine('a', 0));
+    assertThrows(IllegalArgumentException.class, () -> testView.makeBodyLine('3', 0));
   }
 
   @Test
-  public void test_makeBody() {
+  public void test_makeEmptyBody() {
     Board<Character> testBoard = new BattleShipBoard<Character>(2, 2);
     BoardTextView testView = new BoardTextView(testBoard);
     String expectedBody = "A  |  A\n" + "B  |  B\n";
@@ -66,5 +66,34 @@ public class BoardTextViewTest {
       "D  | |  D\n" +
       "E  | |  E\n";
     emptyBoardHelper(3, 5, expectedHeader, expectedBody);
+  }
+
+  private void nonEmptyBoardHelper(int width, int height, String expectedHeader, String expectedBody, Coordinate... coordinates) {
+    Board<Character> testBoard = new BattleShipBoard<Character>(width, height);
+    BoardTextView testView = new BoardTextView(testBoard);
+    assertEquals(expectedHeader, testView.makeHeader());
+    // add ships
+    for (Coordinate c: coordinates) {
+      Ship<Character> s = new BasicShip(c);
+      assertTrue(testBoard.tryAddShip(s));
+    }
+    assertEquals(expectedBody, testView.makeBody());
+    String expectedBoard = expectedHeader + expectedBody + expectedHeader;
+    assertEquals(expectedBoard, testView.displayMyOwnBoard());
+  }
+  
+  @Test
+  public void test_display_3by5() {
+    String expectedHeader = "  0|1|2\n";
+    String expectedBody =
+      "A  | |  A\n" +
+      "B s| |  B\n" +
+      "C  |s|  C\n" +
+      "D  | |  D\n" +
+      "E  | |s E\n";
+    Coordinate c1 = new Coordinate("B0");
+    Coordinate c2 = new Coordinate("C1");
+    Coordinate c3 = new Coordinate("E2");
+    nonEmptyBoardHelper(3, 5, expectedHeader, expectedBody, c1, c2, c3);
   }
 }

@@ -3,7 +3,6 @@
  */
 package edu.duke.sl846.battleship;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
@@ -11,6 +10,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.ResourceAccessMode;
+import org.junit.jupiter.api.parallel.ResourceLock;
+import org.junit.jupiter.api.parallel.Resources;
 
 class AppTest {
 
@@ -62,6 +66,7 @@ class AppTest {
   }
 
   @Test
+  @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
   public void test_main() throws IOException {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     PrintStream out = new PrintStream(bytes, true);
@@ -76,8 +81,7 @@ class AppTest {
       System.setIn(input);
       System.setOut(out);
       App.main(new String[0]);
-    }
-    finally {
+    } finally {
       System.setIn(oldIn);
       System.setOut(oldOut);
     }

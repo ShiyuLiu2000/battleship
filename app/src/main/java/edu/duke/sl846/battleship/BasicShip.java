@@ -39,14 +39,19 @@ public abstract class BasicShip<T> implements Ship<T> {
 
   @Override
   public void recordHitAt(Coordinate where) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'recordHitAt'");
+    checkCoordinateInThisShip(where);
+    myPieces.put(where, true);
   }
 
   @Override
   public boolean wasHitAt(Coordinate where) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'wasHitAt'");
+    checkCoordinateInThisShip(where);
+    if (myPieces.get(where) == true) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   @Override
@@ -55,4 +60,9 @@ public abstract class BasicShip<T> implements Ship<T> {
     return myDisplayInfo.getInfo(where, false);
   }
 
+  public void checkCoordinateInThisShip(Coordinate c) {
+    if (myPieces.containsKey(c) == false) {
+      throw new IllegalArgumentException("The Coordinate " + c.toString() + " is not in the ship.");
+    }
+  }
 }

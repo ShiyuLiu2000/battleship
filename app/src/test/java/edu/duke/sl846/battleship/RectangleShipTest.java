@@ -32,4 +32,16 @@ public class RectangleShipTest {
       }
     }
   }
+
+  @Test
+  public void test_recordHitAt_and_wasHitAt() {
+    Coordinate upperLeft = new Coordinate(2, 5);
+    RectangleShip<Character> ship = new RectangleShip<Character>(upperLeft, 4, 4, 's', '*');
+    assertThrows(IllegalArgumentException.class, () -> ship.recordHitAt(new Coordinate(1, 1)));
+    assertThrows(IllegalArgumentException.class, () -> ship.wasHitAt(new Coordinate(1, 1)));
+    Coordinate c = new Coordinate(3, 7);
+    ship.recordHitAt(c);
+    assertTrue(ship.wasHitAt(c));
+    assertFalse(ship.wasHitAt(upperLeft));
+  }
 }

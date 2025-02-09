@@ -12,6 +12,7 @@ import java.io.PrintStream;
 import java.io.StringReader;
 
 class AppTest {
+
   @Test
   void test_read_placement() throws IOException {
     // read from String like an input stream
@@ -25,7 +26,6 @@ class AppTest {
     Board<Character> board = new BattleShipBoard<>(10, 20);
     App app = new App(board, stringReader, printStream);
 
-    // start the game!
     String prompt = "Please enter a location for a Ship: ";
     Placement[] expected = new Placement[3];
     expected[0] = new Placement(new Coordinate(1, 2), 'V');
@@ -37,5 +37,26 @@ class AppTest {
       assertEquals(prompt + "\n", bytes.toString()); // should have printed prompt and newline
       bytes.reset(); // clear out bytes for next time around
     }
+  }
+
+  @Test
+  public void test_doOnePlacement() throws IOException {
+    StringReader stringReader = new StringReader("B2V\nC8H\na4v\n");
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    PrintStream printStream = new PrintStream(bytes, true);
+    Board<Character> board = new BattleShipBoard<>(10, 20);
+    App app = new App(board, stringReader, printStream);
+
+    String prompt = "Where would you like to put your ship? ";
+    for (int i = 0; i < 3; i++) {
+      app.doOnePlacement();
+      checkBoardOutputWithPrompt(bytes, board, prompt);
+    }
+  }
+
+  private void checkBoardOutputWithPrompt(ByteArrayOutputStream bytes, Board<Character> board, String prompt) {
+    BoardTextView view = new BoardTextView(board);
+    assertEquals(prompt + "\n" + view.displayMyOwnBoard(), bytes.toString());
+    bytes.reset();
   }
 }

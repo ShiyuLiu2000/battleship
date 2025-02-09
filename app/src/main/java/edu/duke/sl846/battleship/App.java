@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Reader;
 
+/**
+ * Plays the Battleship game.
+ */
 public class App {
   final Board<Character> theBoard;
   final BoardTextView view;
@@ -39,6 +42,20 @@ public class App {
     out.println(prompt);
     String s = inputReader.readLine();
     return new Placement(s);
+  }
+
+  /**
+   * Places one ship on the Board.
+   * 
+   * @throws IOException if user input cannot build a valid Placement.
+   */
+  public void doOnePlacement() throws IOException {
+    String prompt = "Where would you like to put your ship? ";
+    Placement placement = readPlacement(prompt);
+    Ship<Character> ship = new BasicShip(placement.getWhere());
+    theBoard.tryAddShip(ship);
+    BoardTextView view = new BoardTextView(theBoard);
+    out.print(view.displayMyOwnBoard());
   }
 
   public static void main(String[] args) {

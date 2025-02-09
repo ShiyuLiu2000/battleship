@@ -5,9 +5,10 @@ import java.util.HashSet;
 public class RectangleShip {
   /**
    * Makes a collection of Coordinates of the Ship.
+   * 
    * @param upperLeft is the upperLeft Coordinate of the RectangleShip.
-   * @param width is the width of the RectangleShip.
-   * @param height is the height of the Rectangleship.
+   * @param width     is the width of the RectangleShip.
+   * @param height    is the height of the Rectangleship.
    * @return a HashSet of the Coordinates of the RectangleShip.
    */
   static HashSet<Coordinate> makeCoordinates(Coordinate upperLeft, int width, int height) {

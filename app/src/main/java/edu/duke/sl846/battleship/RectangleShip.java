@@ -2,7 +2,10 @@ package edu.duke.sl846.battleship;
 
 import java.util.HashSet;
 
-public class RectangleShip {
+/**
+ * Represents a rectangle Ship in our battleship game.
+ */
+public class RectangleShip extends BasicShip {
   /**
    * Makes a collection of Coordinates of the Ship.
    * 
@@ -21,5 +24,16 @@ public class RectangleShip {
       }
     }
     return ans;
+  }
+
+  /**
+   * Constructs a RectangleShip with a Coordinate, width, and height.
+   * 
+   * @param upperLeft is the upper left Coordinate of the RectangleShip.
+   * @param width is the width of the RectangleShip.
+   * @param height is the height of the RectangleShip.
+   */
+  public RectangleShip(Coordinate upperLeft, int width, int height) {
+    super(makeCoordinates(upperLeft, width, height));
   }
 }

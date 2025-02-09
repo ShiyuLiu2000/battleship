@@ -3,7 +3,8 @@ package edu.duke.sl846.battleship;
 import java.util.HashMap;
 
 public class BasicShip implements Ship<Character> {
-  protected HashMap<Coordinate, Boolean> myPieces; // put all coordinates the ship occupies, and track which ones have been hit
+  protected HashMap<Coordinate, Boolean> myPieces; // put all coordinates the ship occupies, and track which ones have
+                                                   // been hit
 
   /**
    * Constructs a BasicShip with given location.
@@ -17,11 +18,12 @@ public class BasicShip implements Ship<Character> {
 
   /**
    * Constructs a BasicShip with given locations.
+   * 
    * @param where is the Iterable of the Coordinates that make up the BasicShip.
    */
   public BasicShip(Iterable<Coordinate> where) {
     this.myPieces = new HashMap<Coordinate, Boolean>();
-    for (Coordinate c: where) {
+    for (Coordinate c : where) {
       myPieces.put(c, false);
     }
   }

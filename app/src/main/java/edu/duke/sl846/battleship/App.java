@@ -4,9 +4,12 @@
 package edu.duke.sl846.battleship;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.Reader;
+import java.io.StringReader;
 
 /**
  * Plays the Battleship game.
@@ -58,7 +61,9 @@ public class App {
     out.print(view.displayMyOwnBoard());
   }
 
-  public static void main(String[] args) {
-
+  public static void main(String[] args) throws IOException {
+    Board<Character> board = new BattleShipBoard<>(10, 20);
+    App app = new App(board, new InputStreamReader(System.in), System.out);
+    app.doOnePlacement();
   }
 }

@@ -60,3 +60,6 @@ clover {
         debug = true
     }
 }
+run {
+    standardInput = System.in
+}

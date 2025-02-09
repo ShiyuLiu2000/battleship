@@ -74,7 +74,7 @@ public class BoardTextViewTest {
     assertEquals(expectedHeader, testView.makeHeader());
     // add ships
     for (Coordinate c: coordinates) {
-      Ship<Character> s = new RectangleShip(c, 1, 1);
+      RectangleShip<Character> s = new RectangleShip<Character>(c, 's', '*');
       assertTrue(testBoard.tryAddShip(s));
     }
     assertEquals(expectedBody, testView.makeBody());

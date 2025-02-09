@@ -5,7 +5,7 @@ import java.util.HashSet;
 /**
  * Represents a rectangle Ship in our battleship game.
  */
-public class RectangleShip extends BasicShip {
+public class RectangleShip<T> extends BasicShip<T> {
   /**
    * Makes a collection of Coordinates of the Ship.
    * 
@@ -33,7 +33,17 @@ public class RectangleShip extends BasicShip {
    * @param width is the width of the RectangleShip.
    * @param height is the height of the RectangleShip.
    */
-  public RectangleShip(Coordinate upperLeft, int width, int height) {
-    super(makeCoordinates(upperLeft, width, height));
+  public RectangleShip(Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> displayInfo) {
+    super(makeCoordinates(upperLeft, width, height), displayInfo);
+  }
+
+  // convinience constructor
+  public RectangleShip(Coordinate upperLeft, int width, int height, T data, T onHit) {
+    this(upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit));
+  }
+
+  public RectangleShip(Coordinate upperLeft, T data, T onHit)
+  {
+    this(upperLeft, 1, 1, data, onHit);
   }
 }

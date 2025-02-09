@@ -2,30 +2,22 @@ package edu.duke.sl846.battleship;
 
 import java.util.HashMap;
 
-public abstract class BasicShip implements Ship<Character> {
-  protected HashMap<Coordinate, Boolean> myPieces; // put all coordinates the ship occupies, and track which ones have
-                                                   // been hit
-
-  /**
-   * Constructs a BasicShip with given location.
-   * 
-   * @param c is the place of BasicShip.
-   */
-  public BasicShip(Coordinate c) {
-    this.myPieces = new HashMap<Coordinate, Boolean>();
-    myPieces.put(c, false);
-  }
+public abstract class BasicShip<T> implements Ship<T> {
+  // put all coordinates the ship occupies, and track which ones have been hit
+  protected HashMap<Coordinate, Boolean> myPieces;
+  protected ShipDisplayInfo<T> myDisplayInfo;
 
   /**
    * Constructs a BasicShip with given locations.
    * 
    * @param where is the Iterable of the Coordinates that make up the BasicShip.
    */
-  public BasicShip(Iterable<Coordinate> where) {
+  public BasicShip(Iterable<Coordinate> where, ShipDisplayInfo<T> myDisplayInfo) {
     this.myPieces = new HashMap<Coordinate, Boolean>();
     for (Coordinate c : where) {
       myPieces.put(c, false);
     }
+    this.myDisplayInfo = myDisplayInfo;
   }
 
   /**
@@ -58,8 +50,9 @@ public abstract class BasicShip implements Ship<Character> {
   }
 
   @Override
-  public Character getDisplayInfoAt(Coordinate where) {
-    return 's';
+  public T getDisplayInfoAt(Coordinate where) {
+    // TODO this is not right. We need to look up the hit status of this coordinate
+    return myDisplayInfo.getInfo(where, false);
   }
 
 }

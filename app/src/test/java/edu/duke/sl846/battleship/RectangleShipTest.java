@@ -25,7 +25,7 @@ public class RectangleShipTest {
   @Test
   public void test_constructor() {
     Coordinate upperLeft = new Coordinate(3, 2);
-    BasicShip ship = new RectangleShip(upperLeft, 4, 5);
+    RectangleShip<Character> ship = new RectangleShip<Character>(upperLeft, 4, 5, 's', '*');
     for (int i = 0; i < 5; i++) {
       for (int j = 0; j < 4; j++) {
         assertTrue(ship.occupiesCoordinates(new Coordinate(3 + i, 2 + j)));

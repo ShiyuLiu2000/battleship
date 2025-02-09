@@ -2,7 +2,7 @@ package edu.duke.sl846.battleship;
 
 import java.util.HashMap;
 
-public class BasicShip implements Ship<Character> {
+public abstract class BasicShip implements Ship<Character> {
   protected HashMap<Coordinate, Boolean> myPieces; // put all coordinates the ship occupies, and track which ones have
                                                    // been hit
 

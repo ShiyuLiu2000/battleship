@@ -3,12 +3,45 @@
  */
 package edu.duke.sl846.battleship;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.Reader;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
-    }
+public class App {
+  final Board<Character> theBoard;
+  final BoardTextView view;
+  final BufferedReader inputReader;
+  final PrintStream out;
+
+  /**
+   * Constructs the App with given Board, input source, and output stream.
+   * 
+   * @param theBoard    is the Board used in battleship game.
+   * @param inputSource is the input source to read from.
+   * @param out         is the output stream to print to.
+   */
+  public App(Board<Character> theBoard, Reader inputSource, PrintStream out) {
+    this.theBoard = theBoard;
+    this.view = new BoardTextView(theBoard);
+    this.inputReader = new BufferedReader(inputSource);
+    this.out = out;
+  }
+
+  /**
+   * Gives a prompt to user, then read from user input for Placement.
+   * 
+   * @param prompt is the String to inform user on what to input.
+   * @return the Placement corresponding to user input.
+   * @throws IOException if user input cannot build a valid Placement.
+   */
+  public Placement readPlacement(String prompt) throws IOException {
+    out.println(prompt);
+    String s = inputReader.readLine();
+    return new Placement(s);
+  }
+
+  public static void main(String[] args) {
+
+  }
 }

@@ -6,9 +6,36 @@ package edu.duke.sl846.battleship;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.StringReader;
+
 class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+  @Test
+  void test_read_placement() throws IOException {
+    // read from String like an input stream
+    StringReader stringReader = new StringReader("B2V\nC8H\na4v\n");
+    // use ByteArrayOutputStream to collect the output
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    // use PrintStream to write data into bytes instead of to screen
+    // set autoflush to true to ensure data becomes immediately available in bytes
+    PrintStream printStream = new PrintStream(bytes, true);
+    // create a board and an App
+    Board<Character> board = new BattleShipBoard<>(10, 20);
+    App app = new App(board, stringReader, printStream);
+
+    // start the game!
+    String prompt = "Please enter a location for a Ship: ";
+    Placement[] expected = new Placement[3];
+    expected[0] = new Placement(new Coordinate(1, 2), 'V');
+    expected[1] = new Placement(new Coordinate(2, 8), 'H');
+    expected[2] = new Placement(new Coordinate(0, 4), 'V');
+    for (int i = 0; i < expected.length; i++) {
+      Placement placement = app.readPlacement(prompt);
+      assertEquals(placement, expected[i]); // did we get the right Placement back
+      assertEquals(prompt + "\n", bytes.toString()); // should have printed prompt and newline
+      bytes.reset(); // clear out bytes for next time around
     }
+  }
 }

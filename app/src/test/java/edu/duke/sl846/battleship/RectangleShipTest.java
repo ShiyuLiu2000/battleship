@@ -34,7 +34,7 @@ public class RectangleShipTest {
   }
 
   @Test
-  public void test_recordHitAt_and_wasHitAt() {
+  public void test_hit_and_sunk() {
     Coordinate upperLeft = new Coordinate(2, 5);
     RectangleShip<Character> ship = new RectangleShip<Character>(upperLeft, 4, 4, 's', '*');
     assertThrows(IllegalArgumentException.class, () -> ship.recordHitAt(new Coordinate(1, 1)));
@@ -43,5 +43,11 @@ public class RectangleShipTest {
     ship.recordHitAt(c);
     assertTrue(ship.wasHitAt(c));
     assertFalse(ship.wasHitAt(upperLeft));
+    assertFalse(ship.isSunk());
+    RectangleShip<Character> ship1by1 = new RectangleShip<Character>(upperLeft, 's', '*');
+    ship.recordHitAt(upperLeft);
+    assertFalse(ship1by1.isSunk());
+    ship1by1.recordHitAt(upperLeft);
+    assertTrue(ship1by1.isSunk());
   }
 }

@@ -33,8 +33,12 @@ public abstract class BasicShip<T> implements Ship<T> {
 
   @Override
   public boolean isSunk() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'isSunk'");
+    for (Coordinate c: myPieces.keySet()) {
+      if (wasHitAt(c) == false) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override

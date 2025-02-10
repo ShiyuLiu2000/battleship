@@ -1,7 +1,6 @@
 package edu.duke.sl846.battleship;
 
 public class V1ShipFactory implements AbstractShipFactory<Character> {
-
   protected Ship<Character> createShip(Placement where, int width, int height, char letter, String name) {
     int newWidth = width;
     int newHeight = height;
@@ -13,7 +12,7 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
     }
     return new RectangleShip<Character>(name, where.getWhere(), newWidth, newHeight, letter, '*');
   }
-  
+
   @Override
   public Ship<Character> makeSubmarine(Placement where) {
     return createShip(where, 1, 2, 's', "Submarine");
@@ -33,5 +32,4 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
   public Ship<Character> makeDestroyer(Placement where) {
     return createShip(where, 1, 3, 'd', "Destroyer");
   }
-  
 }

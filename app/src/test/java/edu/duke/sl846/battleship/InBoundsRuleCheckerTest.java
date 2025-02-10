@@ -17,5 +17,4 @@ public class InBoundsRuleCheckerTest {
     Ship<Character> testShip = new RectangleShip<Character>(new Coordinate(9, 4), 's', '*');
     assertTrue(checker.checkPlacement(testShip, theBoard));
   }
-
 }

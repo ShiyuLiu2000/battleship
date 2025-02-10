@@ -3,6 +3,7 @@ package edu.duke.sl846.battleship;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -52,5 +53,19 @@ public class RectangleShipTest {
     assertFalse(ship1by1.isSunk());
     ship1by1.recordHitAt(upperLeft);
     assertTrue(ship1by1.isSunk());
+  }
+
+  @Test
+  public void test_getCoordinates() {
+    Coordinate c1 = new Coordinate(1, 2);
+    RectangleShip<Character> ship = new RectangleShip<Character>("submarine", c1, 1, 5, 's', '*');
+    Iterable<Coordinate> coordinates = ship.getCoordinates();
+    assertTrue(coordinates.iterator().hasNext());
+    int length = 0;
+    for (Coordinate c: coordinates) {
+      assertTrue(ship.occupiesCoordinates(c));
+      length += 1;
+    }
+    assertEquals(5, length);
   }
 }

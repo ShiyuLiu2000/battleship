@@ -1,5 +1,0 @@
-package edu.duke.sl846.battleship;
-
-public class SimpleShipDisplayInfo implements ShipDisplayInfo<T> {
-
-}

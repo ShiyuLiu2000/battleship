@@ -11,11 +11,11 @@ public class InBoundsRuleCheckerTest {
     PlacementRuleChecker<Character> checker = new InBoundsRuleChecker<Character>(null);
     Board<Character> theBoard = new BattleShipBoard<>(5, 10, checker);
     Ship<Character> destroyer1 = factory.makeDestroyer(new Placement(new Coordinate(8, 4), 'v'));
-    assertFalse(checker.checkMyRule(destroyer1, theBoard));
+    assertFalse(checker.checkPlacement(destroyer1, theBoard));
     Ship<Character> destroyer2 = factory.makeDestroyer(new Placement(new Coordinate(5, 4), 'v'));
-    assertTrue(checker.checkMyRule(destroyer2, theBoard));
+    assertTrue(checker.checkPlacement(destroyer2, theBoard));
     Ship<Character> testShip = new RectangleShip<Character>(new Coordinate(9, 4), 's', '*');
-    assertTrue(checker.checkMyRule(testShip, theBoard));
+    assertTrue(checker.checkPlacement(testShip, theBoard));
   }
 
 }

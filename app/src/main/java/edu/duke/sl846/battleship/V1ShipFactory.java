@@ -15,8 +15,10 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
    * @param letter is the char representation of the ship. e.g. 'd' for destroyer.
    * @param name   is the name of the ship, e.g. "Submarine".
    * @return a RectangleShip corresponded.
+   * @throws IllegalArgumentException if Placement orientation is not valid.
    */
-  protected Ship<Character> createShip(Placement where, int width, int height, char letter, String name) throws IllegalArgumentException {
+  protected Ship<Character> createShip(Placement where, int width, int height, char letter, String name)
+      throws IllegalArgumentException {
     int newWidth = width;
     int newHeight = height;
     char orientation = where.getOrientation();
@@ -33,6 +35,7 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
    * 
    * @param where is the Placement of the ship.
    * @return the submarine ship being created.
+   * @throws IllegalArgumentException if Placement orientation is not valid.
    */
   @Override
   public Ship<Character> makeSubmarine(Placement where) throws IllegalArgumentException {
@@ -44,6 +47,7 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
    * 
    * @param where is the Placement of the ship.
    * @return the battleship being created.
+   * @throws IllegalArgumentException if Placement orientation is not valid.
    */
   @Override
   public Ship<Character> makeBattleship(Placement where) throws IllegalArgumentException {
@@ -55,6 +59,7 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
    * 
    * @param where is the Placement of the ship.
    * @return the carrier ship being created.
+   * @throws IllegalArgumentException if Placement orientation is not valid.
    */
   @Override
   public Ship<Character> makeCarrier(Placement where) throws IllegalArgumentException {
@@ -66,6 +71,7 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
    * 
    * @param where is the Placement of the ship.
    * @return the destroyer ship being created.
+   * @throws IllegalArgumentException if Placement orientation is not valid.
    */
   @Override
   public Ship<Character> makeDestroyer(Placement where) throws IllegalArgumentException {

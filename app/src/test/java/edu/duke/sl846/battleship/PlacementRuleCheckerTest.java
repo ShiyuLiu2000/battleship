@@ -21,7 +21,5 @@ public class PlacementRuleCheckerTest {
     theBoard.tryAddShip(destroyer1);
     Ship<Character> destroyer3 = factory.makeDestroyer(new Placement(c2, 'v'));
     assertFalse(noCollisionChecker.checkPlacement(destroyer3, theBoard));
-
   }
-
 }

@@ -21,8 +21,10 @@ public class BattleShipBoard<T> implements Board<T> {
    * @param height is the height of this Board.
    * @throws IllegalArgumentException if width or height is negative or zero.
    */
+
+  // default rule checker is no collision + in bounds
   public BattleShipBoard(int width, int height) {
-    this(width, height, new InBoundsRuleChecker<T>(null));
+    this(width, height, new InBoundsRuleChecker<T>(new NoCollisionRuleChecker<T>(null)));
   }
 
   public BattleShipBoard(int width, int height, PlacementRuleChecker<T> placementChecker) {
@@ -63,8 +65,12 @@ public class BattleShipBoard<T> implements Board<T> {
    * @return true if the addition is successful, false otherwise.
    */
   public boolean tryAddShip(Ship<T> toAdd) {
-    myShips.add(toAdd);
-    return true;
+    if (placementChecker.checkMyRule(toAdd, this)) {
+      myShips.add(toAdd);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**

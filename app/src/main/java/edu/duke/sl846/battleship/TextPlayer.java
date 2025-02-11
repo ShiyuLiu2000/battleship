@@ -58,7 +58,7 @@ public class TextPlayer {
    * @throws IOException if user input cannot build a valid Placement.
    */
   public void doOnePlacement() throws IOException {
-    String prompt = "Where would you like to put your ship? ";
+    String prompt = "Player A where do you want to put your Destroyer?";
     Placement placement = readPlacement(prompt);
     Ship<Character> ship = shipFactory.makeDestroyer(placement);
     theBoard.tryAddShip(ship);

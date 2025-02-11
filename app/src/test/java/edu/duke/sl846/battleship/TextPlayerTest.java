@@ -48,7 +48,7 @@ public class TextPlayerTest {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     TextPlayer player = createTextPlayer(10, 20, "B2V\nC8H\na4v\n", bytes);
 
-    String prompt = "Where would you like to put your ship? ";
+    String prompt = "Player A where do you want to put your Destroyer?";
     for (int i = 0; i < 3; i++) {
       player.doOnePlacement();
       BoardTextView view = new BoardTextView(player.theBoard);

@@ -15,60 +15,39 @@ import java.io.StringReader;
  * Plays the Battleship game.
  */
 public class App {
-  final Board<Character> theBoard;
-  final BoardTextView view;
-  final BufferedReader inputReader;
-  final PrintStream out;
-  final AbstractShipFactory<Character> shipFactory;
-  
+  TextPlayer player1;
+  TextPlayer player2;
+
   /**
-   * Constructs the App with given Board, input source, and output stream.
+   * Contructs the App with two TextPlayers.
    * 
-   * @param theBoard    is the Board used in battleship game.
-   * @param inputSource is the input source to read from.
-   * @param out         is the output stream to print to.
+   * @param player1 is the first player of the game.
+   * @param player2 is the second player of the game.
    */
-  public App(Board<Character> theBoard, Reader inputSource, PrintStream out) {
-    this.theBoard = theBoard;
-    this.view = new BoardTextView(theBoard);
-    this.inputReader = new BufferedReader(inputSource);
-    this.out = out;
-    this.shipFactory = new V1ShipFactory();
+  public App(TextPlayer player1, TextPlayer player2) {
+    this.player1 = player1;
+    this.player2 = player2;
   }
 
   /**
-   * Gives a prompt to user, then read from user input for Placement.
-   * 
-   * @param prompt is the String to inform user on what to input.
-   * @return the Placement corresponding to user input.
-   * @throws IOException if user input cannot build a valid Placement.
+   * Runs the placement phase of the battleship game.
    */
-  public Placement readPlacement(String prompt) throws IOException {
-    out.println(prompt);
-    String s = inputReader.readLine();
-    return new Placement(s);
-  }
-
-  /**
-   * Places one ship on the Board.
-   * 
-   * @throws IOException if user input cannot build a valid Placement.
-   */
-  public void doOnePlacement() throws IOException {
-    String prompt = "Where would you like to put your ship? ";
-    Placement placement = readPlacement(prompt);
-    Ship<Character> ship = shipFactory.makeDestroyer(placement);
-    theBoard.tryAddShip(ship);
-    BoardTextView view = new BoardTextView(theBoard);
-    out.print(view.displayMyOwnBoard());
+  public void doPlacementPhase() throws IOException {
+    player1.doOnePlacement();
   }
 
   /**
    * Plays the battleship game.
    */
   public static void main(String[] args) throws IOException {
-    Board<Character> board = new BattleShipBoard<>(10, 20);
-    App app = new App(board, new InputStreamReader(System.in), System.out);
-    app.doOnePlacement();
+    Board<Character> board1 = new BattleShipBoard<>(10, 20);
+    Board<Character> board2 = new BattleShipBoard<>(10, 20);
+    BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+    V1ShipFactory factory = new V1ShipFactory();
+    TextPlayer player1 = new TextPlayer("A", board1, input, System.out, factory);
+    TextPlayer player2 = new TextPlayer("B", board2, input, System.out, factory);
+    App app = new App(player1, player2);
+
+    app.doPlacementPhase();
   }
 }

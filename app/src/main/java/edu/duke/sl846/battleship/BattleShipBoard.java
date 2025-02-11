@@ -16,17 +16,26 @@ public class BattleShipBoard<T> implements Board<T> {
 
   /**
    * Constructs a Board with given width and height.
+   * By default, the rule of this board is:
+   * - all ships should have coordinates that fit in bounds, and
+   * - there should be no collisions among ships.
    * 
    * @param width  is the width of this Board.
    * @param height is the height of this Board.
    * @throws IllegalArgumentException if width or height is negative or zero.
    */
-
-  // default rule checker is no collision + in bounds
   public BattleShipBoard(int width, int height) {
     this(width, height, new InBoundsRuleChecker<T>(new NoCollisionRuleChecker<T>(null)));
   }
 
+  /**
+   * Constructs a Board with given width, height, and PlacementRuleChecker.
+   * 
+   * @param width            is the width of this Board.
+   * @param height           is the height of this Board.
+   * @param placementChecker is the rule checker for this Board.
+   * @throws IllegalArgumentException if width or height is negative or zero.
+   */
   public BattleShipBoard(int width, int height, PlacementRuleChecker<T> placementChecker) {
     if (width <= 0) {
       throw new IllegalArgumentException("BattleShipBoard's width must be positive but is " + width);
@@ -62,7 +71,8 @@ public class BattleShipBoard<T> implements Board<T> {
    * Attempts to add a Ship on the Board.
    * 
    * @param toAdd is the Ship to be added.
-   * @return true if the addition is successful, false otherwise.
+   * @return true if the addition is successful according to the rule checkers,
+   *         false otherwise.
    */
   public boolean tryAddShip(Ship<T> toAdd) {
     if (placementChecker.checkMyRule(toAdd, this)) {

@@ -24,5 +24,4 @@ public class NoCollisionRuleCheckerTest {
     assertTrue(checker.checkPlacement(testShip, theBoard));
     theBoard.tryAddShip(testShip);
   }
-
 }

@@ -1,7 +1,7 @@
 package edu.duke.sl846.battleship;
 
 /**
- * Represents a placement rule checker for a {@link Board}.
+ * A placement rule checker for a {@link Board}.
  */
 public abstract class PlacementRuleChecker<T> {
   private final PlacementRuleChecker<T> next;

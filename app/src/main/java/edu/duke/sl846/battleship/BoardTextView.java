@@ -2,8 +2,7 @@ package edu.duke.sl846.battleship;
 
 /**
  * Handles textual display of a {@link Board} (i.e., converting it to a string
- * to show
- * to the user).
+ * to show to the user).
  * It supports two ways to display the Board:
  * - one for the player's own board,
  * - one for the enemy's board.
@@ -29,7 +28,7 @@ public class BoardTextView {
   }
 
   /**
-   * Gives textual display of the Board.
+   * Gives textual display of the Board, including the placed Ships.
    * 
    * @return the textual display of the Board.
    */

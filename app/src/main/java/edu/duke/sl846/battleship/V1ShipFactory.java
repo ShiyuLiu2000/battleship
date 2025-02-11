@@ -16,7 +16,7 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
    * @param name   is the name of the ship, e.g. "Submarine".
    * @return a RectangleShip corresponded.
    */
-  protected Ship<Character> createShip(Placement where, int width, int height, char letter, String name) {
+  protected Ship<Character> createShip(Placement where, int width, int height, char letter, String name) throws IllegalArgumentException {
     int newWidth = width;
     int newHeight = height;
     char orientation = where.getOrientation();
@@ -35,7 +35,7 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
    * @return the submarine ship being created.
    */
   @Override
-  public Ship<Character> makeSubmarine(Placement where) {
+  public Ship<Character> makeSubmarine(Placement where) throws IllegalArgumentException {
     return createShip(where, 1, 2, 's', "Submarine");
   }
 
@@ -46,7 +46,7 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
    * @return the battleship being created.
    */
   @Override
-  public Ship<Character> makeBattleship(Placement where) {
+  public Ship<Character> makeBattleship(Placement where) throws IllegalArgumentException {
     return createShip(where, 1, 4, 'b', "Battleship");
   }
 
@@ -57,7 +57,7 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
    * @return the carrier ship being created.
    */
   @Override
-  public Ship<Character> makeCarrier(Placement where) {
+  public Ship<Character> makeCarrier(Placement where) throws IllegalArgumentException {
     return createShip(where, 1, 6, 'c', "Carrier");
   }
 
@@ -68,7 +68,7 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
    * @return the destroyer ship being created.
    */
   @Override
-  public Ship<Character> makeDestroyer(Placement where) {
+  public Ship<Character> makeDestroyer(Placement where) throws IllegalArgumentException {
     return createShip(where, 1, 3, 'd', "Destroyer");
   }
 }

@@ -63,6 +63,9 @@ public class App {
     out.print(view.displayMyOwnBoard());
   }
 
+  /**
+   * Plays the battleship game.
+   */
   public static void main(String[] args) throws IOException {
     Board<Character> board = new BattleShipBoard<>(10, 20);
     App app = new App(board, new InputStreamReader(System.in), System.out);

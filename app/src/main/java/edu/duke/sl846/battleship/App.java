@@ -33,7 +33,7 @@ public class App {
    * Runs the placement phase of the battleship game.
    */
   public void doPlacementPhase() throws IOException {
-    player1.doOnePlacement();
+    player1.doPlacementPhase();
   }
 
   /**

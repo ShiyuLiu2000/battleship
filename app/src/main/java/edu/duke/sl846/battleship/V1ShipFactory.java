@@ -17,8 +17,7 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
    * @return a RectangleShip corresponded.
    * @throws IllegalArgumentException if Placement orientation is not valid.
    */
-  protected Ship<Character> createShip(Placement where, int width, int height, char letter, String name)
-      throws IllegalArgumentException {
+  protected Ship<Character> createShip(Placement where, int width, int height, char letter, String name) {
     int newWidth = width;
     int newHeight = height;
     char orientation = where.getOrientation();
@@ -38,7 +37,7 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
    * @throws IllegalArgumentException if Placement orientation is not valid.
    */
   @Override
-  public Ship<Character> makeSubmarine(Placement where) throws IllegalArgumentException {
+  public Ship<Character> makeSubmarine(Placement where) {
     return createShip(where, 1, 2, 's', "Submarine");
   }
 
@@ -50,7 +49,7 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
    * @throws IllegalArgumentException if Placement orientation is not valid.
    */
   @Override
-  public Ship<Character> makeBattleship(Placement where) throws IllegalArgumentException {
+  public Ship<Character> makeBattleship(Placement where) {
     return createShip(where, 1, 4, 'b', "Battleship");
   }
 
@@ -62,7 +61,7 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
    * @throws IllegalArgumentException if Placement orientation is not valid.
    */
   @Override
-  public Ship<Character> makeCarrier(Placement where) throws IllegalArgumentException {
+  public Ship<Character> makeCarrier(Placement where) {
     return createShip(where, 1, 6, 'c', "Carrier");
   }
 
@@ -74,7 +73,7 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
    * @throws IllegalArgumentException if Placement orientation is not valid.
    */
   @Override
-  public Ship<Character> makeDestroyer(Placement where) throws IllegalArgumentException {
+  public Ship<Character> makeDestroyer(Placement where) {
     return createShip(where, 1, 3, 'd', "Destroyer");
   }
 }

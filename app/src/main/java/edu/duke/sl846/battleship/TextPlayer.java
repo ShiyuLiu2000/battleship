@@ -62,7 +62,6 @@ public class TextPlayer {
     Placement placement = readPlacement(prompt);
     Ship<Character> ship = shipFactory.makeDestroyer(placement);
     theBoard.tryAddShip(ship);
-    BoardTextView view = new BoardTextView(theBoard);
     out.print(view.displayMyOwnBoard());
   }
 
@@ -70,7 +69,6 @@ public class TextPlayer {
    * Runs the placement phase for the player during the game.
    */
   public void doPlacementPhase() throws IOException {
-    BoardTextView view = new BoardTextView(theBoard);
     out.print(view.displayMyOwnBoard());
     String message = "--------------------------------------------------------------------------------\n" +
         "Player " + name + ": you are going to place the following ships (which are all\n" +

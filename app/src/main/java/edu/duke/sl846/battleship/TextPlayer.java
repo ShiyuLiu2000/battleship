@@ -87,8 +87,8 @@ public class TextPlayer {
     }
     Placement ans = null;
     try {
-       ans = new Placement(s);
-    } catch(IllegalArgumentException e) {
+      ans = new Placement(s);
+    } catch (IllegalArgumentException e) {
       out.println("That placement is invalid: it does not have the correct format.\n" + e.toString());
     }
     return ans;

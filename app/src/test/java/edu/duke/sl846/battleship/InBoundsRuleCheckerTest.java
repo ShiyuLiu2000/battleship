@@ -14,7 +14,11 @@ public class InBoundsRuleCheckerTest {
     assertNotNull(checker.checkPlacement(destroyer1, theBoard));
     Ship<Character> destroyer2 = factory.makeDestroyer(new Placement(new Coordinate(5, 4), 'v'));
     assertNull(checker.checkPlacement(destroyer2, theBoard));
-    Ship<Character> testShip = new RectangleShip<Character>(new Coordinate(9, 4), 's', '*');
-    assertNull(checker.checkPlacement(testShip, theBoard));
+    Ship<Character> testShip1 = new RectangleShip<Character>(new Coordinate(9, 4), 's', '*');
+    assertNull(checker.checkPlacement(testShip1, theBoard));
+    Ship<Character> testShip2 = new RectangleShip<Character>(new Coordinate(-1, 4), 's', '*');
+    assertNotNull(checker.checkPlacement(testShip2, theBoard));
+    Ship<Character> testShip3 = new RectangleShip<Character>(new Coordinate(9, -1), 's', '*');
+    assertNotNull(checker.checkPlacement(testShip3, theBoard));
   }
 }

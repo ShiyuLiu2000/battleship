@@ -130,6 +130,9 @@ public class TextPlayer {
         "2 \"Carriers\" that are 1x6\n" +
         "--------------------------------------------------------------------------------\n";
     out.print(message);
-    doOnePlacement();
+    for (int i = 0; i < shipsToPlace.size(); i++) {
+      String shipName = shipsToPlace.get(i);
+      doOnePlacement(shipName, shipCreationFns.get(shipName));
+    }
   }
 }

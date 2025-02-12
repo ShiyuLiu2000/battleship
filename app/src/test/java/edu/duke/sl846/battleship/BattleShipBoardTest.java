@@ -42,4 +42,25 @@ public class BattleShipBoardTest {
     expected[2][0] = 's';
     checkWhatIsAtBoard(board, expected);
   }
+
+  @Test
+  public void test_fire_at() {
+    Board<Character> board = new BattleShipBoard<>(10, 20);
+    V1ShipFactory factory = new V1ShipFactory();
+    Ship<Character> ship = factory.makeDestroyer(new Placement("A5V"));
+    assertNull(board.tryAddShip(ship));
+
+    Ship<Character> nullShip = board.fireAt(new Coordinate("A0"));
+    assertEquals(null, nullShip);
+    
+    Ship<Character> ship1 = board.fireAt(new Coordinate("A5"));
+    assertSame(ship, ship1);
+    assertFalse(ship.isSunk());
+    Ship<Character> ship2 = board.fireAt(new Coordinate("B5"));
+    assertSame(ship, ship2);
+    assertFalse(ship.isSunk());
+    Ship<Character> ship3 = board.fireAt(new Coordinate("C5"));
+    assertSame(ship, ship3);
+    assertTrue(ship.isSunk());
+  }
 }

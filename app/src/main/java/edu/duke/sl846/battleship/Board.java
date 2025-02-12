@@ -35,4 +35,12 @@ public interface Board<T> {
    *         thing exists there, null otherwise.
    */
   public T whatIsAt(Coordinate where);
+
+  /**
+   * Fires at a Coordinate to see what happens.
+   * 
+   * @param Coordinate is the Coordinate to fire at.
+   * @return the injured Ship if c is occupied by that Ship, null otherwise.
+   */
+  public Ship<T> fireAt(Coordinate c);
 }

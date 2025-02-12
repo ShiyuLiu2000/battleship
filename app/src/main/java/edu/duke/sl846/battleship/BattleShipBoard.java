@@ -1,6 +1,7 @@
 package edu.duke.sl846.battleship;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Represents a Board in our battleship game.
@@ -13,6 +14,7 @@ public class BattleShipBoard<T> implements Board<T> {
   // able to operate directly an that ArrayList.
   final ArrayList<Ship<T>> myShips;
   private final PlacementRuleChecker<T> placementChecker;
+  HashSet<Coordinate> enemyMisses;
 
   /**
    * Constructs a Board with given width and height.
@@ -47,6 +49,7 @@ public class BattleShipBoard<T> implements Board<T> {
     this.height = height;
     this.myShips = new ArrayList<>();
     this.placementChecker = placementChecker;
+    this.enemyMisses = new HashSet<>();
   }
 
   /**
@@ -97,6 +100,24 @@ public class BattleShipBoard<T> implements Board<T> {
         return ship.getDisplayInfoAt(where);
       }
     }
+    return null;
+  }
+
+  /**
+   * Fires at a Coordinate to see what happens.
+   * 
+   * @param Coordinate is the Coordinate to fire at.
+   * @return the injured Ship if c is occupied by that Ship, null otherwise.
+   */
+  public Ship<T> fireAt(Coordinate c) {
+    for (Ship<T> ship: myShips) {
+      if (ship.occupiesCoordinates(c)) {
+        ship.recordHitAt(c);
+        ship.wasHitAt(c);
+        return ship;
+      }
+    }
+    enemyMisses.add(c);
     return null;
   }
 }

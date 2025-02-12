@@ -29,12 +29,12 @@ public class TextPlayer {
    * @param out         is the output stream to print to.
    * @param factory     is the ship factory to build ships.
    */
-  public TextPlayer(String name, Board<Character> theBoard, Reader inputSource, PrintStream out,
+  public TextPlayer(String name, Board<Character> theBoard, BufferedReader inputSource, PrintStream out,
       AbstractShipFactory<Character> factory) {
     this.name = name;
     this.theBoard = theBoard;
     this.view = new BoardTextView(theBoard);
-    this.inputReader = new BufferedReader(inputSource);
+    this.inputReader = inputSource;
     this.out = out;
     this.shipFactory = factory;
   }
@@ -58,7 +58,7 @@ public class TextPlayer {
    * @throws IOException if user input cannot build a valid Placement.
    */
   public void doOnePlacement() throws IOException {
-    String prompt = "Player A where do you want to put your Destroyer?";
+    String prompt = "Player " + name + " where do you want to put your Destroyer?";
     Placement placement = readPlacement(prompt);
     Ship<Character> ship = shipFactory.makeDestroyer(placement);
     theBoard.tryAddShip(ship);
@@ -72,19 +72,18 @@ public class TextPlayer {
   public void doPlacementPhase() throws IOException {
     BoardTextView view = new BoardTextView(theBoard);
     out.print(view.displayMyOwnBoard());
-    String message = 
-    "--------------------------------------------------------------------------------\n" +
-    "Player A: you are going to place the following ships (which are all\n" +
-    "rectangular). For each ship, type the coordinate of the upper left\n" +
-    "side of the ship, followed by either H (for horizontal) or V (for\n" +
-    "vertical).  For example M4H would place a ship horizontally starting\n" +
-    "at M4 and going to the right.  You have\n" +
-    "\n" +
-    "2 \"Submarines\" ships that are 1x2\n" +
-    "3 \"Destroyers\" that are 1x3\n" +
-    "3 \"Battleships\" that are 1x4\n" +
-    "2 \"Carriers\" that are 1x6\n" +
-    "--------------------------------------------------------------------------------\n";
+    String message = "--------------------------------------------------------------------------------\n" +
+        "Player " + name + ": you are going to place the following ships (which are all\n" +
+        "rectangular). For each ship, type the coordinate of the upper left\n" +
+        "side of the ship, followed by either H (for horizontal) or V (for\n" +
+        "vertical).  For example M4H would place a ship horizontally starting\n" +
+        "at M4 and going to the right.  You have\n" +
+        "\n" +
+        "2 \"Submarines\" ships that are 1x2\n" +
+        "3 \"Destroyers\" that are 1x3\n" +
+        "3 \"Battleships\" that are 1x4\n" +
+        "2 \"Carriers\" that are 1x6\n" +
+        "--------------------------------------------------------------------------------\n";
     out.print(message);
     doOnePlacement();
   }

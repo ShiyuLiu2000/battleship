@@ -86,7 +86,7 @@ public class Coordinate {
    */
   public Coordinate(String description) {
     if (description.length() != 2) {
-      throw new IllegalArgumentException("Coordinate description string should be of length 2, but is " + description);
+      throw new IllegalArgumentException("Coordinate description string should be of length 2, but is " + description.length());
     }
     String uppercaseDescription = description.toUpperCase();
     char rowIndicator = uppercaseDescription.charAt(0);

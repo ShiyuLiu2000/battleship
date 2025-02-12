@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
@@ -57,4 +58,33 @@ public class TextPlayerTest {
     }
   }
 
+  @Test
+  public void test_setup_ship_creation_list_and_map() {
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    TextPlayer player = createTextPlayer(10, 26, "", bytes);
+
+    assertEquals(10, player.shipsToPlace.size());
+    assertEquals("Submarine", player.shipsToPlace.get(0));
+    assertEquals("Destroyer", player.shipsToPlace.get(3));
+    assertEquals("Battleship", player.shipsToPlace.get(6));
+    assertEquals("Carrier", player.shipsToPlace.get(9));
+
+    assertEquals(4, player.shipCreationFns.size());
+    Placement testPlacement = new Placement("D2H");
+    assertEquals("Submarine", player.shipCreationFns.get("Submarine").apply(testPlacement).getName());
+    assertEquals("Destroyer", player.shipCreationFns.get("Destroyer").apply(testPlacement).getName());
+    assertEquals("Battleship", player.shipCreationFns.get("Battleship").apply(testPlacement).getName());
+    assertEquals("Carrier", player.shipCreationFns.get("Carrier").apply(testPlacement).getName());
+  }
+
+  @Test
+  public void test_do_one_placement_with_parameters() throws IOException {
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    TextPlayer player = createTextPlayer(10, 20, "a4v\n", bytes);
+
+    String prompt = "Player A where do you want to place a Carrier?";
+    player.doOnePlacement("Carrier", player.shipCreationFns.get("Carrier"));
+    assertEquals(prompt + "\n" + player.view.displayMyOwnBoard(), bytes.toString());
+    bytes.reset();
+  }
 }

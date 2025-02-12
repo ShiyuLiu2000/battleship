@@ -3,7 +3,11 @@ package edu.duke.sl846.battleship;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.function.Function;
 
 /**
  * Represents a text-based player for the battleship game.
@@ -18,6 +22,9 @@ public class TextPlayer {
   // purely functional, doesn't matter if it's shared
   final AbstractShipFactory<Character> shipFactory;
   String name;
+
+  final ArrayList<String> shipsToPlace;
+  final HashMap<String, Function<Placement, Ship<Character>>> shipCreationFns;
 
   /**
    * Constructs the TextPlayer with given Board, input source, output stream, ship
@@ -37,6 +44,31 @@ public class TextPlayer {
     this.inputReader = inputSource;
     this.out = out;
     this.shipFactory = factory;
+    this.shipsToPlace = new ArrayList<>();
+    setupShipCreationList();
+    this.shipCreationFns = new HashMap<>();
+    setupShipCreationMap();
+  }
+
+  /**
+   * Sets up the ship creation functions to facilitate ship creation process.
+   * Make the ship factory methods correspond to ship names respectively.
+   */
+  protected void setupShipCreationMap() {
+    shipCreationFns.put("Submarine", (placement) -> shipFactory.makeSubmarine(placement));
+    shipCreationFns.put("Destroyer", (placement) -> shipFactory.makeDestroyer(placement));
+    shipCreationFns.put("Carrier", (placement) -> shipFactory.makeCarrier(placement));
+    shipCreationFns.put("Battleship", (placement) -> shipFactory.makeBattleship(placement));
+  }
+
+  /**
+   * Sets up list of available ships to facilitate game process.
+   */
+  protected void setupShipCreationList() {
+    shipsToPlace.addAll(Collections.nCopies(2, "Submarine"));
+    shipsToPlace.addAll(Collections.nCopies(3, "Destroyer"));
+    shipsToPlace.addAll(Collections.nCopies(3, "Battleship"));
+    shipsToPlace.addAll(Collections.nCopies(2, "Carrier"));
   }
 
   /**
@@ -54,6 +86,7 @@ public class TextPlayer {
 
   /**
    * Places one Ship on the Board.
+   * (This method is deprecated. Used for tests only.)
    * 
    * @throws IOException if user input cannot build a valid Placement.
    */
@@ -62,6 +95,20 @@ public class TextPlayer {
     Placement placement = readPlacement(prompt);
     Ship<Character> ship = shipFactory.makeDestroyer(placement);
     theBoard.tryAddShip(ship);
+    out.print(view.displayMyOwnBoard());
+  }
+
+  /**
+   * Places a specific type of Ship on the Board.
+   * 
+   * @param shipName is the name of the Ship.
+   * @param createFn is the method to create a Ship based on Placement.
+   * @throws IOException if user input cannot build a valid Placement of the Ship.
+   */
+  public void doOnePlacement(String shipName, Function<Placement, Ship<Character>> createFn) throws IOException {
+    Placement p = readPlacement("Player " + name + " where do you want to place a " + shipName + "?");
+    Ship<Character> s = createFn.apply(p);
+    theBoard.tryAddShip(s);
     out.print(view.displayMyOwnBoard());
   }
 

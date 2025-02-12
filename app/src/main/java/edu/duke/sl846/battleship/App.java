@@ -11,7 +11,6 @@ import java.io.PrintStream;
 import java.io.Reader;
 import java.io.StringReader;
 
-//test
 /**
  * Plays the Battleship game.
  */

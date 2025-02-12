@@ -74,13 +74,13 @@ public class BattleShipBoard<T> implements Board<T> {
    * @return true if the addition is successful according to the rule checkers,
    *         false otherwise.
    */
-  public boolean tryAddShip(Ship<T> toAdd) {
-    String placementProblem = placementChecker.checkMyRule(toAdd, this);
+  public String tryAddShip(Ship<T> toAdd) {
+    String placementProblem = placementChecker.checkPlacement(toAdd, this);
     if (placementProblem == null) {
       myShips.add(toAdd);
-      return true;
+      return null;
     } else {
-      return false;
+      return placementProblem;
     }
   }
 

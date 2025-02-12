@@ -18,7 +18,7 @@ public class NoCollisionRuleCheckerTest {
     assertNull(checker.checkPlacement(destroyer1, theBoard));
     theBoard.tryAddShip(destroyer1);
     Ship<Character> destroyer2 = factory.makeDestroyer(new Placement(c2, 'v'));
-    assertNotNull(checker.checkPlacement(destroyer2, theBoard));
+    assertEquals("That placement is invalid: the ship overlaps another ship.", checker.checkPlacement(destroyer2, theBoard));
     theBoard.tryAddShip(destroyer2);
     Ship<Character> testShip = new RectangleShip<Character>(c3, 's', '*');
     assertNull(checker.checkPlacement(testShip, theBoard));

@@ -21,7 +21,8 @@ public abstract class PlacementRuleChecker<T> {
    * 
    * @param theShip  is the Ship used to check the placement rule.
    * @param theBoard is the Board used to check the placement rule.
-   * @return null if the placement is valid under this rule, otherwise, a desciptive String about what went wrong in detail.
+   * @return null if the placement is valid under this rule, otherwise, a
+   *         desciptive String about what went wrong in detail.
    */
   protected abstract String checkMyRule(Ship<T> theShip, Board<T> theBoard);
 
@@ -30,7 +31,8 @@ public abstract class PlacementRuleChecker<T> {
    * 
    * @param theShip  is the Ship used to check the placement rule.
    * @param theBoard is the Board used to check the placement rule.
-   * @return null if the placement is valid under this rule, otherwise, a desciptive String about what went wrong in detail.
+   * @return null if the placement is valid under this rule, otherwise, a
+   *         desciptive String about what went wrong in detail.
    */
   public String checkPlacement(Ship<T> theShip, Board<T> theBoard) {
     // if we fail our own rule: stop. The placement is not legal
@@ -38,11 +40,13 @@ public abstract class PlacementRuleChecker<T> {
     if (placementProblem != null) {
       return placementProblem;
     }
+    // if there are no more rules, then the Placement is legal
+    if (next == null) {
+      return null;
+    }
     // otherwise, ask the rest of the chain
-    if (next != null) {
+    else {
       return next.checkPlacement(theShip, theBoard);
     }
-    // if there are no more rules, then the Placement is legal
-    return null;
   }
 }

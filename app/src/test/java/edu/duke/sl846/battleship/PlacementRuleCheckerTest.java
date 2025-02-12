@@ -18,7 +18,7 @@ public class PlacementRuleCheckerTest {
     assertNotNull(noCollisionChecker.checkPlacement(destroyer1, theBoard));
     Ship<Character> destroyer2 = factory.makeDestroyer(new Placement(c1, 'v'));
     assertNull(noCollisionChecker.checkPlacement(destroyer2, theBoard));
-    theBoard.tryAddShip(destroyer1);
+    theBoard.tryAddShip(destroyer2);
     Ship<Character> destroyer3 = factory.makeDestroyer(new Placement(c2, 'v'));
     assertNotNull(noCollisionChecker.checkPlacement(destroyer3, theBoard));
   }

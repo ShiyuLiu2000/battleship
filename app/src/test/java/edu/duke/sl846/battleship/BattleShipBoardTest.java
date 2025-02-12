@@ -38,7 +38,7 @@ public class BattleShipBoardTest {
     checkWhatIsAtBoard(board, expected);
     // add a ship
     RectangleShip<Character> s1 = new RectangleShip<Character>(new Coordinate(2, 0), 's', '*');
-    assertTrue(board.tryAddShip(s1));
+    assertNull(board.tryAddShip(s1));
     expected[2][0] = 's';
     checkWhatIsAtBoard(board, expected);
   }

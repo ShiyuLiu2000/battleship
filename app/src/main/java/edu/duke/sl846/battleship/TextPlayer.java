@@ -115,15 +115,16 @@ public class TextPlayer {
    * @param createFn is the method to create a Ship based on Placement.
    * @throws IOException if the user input cannot build a valid Placement.
    */
-  public void doOnePlacement(String shipName, Function<Placement, Ship<Character>> createFn) throws IOException {
+  public String doOnePlacement(String shipName, Function<Placement, Ship<Character>> createFn) throws IOException {
     String prompt = "Player " + name + " where do you want to place a " + shipName + "?";
     Placement placement = readPlacement(prompt);
     while (placement == null) {
       placement = readPlacement(prompt);
     }
     Ship<Character> ship = createFn.apply(placement);
-    theBoard.tryAddShip(ship);
+    String placementProblem = theBoard.tryAddShip(ship);
     out.print(view.displayMyOwnBoard());
+    return placementProblem;
   }
 
   /**
@@ -148,7 +149,11 @@ public class TextPlayer {
     out.print(message);
     for (int i = 0; i < shipsToPlace.size(); i++) {
       String shipName = shipsToPlace.get(i);
-      doOnePlacement(shipName, shipCreationFns.get(shipName));
+      String placementProblem = doOnePlacement(shipName, shipCreationFns.get(shipName));
+      while (placementProblem != null) {
+        out.println(placementProblem);
+        placementProblem = doOnePlacement(shipName, shipCreationFns.get(shipName));
+      }
     }
   }
 }

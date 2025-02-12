@@ -1,6 +1,7 @@
 package edu.duke.sl846.battleship;
 
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -76,19 +77,28 @@ public class TextPlayer {
    * 
    * @param prompt is the String to inform user on what to input.
    * @return the Placement corresponding to user input.
-   * @throws IOException if user input cannot build a valid Placement.
+   * @throws IOException if the user input cannot build a valid Placement.
    */
   public Placement readPlacement(String prompt) throws IOException {
     out.println(prompt);
     String s = inputReader.readLine();
-    return new Placement(s);
+    if (s == null) {
+      throw new EOFException("The input for Placement is empty.");
+    }
+    Placement ans = null;
+    try {
+       ans = new Placement(s);
+    } catch(IllegalArgumentException e) {
+      out.println("That placement is invalid: it does not have the correct format.\n" + e.toString());
+    }
+    return ans;
   }
 
   /**
    * Places one Ship on the Board.
    * (This method is deprecated. Used for tests only.)
    * 
-   * @throws IOException if user input cannot build a valid Placement.
+   * @throws IOException if the user input cannot build a valid Placement.
    */
   public void doOnePlacement() throws IOException {
     String prompt = "Player " + name + " where do you want to put your Destroyer?";
@@ -103,17 +113,23 @@ public class TextPlayer {
    * 
    * @param shipName is the name of the Ship.
    * @param createFn is the method to create a Ship based on Placement.
-   * @throws IOException if user input cannot build a valid Placement of the Ship.
+   * @throws IOException if the user input cannot build a valid Placement.
    */
   public void doOnePlacement(String shipName, Function<Placement, Ship<Character>> createFn) throws IOException {
-    Placement p = readPlacement("Player " + name + " where do you want to place a " + shipName + "?");
-    Ship<Character> s = createFn.apply(p);
-    theBoard.tryAddShip(s);
+    String prompt = "Player " + name + " where do you want to place a " + shipName + "?";
+    Placement placement = readPlacement(prompt);
+    while (placement == null) {
+      placement = readPlacement(prompt);
+    }
+    Ship<Character> ship = createFn.apply(placement);
+    theBoard.tryAddShip(ship);
     out.print(view.displayMyOwnBoard());
   }
 
   /**
    * Runs the placement phase for the player during the game.
+   * 
+   * @throws IOException if the user input cannot build a valid Placement.
    */
   public void doPlacementPhase() throws IOException {
     out.print(view.displayMyOwnBoard());

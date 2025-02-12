@@ -15,11 +15,11 @@ public class PlacementRuleCheckerTest {
     Coordinate c2 = new Coordinate(5, 4);
 
     Ship<Character> destroyer1 = factory.makeDestroyer(new Placement(c1, 'h'));
-    assertFalse(noCollisionChecker.checkPlacement(destroyer1, theBoard));
+    assertNotNull(noCollisionChecker.checkPlacement(destroyer1, theBoard));
     Ship<Character> destroyer2 = factory.makeDestroyer(new Placement(c1, 'v'));
-    assertTrue(noCollisionChecker.checkPlacement(destroyer2, theBoard));
+    assertNull(noCollisionChecker.checkPlacement(destroyer2, theBoard));
     theBoard.tryAddShip(destroyer1);
     Ship<Character> destroyer3 = factory.makeDestroyer(new Placement(c2, 'v'));
-    assertFalse(noCollisionChecker.checkPlacement(destroyer3, theBoard));
+    assertNotNull(noCollisionChecker.checkPlacement(destroyer3, theBoard));
   }
 }

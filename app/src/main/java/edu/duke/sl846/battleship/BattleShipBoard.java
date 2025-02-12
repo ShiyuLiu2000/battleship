@@ -75,7 +75,8 @@ public class BattleShipBoard<T> implements Board<T> {
    *         false otherwise.
    */
   public boolean tryAddShip(Ship<T> toAdd) {
-    if (placementChecker.checkMyRule(toAdd, this)) {
+    String placementProblem = placementChecker.checkMyRule(toAdd, this);
+    if (placementProblem == null) {
       myShips.add(toAdd);
       return true;
     } else {

@@ -15,13 +15,13 @@ public class NoCollisionRuleCheckerTest {
     Coordinate c3 = new Coordinate(9, 4);
 
     Ship<Character> destroyer1 = factory.makeDestroyer(new Placement(c1, 'v'));
-    assertTrue(checker.checkPlacement(destroyer1, theBoard));
+    assertNull(checker.checkPlacement(destroyer1, theBoard));
     theBoard.tryAddShip(destroyer1);
     Ship<Character> destroyer2 = factory.makeDestroyer(new Placement(c2, 'v'));
-    assertFalse(checker.checkPlacement(destroyer2, theBoard));
+    assertNotNull(checker.checkPlacement(destroyer2, theBoard));
     theBoard.tryAddShip(destroyer2);
     Ship<Character> testShip = new RectangleShip<Character>(c3, 's', '*');
-    assertTrue(checker.checkPlacement(testShip, theBoard));
+    assertNull(checker.checkPlacement(testShip, theBoard));
     theBoard.tryAddShip(testShip);
   }
 }

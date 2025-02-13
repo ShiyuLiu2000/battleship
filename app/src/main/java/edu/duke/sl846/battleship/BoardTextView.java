@@ -1,5 +1,7 @@
 package edu.duke.sl846.battleship;
 
+import java.util.function.Function;
+
 /**
  * Handles textual display of a {@link Board} (i.e., converting it to a string
  * to show to the user).
@@ -28,15 +30,33 @@ public class BoardTextView {
   }
 
   /**
-   * Gives textual display of the Board, including the placed Ships.
+   * Gives textual display of self's Board, including the placed Ships.
    * 
-   * @return the textual display of the Board.
+   * @return the textual display of self's Board.
    */
   public String displayMyOwnBoard() {
+    return displayAnyBoard((c) -> toDisplay.whatIsAtForSelf(c));
+  }
+
+  /**
+   * Gives textual display of enemy's Board, including the placed Ships.
+   * 
+   * @return the textual display of enemy's Board.
+   */
+  public String displayEnemyBoard() {
+    return displayAnyBoard((c) -> toDisplay.whatIsAtForEnemy(c));
+  }
+
+  /**
+   * Gives textual display of self's or enemy's Board, including the placed ships.
+   * 
+   * @param getSquareFn is the method to determine how to get the Character inside
+   *                    the given Coordinate.
+   */
+  protected String displayAnyBoard(Function<Coordinate, Character> getSquareFn) {
     StringBuilder ans = new StringBuilder();
     ans.append(makeHeader());
-    // ans.append(makeEmptyBody());
-    ans.append(makeBody());
+    ans.append(makeBody(getSquareFn));
     ans.append(makeHeader());
     return ans.toString();
   }
@@ -60,24 +80,21 @@ public class BoardTextView {
   }
 
   /**
-   * Makes the body line, e.g. A | | | A\n
+   * Makes the body line, e.g. |c| |
    * 
-   * @param c   is the character printed inside the line as an indicator.
-   * @param row is the row number used to check the existence of ships inside it.
+   * @param row         is the row number used to check the existence of ships
+   *                    inside it.
+   * @param getSquareFn is the method to determine how to get the Character inside
+   *                    the given Coordinate.
    * @return the String that makes up the body of the given Board.
-   * @throws IllegalArgumentException if c is not from A to Z.
    */
-  String makeBodyLine(char c, int row) {
-    if (c < 'A' || c > 'Z') {
-      throw new IllegalArgumentException("Character indicator must be from A to Z, but is " + c);
-    }
+  String makeBodyLine(int row, Function<Coordinate, Character> getSquareFn) {
     StringBuilder ans = new StringBuilder();
-    ans.append(c);
     ans.append(" ");
     String sep = "";
     for (int column = 0; column < toDisplay.getWidth(); column++) {
       ans.append(sep);
-      Character s = toDisplay.whatIsAtForSelf(new Coordinate(row, column));
+      Character s = getSquareFn.apply(new Coordinate(row, column));
       if (s != null) {
         ans.append(s.toString());
       } else {
@@ -86,9 +103,18 @@ public class BoardTextView {
       sep = "|";
     }
     ans.append(" ");
-    ans.append(c);
-    ans.append("\n");
     return ans.toString();
+  }
+
+  /**
+   * Makes the body line for self's Board, e.g. | |d|
+   * This method is for facilitate tests after refactoring.
+   * 
+   * @param row is the row number used to check the existence of ships inside it.
+   * @return the String that makes up the body of the self's Board.
+   */
+  String makeBodyLineForSelf(int row) {
+    return makeBodyLine(row, (c) -> toDisplay.whatIsAtForSelf(c));
   }
 
   /**
@@ -100,7 +126,12 @@ public class BoardTextView {
     StringBuilder ans = new StringBuilder();
     char c = 'A';
     for (int i = 0; i < toDisplay.getHeight(); i++) {
-      ans.append(makeBodyLine(c, 0));
+      ans.append(c);
+      ans.append(makeBodyLine(0, (coordinate) -> {
+        return ' ';
+      }));
+      ans.append(c);
+      ans.append("\n");
       c++;
     }
     return ans.toString();
@@ -109,13 +140,37 @@ public class BoardTextView {
   /**
    * Builds the whole body of the Board with Ships.
    * 
+   * @param getSquareFn is the method to determine how to get the Character inside
+   *                    the given Coordinate.
    * @return the String of the whole body of the Board with Ships.
    */
-  String makeBody() {
+  String makeBody(Function<Coordinate, Character> getSquareFn) {
     StringBuilder ans = new StringBuilder();
     char c = 'A';
     for (int row = 0; row < toDisplay.getHeight(); row++) {
-      ans.append(makeBodyLine(c, row));
+      ans.append(c);
+      ans.append(makeBodyLine(row, getSquareFn));
+      ans.append(c);
+      ans.append("\n");
+      c++;
+    }
+    return ans.toString();
+  }
+
+  /**
+   * Builds the whole body of self's Board with Ships.
+   * This method is to facilitate tests after refactoring.
+   * 
+   * @return the String of the whole body of self's Board with Ships.
+   */
+  String makeBodyForSelf() {
+    StringBuilder ans = new StringBuilder();
+    char c = 'A';
+    for (int row = 0; row < toDisplay.getHeight(); row++) {
+      ans.append(c);
+      ans.append(makeBodyLine(row, (coordinate) -> toDisplay.whatIsAtForSelf(coordinate)));
+      ans.append(c);
+      ans.append("\n");
       c++;
     }
     return ans.toString();

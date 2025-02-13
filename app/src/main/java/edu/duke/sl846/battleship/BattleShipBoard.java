@@ -136,7 +136,11 @@ public class BattleShipBoard<T> implements Board<T> {
     if (isSelf) {
       return null;
     } else {
-      return missInfo;
+      if (enemyMisses.contains(where)) {
+        return missInfo;
+      } else {
+        return null;
+      }
     }
   }
 

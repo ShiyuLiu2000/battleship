@@ -75,8 +75,7 @@ public abstract class BasicShip<T> implements Ship<T> {
    * @param where is the coordinates to check.
    * @return true if this ship as hit at the indicated coordinates, and false
    *         otherwise.
-   * @throws IllegalArgumentException if the coordinates are not part of this
-   *                                  ship.
+   * @throws IllegalArgumentException if the coordinate is not part of this ship.
    */
   @Override
   public boolean wasHitAt(Coordinate where) {

@@ -47,11 +47,13 @@ public interface Ship<T> {
    * Return the view-specific information at the given coordinate. This coordinate
    * must be part of the ship.
    * 
-   * @param where is the coordinate to return information for
+   * @param where  is the coordinate to return information for.
+   * @param isSelf is the boolean that indicates whether it's self's Board or
+   *               enemy's Board to show.
    * @throws IllegalArgumentException if where is not part of the Ship
    * @return The view-specific information at that coordinate.
    */
-  public T getDisplayInfoAt(Coordinate where);
+  public T getDisplayInfoAt(Coordinate where, boolean isSelf);
 
   /**
    * Get the name of this Ship, such as "submarine".

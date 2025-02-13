@@ -9,20 +9,23 @@ public abstract class BasicShip<T> implements Ship<T> {
   // put all coordinates the ship occupies, and track which ones have been hit
   protected HashMap<Coordinate, Boolean> myPieces;
   protected ShipDisplayInfo<T> myDisplayInfo;
+  protected ShipDisplayInfo<T> enemyDisplayInfo;
 
   /**
    * Constructs a BasicShip with given locations and given display info settings.
    * 
-   * @param where         is the Iterable of the Coordinates that make up the
-   *                      BasicShip.
-   * @param myDisplayInfo is the information display settings for the Ship.
+   * @param where            is the Iterable of the Coordinates that make up the
+   *                         BasicShip.
+   * @param myDisplayInfo    is the information display settings for self's Ship.
+   * @param enemyDisplayInfo is the information display settings for enemy's Ship.
    */
-  public BasicShip(Iterable<Coordinate> where, ShipDisplayInfo<T> myDisplayInfo) {
+  public BasicShip(Iterable<Coordinate> where, ShipDisplayInfo<T> myDisplayInfo, ShipDisplayInfo<T> enemyDisplayInfo) {
     this.myPieces = new HashMap<Coordinate, Boolean>();
     for (Coordinate c : where) {
       myPieces.put(c, false);
     }
     this.myDisplayInfo = myDisplayInfo;
+    this.enemyDisplayInfo = enemyDisplayInfo;
   }
 
   /**
@@ -89,14 +92,20 @@ public abstract class BasicShip<T> implements Ship<T> {
    * Return the view-specific information at the given coordinate. This coordinate
    * must be part of the ship.
    * 
-   * @param where is the coordinate to return information for
+   * @param where  is the coordinate to return information for.
+   * @param isSelf is the boolean that indicates whether it's self's Board or
+   *               enemy's Board to show.
    * @throws IllegalArgumentException if where is not part of the Ship
    * @return The view-specific information at that coordinate.
    */
   @Override
-  public T getDisplayInfoAt(Coordinate where) {
+  public T getDisplayInfoAt(Coordinate where, boolean isSelf) {
     boolean wasHit = wasHitAt(where);
-    return myDisplayInfo.getInfo(where, wasHit);
+    if (isSelf) {
+      return myDisplayInfo.getInfo(where, wasHit);
+    } else {
+      return enemyDisplayInfo.getInfo(where, wasHit);
+    }
   }
 
   /**

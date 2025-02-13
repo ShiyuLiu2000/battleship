@@ -111,7 +111,7 @@ public class BattleShipBoard<T> implements Board<T> {
   protected T whatIsAt(Coordinate where, boolean isSelf) {
     for (Ship<T> ship : myShips) {
       if (ship.occupiesCoordinates(where)) {
-        return ship.getDisplayInfoAt(where);
+        return ship.getDisplayInfoAt(where, isSelf);
       }
     }
     return null;

@@ -32,13 +32,15 @@ public class RectangleShip<T> extends BasicShip<T> {
    * Constructs a RectangleShip with a Coordinate, width, height, and the
    * view-specific display information of the Ship.
    * 
-   * @param upperLeft   is the upper left Coordinate of the RectangleShip.
-   * @param width       is the width of the RectangleShip.
-   * @param height      is the height of the RectangleShip.
-   * @param displayInfo is the view-specific information of the Ship.
+   * @param upperLeft        is the upper left Coordinate of the RectangleShip.
+   * @param width            is the width of the RectangleShip.
+   * @param height           is the height of the RectangleShip.
+   * @param myDisplayInfo    is the view-specific information of self's Ship.
+   * @param enemyDisplayInfo is the view-specific information of enemy's Ship.
    */
-  public RectangleShip(String name, Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> displayInfo) {
-    super(makeCoordinates(upperLeft, width, height), displayInfo);
+  public RectangleShip(String name, Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> myDisplayInfo,
+      ShipDisplayInfo<T> enemyDisplayInfo) {
+    super(makeCoordinates(upperLeft, width, height), myDisplayInfo, enemyDisplayInfo);
     this.name = name;
   }
 
@@ -53,7 +55,8 @@ public class RectangleShip<T> extends BasicShip<T> {
    * @param onHit     is the view-specific information of the Ship when hit.
    */
   public RectangleShip(String name, Coordinate upperLeft, int width, int height, T data, T onHit) {
-    this(name, upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit));
+    this(name, upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit),
+        new SimpleShipDisplayInfo<T>(null, data));
   }
 
   /**

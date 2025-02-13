@@ -28,13 +28,24 @@ public interface Board<T> {
   public String tryAddShip(Ship<T> toAdd);
 
   /**
-   * Given a Coordinate, gets whichever thing that occupies that Coordinate.
+   * Given a Coordinate, gets the view-specific display info of the Ship (if any)
+   * to show as self's Board.
    * 
    * @param where is the Coordinate to check.
-   * @return whatever info about the thing that occupies those coordinates if a
-   *         thing exists there, null otherwise.
+   * @return whatever displayInfo of the Ship at those coordinates if a Ship
+   *         exists there, null otherwise.
    */
   public T whatIsAtForSelf(Coordinate where);
+
+  /**
+   * Given a Coordinate, gets the view-specific display info of the Ship (if any)
+   * to show as enemy's Board.
+   * 
+   * @param where is the Coordinate to check.
+   * @return whatever displayInfo of the Ship at those coordinates if a Ship
+   *         exists there, null otherwise.
+   */
+  public T whatIsAtForEnemy(Coordinate where);
 
   /**
    * Fires at a Coordinate to see what happens.

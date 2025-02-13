@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class BoardTextViewTest {
   @Test
   public void test_makeBodyLine() {
-    Board<Character> testBoard = new BattleShipBoard<Character>(3, 3);
+    Board<Character> testBoard = new BattleShipBoard<Character>(3, 3, 'X');
     BoardTextView testView = new BoardTextView(testBoard);
     String expectedBodyLineA = "A  | |  A\n";
     assertEquals(expectedBodyLineA, testView.makeBodyLine('A', 0));
@@ -19,7 +19,7 @@ public class BoardTextViewTest {
 
   @Test
   public void test_makeEmptyBody() {
-    Board<Character> testBoard = new BattleShipBoard<Character>(2, 2);
+    Board<Character> testBoard = new BattleShipBoard<Character>(2, 2, 'X');
     BoardTextView testView = new BoardTextView(testBoard);
     String expectedBody = "A  |  A\n" + "B  |  B\n";
     assertEquals(expectedBody, testView.makeEmptyBody());
@@ -27,14 +27,14 @@ public class BoardTextViewTest {
 
   @Test
   public void test_invalid_board_size() {
-    Board<Character> wideBoard = new BattleShipBoard<Character>(11, 20);
-    Board<Character> tallBoard = new BattleShipBoard<Character>(5, 27);
+    Board<Character> wideBoard = new BattleShipBoard<Character>(11, 20, 'X');
+    Board<Character> tallBoard = new BattleShipBoard<Character>(5, 27, 'X');
     assertThrows(IllegalArgumentException.class, () -> new BoardTextView(wideBoard));
     assertThrows(IllegalArgumentException.class, () -> new BoardTextView(tallBoard));
   }
 
   private void emptyBoardHelper(int width, int height, String expectedHeader, String expectedBody) {
-    Board<Character> testBoard = new BattleShipBoard<Character>(width, height);
+    Board<Character> testBoard = new BattleShipBoard<Character>(width, height, 'X');
     BoardTextView testView = new BoardTextView(testBoard);
     assertEquals(expectedHeader, testView.makeHeader());
     assertEquals(expectedBody, testView.makeEmptyBody());
@@ -69,7 +69,7 @@ public class BoardTextViewTest {
   }
 
   private void nonEmptyBoardHelper(int width, int height, String expectedHeader, String expectedBody, Coordinate... coordinates) {
-    Board<Character> testBoard = new BattleShipBoard<Character>(width, height);
+    Board<Character> testBoard = new BattleShipBoard<Character>(width, height, 'X');
     BoardTextView testView = new BoardTextView(testBoard);
     assertEquals(expectedHeader, testView.makeHeader());
     // add ships

@@ -22,7 +22,7 @@ public class TextPlayerTest {
     // set autoflush to true to ensure data becomes immediately available in bytes
     PrintStream output = new PrintStream(bytes, true);
     // create a board and a factory
-    Board<Character> board = new BattleShipBoard<Character>(w, h);
+    Board<Character> board = new BattleShipBoard<Character>(w, h, 'X');
     V1ShipFactory shipFactory = new V1ShipFactory();
     return new TextPlayer("A", board, input, output, shipFactory);
   }

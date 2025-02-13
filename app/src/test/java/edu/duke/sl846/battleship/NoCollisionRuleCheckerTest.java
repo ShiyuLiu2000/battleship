@@ -9,7 +9,7 @@ public class NoCollisionRuleCheckerTest {
   public void test_check_no_collision_rule() {
     V1ShipFactory factory = new V1ShipFactory();
     PlacementRuleChecker<Character> checker = new NoCollisionRuleChecker<Character>(null);
-    Board<Character> theBoard = new BattleShipBoard<>(5, 10, checker);
+    Board<Character> theBoard = new BattleShipBoard<>(5, 10, checker, 'X');
     Coordinate c1 = new Coordinate(6, 4);
     Coordinate c2 = new Coordinate(4, 4);
     Coordinate c3 = new Coordinate(9, 4);

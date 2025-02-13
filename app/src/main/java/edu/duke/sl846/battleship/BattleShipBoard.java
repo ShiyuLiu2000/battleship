@@ -15,6 +15,7 @@ public class BattleShipBoard<T> implements Board<T> {
   final ArrayList<Ship<T>> myShips;
   private final PlacementRuleChecker<T> placementChecker;
   HashSet<Coordinate> enemyMisses;
+  final T missInfo;
 
   /**
    * Constructs a Board with given width and height.
@@ -22,12 +23,14 @@ public class BattleShipBoard<T> implements Board<T> {
    * - all ships should have coordinates that fit in bounds, and
    * - there should be no collisions among ships.
    * 
-   * @param width  is the width of this Board.
-   * @param height is the height of this Board.
+   * @param width    is the width of this Board.
+   * @param height   is the height of this Board.
+   * @param missInfo is the view-specific display info to show on enemy's Board if
+   *                 there is a miss.*
    * @throws IllegalArgumentException if width or height is negative or zero.
    */
-  public BattleShipBoard(int width, int height) {
-    this(width, height, new InBoundsRuleChecker<T>(new NoCollisionRuleChecker<T>(null)));
+  public BattleShipBoard(int width, int height, T missInfo) {
+    this(width, height, new InBoundsRuleChecker<T>(new NoCollisionRuleChecker<T>(null)), missInfo);
   }
 
   /**
@@ -36,9 +39,11 @@ public class BattleShipBoard<T> implements Board<T> {
    * @param width            is the width of this Board.
    * @param height           is the height of this Board.
    * @param placementChecker is the rule checker for this Board.
+   * @param missInfo         is the view-specific display info to show on enemy's
+   *                         Board if there is a miss.
    * @throws IllegalArgumentException if width or height is negative or zero.
    */
-  public BattleShipBoard(int width, int height, PlacementRuleChecker<T> placementChecker) {
+  public BattleShipBoard(int width, int height, PlacementRuleChecker<T> placementChecker, T missInfo) {
     if (width <= 0) {
       throw new IllegalArgumentException("BattleShipBoard's width must be positive but is " + width);
     }
@@ -50,6 +55,7 @@ public class BattleShipBoard<T> implements Board<T> {
     this.myShips = new ArrayList<>();
     this.placementChecker = placementChecker;
     this.enemyMisses = new HashSet<>();
+    this.missInfo = missInfo;
   }
 
   /**
@@ -88,7 +94,8 @@ public class BattleShipBoard<T> implements Board<T> {
   }
 
   /**
-   * Given a Coordinate, gets the Ship (if any) which occupies that Coordinate.
+   * Given a Coordinate, gets the view-specific display info of the Ship (if any)
+   * to show as self's Board.
    * 
    * @param where is the Coordinate to check.
    * @return whatever displayInfo of the Ship at those coordinates if a Ship
@@ -96,6 +103,18 @@ public class BattleShipBoard<T> implements Board<T> {
    */
   public T whatIsAtForSelf(Coordinate where) {
     return whatIsAt(where, true);
+  }
+
+  /**
+   * Given a Coordinate, gets the view-specific display info of the Ship (if any)
+   * to show as enemy's Board.
+   * 
+   * @param where is the Coordinate to check.
+   * @return whatever displayInfo of the Ship at those coordinates if a Ship
+   *         exists there, null otherwise.
+   */
+  public T whatIsAtForEnemy(Coordinate where) {
+    return whatIsAt(where, false);
   }
 
   /**

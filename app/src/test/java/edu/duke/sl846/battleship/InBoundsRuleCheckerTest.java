@@ -9,7 +9,7 @@ public class InBoundsRuleCheckerTest {
   public void test_checkInBoundsRule() {
     V1ShipFactory factory = new V1ShipFactory();
     PlacementRuleChecker<Character> checker = new InBoundsRuleChecker<Character>(null);
-    Board<Character> theBoard = new BattleShipBoard<>(5, 10, checker);
+    Board<Character> theBoard = new BattleShipBoard<>(5, 10, checker, 'X');
     Ship<Character> destroyer1 = factory.makeDestroyer(new Placement(new Coordinate(8, 4), 'v'));
     assertNotNull(checker.checkPlacement(destroyer1, theBoard));
     Ship<Character> destroyer2 = factory.makeDestroyer(new Placement(new Coordinate(5, 4), 'v'));

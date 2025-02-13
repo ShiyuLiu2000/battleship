@@ -10,7 +10,7 @@ public class PlacementRuleCheckerTest {
     PlacementRuleChecker<Character> inBoundsChecker = new InBoundsRuleChecker<Character>(null);
     PlacementRuleChecker<Character> noCollisionChecker = new NoCollisionRuleChecker<Character>(inBoundsChecker);
     V1ShipFactory factory = new V1ShipFactory();
-    Board<Character> theBoard = new BattleShipBoard<>(5, 10, noCollisionChecker);
+    Board<Character> theBoard = new BattleShipBoard<>(5, 10, noCollisionChecker, 'X');
     Coordinate c1 = new Coordinate(7, 4);
     Coordinate c2 = new Coordinate(5, 4);
 

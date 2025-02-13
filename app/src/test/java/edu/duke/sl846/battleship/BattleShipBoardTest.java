@@ -52,6 +52,7 @@ public class BattleShipBoardTest {
 
     Ship<Character> nullShip = board.fireAt(new Coordinate("A0"));
     assertEquals(null, nullShip);
+    assertEquals('X', board.whatIsAtForEnemy(new Coordinate("A0")));
     
     Ship<Character> ship1 = board.fireAt(new Coordinate("A5"));
     assertSame(ship, ship1);

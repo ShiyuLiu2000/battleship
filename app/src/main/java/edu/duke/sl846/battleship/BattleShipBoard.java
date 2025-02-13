@@ -133,7 +133,11 @@ public class BattleShipBoard<T> implements Board<T> {
         return ship.getDisplayInfoAt(where, isSelf);
       }
     }
-    return null;
+    if (isSelf) {
+      return null;
+    } else {
+      return missInfo;
+    }
   }
 
   /**

@@ -94,7 +94,21 @@ public class BattleShipBoard<T> implements Board<T> {
    * @return whatever displayInfo of the Ship at those coordinates if a Ship
    *         exists there, null otherwise.
    */
-  public T whatIsAt(Coordinate where) {
+  public T whatIsAtForSelf(Coordinate where) {
+    return whatIsAt(where, true);
+  }
+
+  /**
+   * Given a Coordinate, gets the Ship (if any) which occupies that Coordinate in
+   * self Board or in enemy's Board.
+   * 
+   * @param where  is the Coordinate to check.
+   * @param isSelf is a boolean to indicate whether it's self's or enemy's Board
+   *               to be checked.
+   * @return whatever displayInfo of the Ship at those coordinates if a Ship
+   *         exists there, null otherwise.
+   */
+  protected T whatIsAt(Coordinate where, boolean isSelf) {
     for (Ship<T> ship : myShips) {
       if (ship.occupiesCoordinates(where)) {
         return ship.getDisplayInfoAt(where);
@@ -110,7 +124,7 @@ public class BattleShipBoard<T> implements Board<T> {
    * @return the injured Ship if c is occupied by that Ship, null otherwise.
    */
   public Ship<T> fireAt(Coordinate c) {
-    for (Ship<T> ship: myShips) {
+    for (Ship<T> ship : myShips) {
       if (ship.occupiesCoordinates(c)) {
         ship.recordHitAt(c);
         ship.wasHitAt(c);

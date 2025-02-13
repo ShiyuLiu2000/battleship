@@ -34,7 +34,7 @@ public interface Board<T> {
    * @return whatever info about the thing that occupies those coordinates if a
    *         thing exists there, null otherwise.
    */
-  public T whatIsAt(Coordinate where);
+  public T whatIsAtForSelf(Coordinate where);
 
   /**
    * Fires at a Coordinate to see what happens.

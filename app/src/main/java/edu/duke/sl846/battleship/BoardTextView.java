@@ -77,7 +77,7 @@ public class BoardTextView {
     String sep = "";
     for (int column = 0; column < toDisplay.getWidth(); column++) {
       ans.append(sep);
-      Character s = toDisplay.whatIsAt(new Coordinate(row, column));
+      Character s = toDisplay.whatIsAtForSelf(new Coordinate(row, column));
       if (s != null) {
         ans.append(s.toString());
       } else {

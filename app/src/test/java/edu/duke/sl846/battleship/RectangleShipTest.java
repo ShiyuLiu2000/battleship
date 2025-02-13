@@ -46,7 +46,9 @@ public class RectangleShipTest {
     assertTrue(ship.wasHitAt(c));
     assertFalse(ship.wasHitAt(upperLeft));
     assertEquals('s', ship.getDisplayInfoAt(upperLeft, true));
+    assertEquals(null, ship.getDisplayInfoAt(upperLeft, false));
     assertEquals('*', ship.getDisplayInfoAt(c, true));
+    assertEquals('s', ship.getDisplayInfoAt(c, false));
     assertFalse(ship.isSunk());
     RectangleShip<Character> ship1by1 = new RectangleShip<Character>(upperLeft, 's', '*');
     ship.recordHitAt(upperLeft);

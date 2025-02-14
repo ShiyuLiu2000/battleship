@@ -49,19 +49,22 @@ public class BattleShipBoardTest {
     V1ShipFactory factory = new V1ShipFactory();
     Ship<Character> ship = factory.makeDestroyer(new Placement("A5V"));
     assertNull(board.tryAddShip(ship));
-
+    assertFalse(board.isAllShipSunk());
     Ship<Character> nullShip = board.fireAt(new Coordinate("A0"));
     assertEquals(null, nullShip);
     assertEquals('X', board.whatIsAtForEnemy(new Coordinate("A0")));
-    
+    assertFalse(board.isAllShipSunk());
     Ship<Character> ship1 = board.fireAt(new Coordinate("A5"));
     assertSame(ship, ship1);
     assertFalse(ship.isSunk());
+    assertFalse(board.isAllShipSunk());
     Ship<Character> ship2 = board.fireAt(new Coordinate("B5"));
     assertSame(ship, ship2);
     assertFalse(ship.isSunk());
+    assertFalse(board.isAllShipSunk());
     Ship<Character> ship3 = board.fireAt(new Coordinate("C5"));
     assertSame(ship, ship3);
     assertTrue(ship.isSunk());
+    assertTrue(board.isAllShipSunk());
   }
 }

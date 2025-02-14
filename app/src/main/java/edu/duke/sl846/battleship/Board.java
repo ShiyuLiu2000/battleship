@@ -54,4 +54,11 @@ public interface Board<T> {
    * @return the injured Ship if c is occupied by that Ship, null otherwise.
    */
   public Ship<T> fireAt(Coordinate c);
+
+  /**
+   * Checks if all ships has sunk.
+   * 
+   * @return true if all ships on this Board are sunk, false otherwise.
+   */
+  public boolean isAllShipSunk();
 }

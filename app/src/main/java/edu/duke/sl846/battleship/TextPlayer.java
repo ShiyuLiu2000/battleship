@@ -23,7 +23,7 @@ public class TextPlayer {
   // purely functional, doesn't matter if it's shared
   final AbstractShipFactory<Character> shipFactory;
   String name;
-
+  
   final ArrayList<String> shipsToPlace;
   final HashMap<String, Function<Placement, Ship<Character>>> shipCreationFns;
 

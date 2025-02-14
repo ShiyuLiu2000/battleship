@@ -164,15 +164,6 @@ public class BoardTextView {
    * @return the String of the whole body of self's Board with Ships.
    */
   String makeBodyForSelf() {
-    StringBuilder ans = new StringBuilder();
-    char c = 'A';
-    for (int row = 0; row < toDisplay.getHeight(); row++) {
-      ans.append(c);
-      ans.append(makeBodyLine(row, (coordinate) -> toDisplay.whatIsAtForSelf(coordinate)));
-      ans.append(c);
-      ans.append("\n");
-      c++;
-    }
-    return ans.toString();
+    return makeBody((c) -> toDisplay.whatIsAtForSelf(c));
   }
 }

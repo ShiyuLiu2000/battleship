@@ -40,21 +40,21 @@ public class BoardTextViewTest {
 
   @Test
   public void test_display_empty_2by2() {
-    String expectedHeader = "  0|1\n";
+    String expectedHeader = "  0|1  \n";
     String expectedBody = "A  |  A\n" + "B  |  B\n";
     emptyBoardHelper(2, 2, expectedHeader, expectedBody);
   }
 
   @Test
   public void test_display_empty_3by2() {
-    String expectedHeader = "  0|1|2\n";
+    String expectedHeader = "  0|1|2  \n";
     String expectedBody = "A  | |  A\n" + "B  | |  B\n";
     emptyBoardHelper(3, 2, expectedHeader, expectedBody);
   }
 
   @Test
   public void test_display_empty_3by5() {
-    String expectedHeader = "  0|1|2\n";
+    String expectedHeader = "  0|1|2  \n";
     String expectedBody = "A  | |  A\n" +
         "B  | |  B\n" +
         "C  | |  C\n" +
@@ -80,7 +80,7 @@ public class BoardTextViewTest {
 
   @Test
   public void test_display_3by5() {
-    String expectedHeader = "  0|1|2\n";
+    String expectedHeader = "  0|1|2  \n";
     String expectedBody = "A  | |  A\n" +
         "B s| |  B\n" +
         "C  |s|  C\n" +
@@ -94,7 +94,7 @@ public class BoardTextViewTest {
 
   @Test
   public void test_display_3by5_enemy() {
-    String expectedHeader = "  0|1|2\n";
+    String expectedHeader = "  0|1|2  \n";
     String expectedBody = "A  | |  A\n" +
         "B s| |  B\n" +
         "C  |X|  C\n" +
@@ -110,5 +110,37 @@ public class BoardTextViewTest {
     testBoard.fireAt(c2);
     String expectedBoard = expectedHeader + expectedBody + expectedHeader;
     assertEquals(expectedBoard, testView.displayEnemyBoard());
+  }
+
+  @Test
+  public void display_my_board_with_enemy_next_to_it() {
+    String expectedBoard = "     Your ocean                     Player B's ocean\n" +
+        "  0|1|2|3|4|5|6                    0|1|2|3|4|5|6  \n" +
+        "A  | | | | | |  A                A  | | | | | |  A\n" +
+        "B  | | | | | |  B                B  | | | | | |  B\n" +
+        "C  | | | |d|d|d C                C  | | | |X| |  C\n" +
+        "D  | | |s| | |  D                D  | | |s| | |  D\n" +
+        "E  | | |s|s|s|  E                E  | | | |X| |b E\n" +
+        "  0|1|2|3|4|5|6                    0|1|2|3|4|5|6  \n";
+    Coordinate c1 = new Coordinate("D3");
+    Coordinate c2 = new Coordinate("E6");
+    Coordinate c3 = new Coordinate("C4");
+    Coordinate c4 = new Coordinate("E4");
+    Board<Character> myBoard = new BattleShipBoard<Character>(7, 5, 'X');
+    BoardTextView myView = new BoardTextView(myBoard);
+    Board<Character> enemyBoard = new BattleShipBoard<Character>(7, 5, 'X');
+    BoardTextView enemyView = new BoardTextView(enemyBoard);
+    V1ShipFactory factory = new V1ShipFactory();
+    enemyBoard.tryAddShip(factory.makeSubmarine(new Placement("d3h")));
+    enemyBoard.fireAt(c1);
+    enemyBoard.tryAddShip(factory.makeBattleship(new Placement("b6v")));
+    enemyBoard.fireAt(c2);
+    enemyBoard.fireAt(c3);
+    enemyBoard.fireAt(c4);
+    myBoard.tryAddShip(factory.makeSubmarine(new Placement(c1, 'v')));
+    myBoard.tryAddShip(factory.makeDestroyer(new Placement(c3, 'h')));
+    myBoard.tryAddShip(factory.makeSubmarine(new Placement(c4, 'H')));
+    String outputBoard = myView.displayMyBoardWithEnemyNextToIt(enemyView,"Your ocean", "Player B's ocean");
+    assertEquals(expectedBoard, outputBoard);
   }
 }

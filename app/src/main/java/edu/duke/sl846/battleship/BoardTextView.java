@@ -47,6 +47,45 @@ public class BoardTextView {
     return displayAnyBoard((c) -> toDisplay.whatIsAtForEnemy(c));
   }
 
+  public String displayMyBoardWithEnemyNextToIt(BoardTextView enemyView, String myHeader, String enemyHeader) {
+    StringBuilder ans = new StringBuilder();
+    String sep = "\n";
+    // build 2 boards separately
+    String myBoard = displayMyOwnBoard();
+    String enemyBoard = enemyView.displayEnemyBoard();
+    String[] myLines = myBoard.split("\n");
+    String[] enemyLines = enemyBoard.split("\n");
+    // make ocean headers
+    int width = toDisplay.getWidth();
+    ans.append(makeSpaces(5));
+    ans.append(myHeader);
+    ans.append(makeSpaces(2 * width + 17 - myHeader.length()));
+    ans.append(enemyHeader);
+    ans.append("\n");
+    // make boards display side by side
+    for (int i = 0; i < toDisplay.getHeight() + 2; i++) {
+      ans.append(myLines[i]);
+      ans.append(makeSpaces(16));
+      ans.append(enemyLines[i]);
+      ans.append("\n");
+    }
+    return ans.toString();
+  }
+
+  /**
+   * Makes a String full of spaces with desired length.
+   * 
+   * @param num is the number of spaces we want.
+   * @return the String full of spaces with desired length.
+   */
+  protected String makeSpaces(int num) {
+    StringBuilder space = new StringBuilder();
+    for (int i = 0; i < num; i++) {
+      space.append(" ");
+    }
+    return space.toString();
+  }
+
   /**
    * Gives textual display of self's or enemy's Board, including the placed ships.
    * 
@@ -75,7 +114,7 @@ public class BoardTextView {
       ans.append(i);
       sep = "|";
     }
-    ans.append("\n");
+    ans.append("  \n");
     return ans.toString();
   }
 

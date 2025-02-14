@@ -132,8 +132,8 @@ public class BoardTextViewTest {
     BoardTextView enemyView = new BoardTextView(enemyBoard);
     V1ShipFactory factory = new V1ShipFactory();
     enemyBoard.tryAddShip(factory.makeSubmarine(new Placement("d3h")));
-    enemyBoard.fireAt(c1);
     enemyBoard.tryAddShip(factory.makeBattleship(new Placement("b6v")));
+    enemyBoard.fireAt(c1);
     enemyBoard.fireAt(c2);
     enemyBoard.fireAt(c3);
     enemyBoard.fireAt(c4);

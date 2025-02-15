@@ -1,23 +1,21 @@
 package edu.duke.sl846.battleship;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
-import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
 public class TextPlayerTest {
-  private TextPlayer createTextPlayer(int w, int h, String inputData, OutputStream bytes) {
-    // read from String like an input stream
-    BufferedReader input = new BufferedReader(new StringReader(inputData));
+  private TextPlayer createTextPlayer(int w, int h, BufferedReader input, OutputStream bytes) {
     // use PrintStream to write data into bytes instead of to screen
     // set autoflush to true to ensure data becomes immediately available in bytes
     PrintStream output = new PrintStream(bytes, true);
@@ -31,7 +29,9 @@ public class TextPlayerTest {
   void test_read_placement() throws IOException {
     // use ByteArrayOutputStream to collect the output
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    TextPlayer player = createTextPlayer(10, 20, "B2V\nC8H\na4v\n", bytes);
+    String inputData = "B2V\nC8H\na4v\n";
+    BufferedReader input = new BufferedReader(new StringReader(inputData));
+    TextPlayer player = createTextPlayer(10, 20, input, bytes);
 
     String prompt = "Please enter a location for a Ship: ";
     Placement[] expected = new Placement[3];
@@ -44,15 +44,24 @@ public class TextPlayerTest {
       assertEquals(prompt + "\n", bytes.toString()); // should have printed prompt and newline
       bytes.reset(); // clear out bytes for next time around
     }
+  }
 
-    TextPlayer playerEmpty = createTextPlayer(10, 20, "", bytes);
-    assertThrows(EOFException.class, () -> playerEmpty.readPlacement(prompt));
+  @Test
+  public void test_read_null_placement_and_coordinate() {
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    InputStream inputStream = getClass().getClassLoader().getResourceAsStream("EOFfile.txt");
+    BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
+    TextPlayer player = createTextPlayer(10, 20, input, bytes);
+    assertThrows(EOFException.class, () -> player.readPlacement("placement here"));
+    assertThrows(EOFException.class, () -> player.readCoordinate("coordinate here"));
   }
 
   @Test
   public void test_do_one_placement() throws IOException {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    TextPlayer player = createTextPlayer(10, 20, "B2V\nC8H\na4v\n", bytes);
+    String inputData = "B2V\nC8H\na4v\n";
+    BufferedReader input = new BufferedReader(new StringReader(inputData));
+    TextPlayer player = createTextPlayer(10, 20, input, bytes);
 
     String prompt = "Player A where do you want to put your Destroyer?";
     for (int i = 0; i < 3; i++) {
@@ -66,7 +75,9 @@ public class TextPlayerTest {
   @Test
   public void test_setup_ship_creation_list_and_map() {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    TextPlayer player = createTextPlayer(10, 26, "", bytes);
+    String inputData = "";
+    BufferedReader input = new BufferedReader(new StringReader(inputData));
+    TextPlayer player = createTextPlayer(10, 26, input, bytes);
 
     assertEquals(10, player.shipsToPlace.size());
     assertEquals("Submarine", player.shipsToPlace.get(0));
@@ -85,14 +96,20 @@ public class TextPlayerTest {
   @Test
   public void test_do_one_placement_with_parameters() throws IOException {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    TextPlayer player = createTextPlayer(10, 20, "a4v\n", bytes);
+    String inputData = "a4v\n";
+    BufferedReader input = new BufferedReader(new StringReader(inputData));
+    TextPlayer player = createTextPlayer(10, 20, input, bytes);
 
-    String prompt = "--------------------------------------------------------------------------------\n" + "Player A where do you want to place a Carrier?\n" + "--------------------------------------------------------------------------------";
+    String prompt = "--------------------------------------------------------------------------------\n"
+        + "Player A where do you want to place a Carrier?\n"
+        + "--------------------------------------------------------------------------------";
     player.doOnePlacement("Carrier", player.shipCreationFns.get("Carrier"));
     assertEquals(prompt + "\n" + player.view.displayMyOwnBoard(), bytes.toString());
     bytes.reset();
 
-    String expectedWinMessage = "Player A wins! Congratulations!!!\n" + "This game has ended. Please hit Ctrl - D to stop the game.\n" + "--------------------------------------------------------------------------------\n";
+    String expectedWinMessage = "Player A wins! Congratulations!!!\n"
+        + "This game has ended. Please hit Ctrl - D to stop the game.\n"
+        + "--------------------------------------------------------------------------------\n";
     player.printWinningMessage();
     assertEquals(expectedWinMessage, bytes.toString());
     bytes.reset();

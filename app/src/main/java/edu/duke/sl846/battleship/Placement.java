@@ -47,7 +47,7 @@ public class Placement {
    */
   public Placement(String description) throws IllegalArgumentException {
     if (description.length() != 3) {
-      throw new IllegalArgumentException("Placement description string should be of length 3, but is " + description);
+      throw new IllegalArgumentException("Placement description string should be of length 3, but is " + description.length());
     }
     Coordinate coordinate = new Coordinate(description.substring(0, 2)); // may throw IllegalArgumentException
     this.where = coordinate;

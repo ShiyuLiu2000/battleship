@@ -23,7 +23,7 @@ public class TextPlayer {
   // purely functional, doesn't matter if it's shared
   final AbstractShipFactory<Character> shipFactory;
   String name;
-  
+
   final ArrayList<String> shipsToPlace;
   final HashMap<String, Function<Placement, Ship<Character>>> shipCreationFns;
 
@@ -116,7 +116,9 @@ public class TextPlayer {
    * @throws IOException if the user input cannot build a valid Placement.
    */
   public String doOnePlacement(String shipName, Function<Placement, Ship<Character>> createFn) throws IOException {
-    String prompt = "Player " + name + " where do you want to place a " + shipName + "?";
+    String prompt = "--------------------------------------------------------------------------------\n" + "Player "
+        + name + " where do you want to place a " + shipName + "?\n"
+        + "--------------------------------------------------------------------------------";
     Placement placement = readPlacement(prompt);
     while (placement == null) {
       placement = readPlacement(prompt);
@@ -133,7 +135,6 @@ public class TextPlayer {
    * @throws IOException if the user input cannot build a valid Placement.
    */
   public void doPlacementPhase() throws IOException {
-    out.print(view.displayMyOwnBoard());
     String message = "--------------------------------------------------------------------------------\n" +
         "Player " + name + ": you are going to place the following ships (which are all\n" +
         "rectangular). For each ship, type the coordinate of the upper left\n" +
@@ -144,9 +145,11 @@ public class TextPlayer {
         "2 \"Submarines\" ships that are 1x2\n" +
         "3 \"Destroyers\" that are 1x3\n" +
         "3 \"Battleships\" that are 1x4\n" +
-        "2 \"Carriers\" that are 1x6\n" +
-        "--------------------------------------------------------------------------------\n";
+        "2 \"Carriers\" that are 1x6\n";
     out.print(message);
+    out.print("--------------------------------------------------------------------------------\n");
+    out.print("Your current ocean:\n");
+    out.print(view.displayMyOwnBoard());
     for (int i = 0; i < shipsToPlace.size(); i++) {
       String shipName = shipsToPlace.get(i);
       String placementProblem = doOnePlacement(shipName, shipCreationFns.get(shipName));
@@ -155,5 +158,78 @@ public class TextPlayer {
         placementProblem = doOnePlacement(shipName, shipCreationFns.get(shipName));
       }
     }
+    out.print("--------------------------------------------------------------------------------\n\n\n");
+  }
+
+  /**
+   * Gives a prompt to user, then read from user input for Coordinate.
+   * 
+   * @param prompt is the String to inform user on what to input.
+   * @return the Coordinate corresponding to user input.
+   * @throws IOException if the user input cannot build a valid Coordinate.
+   */
+  public Coordinate readCoordinate(String prompt) throws IOException {
+    out.println(prompt);
+    String s = inputReader.readLine();
+    if (s == null) {
+      throw new EOFException("The input for Coordinate is empty.");
+    }
+    Coordinate ans = null;
+    try {
+      ans = new Coordinate(s);
+    } catch (IllegalArgumentException e) {
+      out.println("That coordinate is invalid: it does not have the correct format.\n" + e.toString());
+    }
+    return ans;
+  }
+
+  /**
+   * Runs the attacking phase for the player during the game.
+   * 
+   * @param enemyBoard is enemy's Board.
+   * @throws IOException if the user input cannot build a valid Placement.
+   */
+  public void doAttackingPhase(TextPlayer enemy) throws IOException {
+    out.print("\n\n--------------------------------------------------------------------------------\n");
+    out.print("Player " + name + "'s turn:\n");
+    String myHeader = "Your ocean";
+    String enemyHeader = "Player " + enemy.name + "'s ocean";
+    out.print(view.displayMyBoardWithEnemyNextToIt(enemy.view, myHeader, enemyHeader));
+    String prompt = "--------------------------------------------------------------------------------\n" + "Player "
+        + name + " where do you want to attack?\n"
+        + "--------------------------------------------------------------------------------";
+    Coordinate coordinate = readCoordinate(prompt);
+    while (coordinate == null) {
+      coordinate = readCoordinate(prompt);
+    }
+    Ship<Character> injuredShip = enemy.theBoard.fireAt(coordinate);
+    if (injuredShip == null) {
+      String missInfo = "--------------------------------------------------------------------------------\n"
+          + "You missed!\n" + "--------------------------------------------------------------------------------\n";
+      out.print(missInfo);
+    } else {
+      String hitInfo = "--------------------------------------------------------------------------------\n"
+          + "You hit a " + injuredShip.getName() + "!\n"
+          + "--------------------------------------------------------------------------------\n";
+      out.print(hitInfo);
+    }
+    out.print(view.displayMyBoardWithEnemyNextToIt(enemy.view, myHeader, enemyHeader));
+    out.print("--------------------------------------------------------------------------------\n");
+  }
+
+  public void printWinningMessage() {
+    String winMessage = "Player " + name + " wins! Congratulations!!!\n";
+    out.print(winMessage);
+    out.print("This game has ended. Please hit Ctrl - D to stop the game.\n");
+    out.print("--------------------------------------------------------------------------------\n");
+  }
+
+  public boolean playOneTurnAgainst(TextPlayer enemy) throws IOException {
+    doAttackingPhase(enemy);
+    if (enemy.theBoard.isAllShipSunk()) {
+      printWinningMessage();
+      return true;
+    }
+    return false;
   }
 }

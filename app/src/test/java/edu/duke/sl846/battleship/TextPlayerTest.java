@@ -87,9 +87,14 @@ public class TextPlayerTest {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     TextPlayer player = createTextPlayer(10, 20, "a4v\n", bytes);
 
-    String prompt = "Player A where do you want to place a Carrier?";
+    String prompt = "--------------------------------------------------------------------------------\n" + "Player A where do you want to place a Carrier?\n" + "--------------------------------------------------------------------------------";
     player.doOnePlacement("Carrier", player.shipCreationFns.get("Carrier"));
     assertEquals(prompt + "\n" + player.view.displayMyOwnBoard(), bytes.toString());
+    bytes.reset();
+
+    String expectedWinMessage = "Player A wins! Congratulations!!!\n" + "This game has ended. Please hit Ctrl - D to stop the game.\n" + "--------------------------------------------------------------------------------\n";
+    player.printWinningMessage();
+    assertEquals(expectedWinMessage, bytes.toString());
     bytes.reset();
   }
 }

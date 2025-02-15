@@ -37,6 +37,13 @@ public class App {
     player2.doPlacementPhase();
   }
 
+  public void doAttackingPhase() throws IOException {
+    boolean isGameEnd = false;
+    while (!isGameEnd) {
+      isGameEnd = player1.playOneTurnAgainst(player2) || player2.playOneTurnAgainst(player1);
+    }
+  }
+
   /**
    * Plays the battleship game.
    */
@@ -50,5 +57,7 @@ public class App {
     App app = new App(player1, player2);
 
     app.doPlacementPhase();
+    app.doAttackingPhase();
+    // System.exit(0);
   }
 }

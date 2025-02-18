@@ -55,6 +55,21 @@ public interface Board<T> {
   public Ship<T> fireAt(Coordinate c);
 
   /**
+   * Remove the ship from the Board.
+   * 
+   * @param ship is the Ship to be remvoed.
+   */
+  public void removeShip(Ship<T> ship);
+
+  /**
+   * Gets the Ship that occupies a given Coordinate.
+   * 
+   * @param c is the Coordinate to be checked.
+   * @return the ship if a ship occupies that Coordinate, null otherwise.
+   */
+  public Ship<T> getShipThatOccupies(Coordinate c);
+
+  /**
    * Checks if all ships has sunk.
    * 
    * @return true if all ships on this Board are sunk, false otherwise.

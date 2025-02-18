@@ -80,8 +80,8 @@ public class BattleShipBoard<T> implements Board<T> {
    * Attempts to add a Ship on the Board.
    * 
    * @param toAdd is the Ship to be added.
-   * @return true if the addition is successful according to the rule checkers,
-   *         false otherwise.
+   * @return null if the addition is successful according to the rule checkers,
+   *         a String describing the problem otherwise.
    */
   public String tryAddShip(Ship<T> toAdd) {
     String placementProblem = placementChecker.checkPlacement(toAdd, this);
@@ -174,5 +174,31 @@ public class BattleShipBoard<T> implements Board<T> {
       }
     }
     return true;
+  }
+
+  /**
+   * Gets the Ship that occupies a given Coordinate.
+   * 
+   * @param c is the Coordinate to be checked.
+   * @return the ship if a ship occupies that Coordinate, null otherwise.
+   */
+  @Override
+  public void removeShip(Ship<T> ship) {
+    myShips.remove(ship);
+  }
+
+  /**
+   * Checks if all ships has sunk.
+   * 
+   * @return true if all ships on this Board are sunk, false otherwise.
+   */
+  @Override
+  public Ship<T> getShipThatOccupies(Coordinate c) {
+    for (Ship<T> ship : myShips) {
+      if (ship.occupiesCoordinates(c)) {
+        return ship;
+      }
+    }
+    return null;
   }
 }

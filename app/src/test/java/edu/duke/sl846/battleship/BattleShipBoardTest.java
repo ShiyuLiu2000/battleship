@@ -44,6 +44,25 @@ public class BattleShipBoardTest {
   }
 
   @Test
+  public void test_remove_and_get_ship() {
+    BattleShipBoard<Character> board = new BattleShipBoard<>(1, 3, 'X');
+    Coordinate c1 = new Coordinate(2, 0);
+    Coordinate c2 = new Coordinate(1, 0);
+    RectangleShip<Character> s1 = new RectangleShip<Character>(c1, 's', '*');
+    RectangleShip<Character> s2 = new RectangleShip<Character>(c2, 's', '*');
+    assertNull(board.tryAddShip(s1));
+    assertNull(board.tryAddShip(s2));
+    Ship<Character> s3 = board.getShipThatOccupies(c1);
+    assertSame(s1, s3);
+    board.removeShip(s1);
+    assertNull(board.getShipThatOccupies(c1));
+    assertEquals(1, board.myShips.size());
+    board.removeShip(s2);
+    assertNull(board.getShipThatOccupies(c2));
+    assertEquals(0, board.myShips.size());
+  }
+
+  @Test
   public void test_fire_at() {
     Board<Character> board = new BattleShipBoard<>(10, 20, 'X');
     V1ShipFactory factory = new V1ShipFactory();

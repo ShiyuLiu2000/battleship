@@ -1,6 +1,7 @@
 package edu.duke.sl846.battleship;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -14,9 +15,9 @@ public class BattleShipBoard<T> implements Board<T> {
   // able to operate directly an that ArrayList.
   final ArrayList<Ship<T>> myShips;
   private final PlacementRuleChecker<T> placementChecker;
-  HashSet<Coordinate> enemyMisses;
   final T missInfo;
-
+  HashMap<Coordinate, T> enemyDiscovery; 
+  
   /**
    * Constructs a Board with given width and height.
    * By default, the rule of this board is:
@@ -54,7 +55,7 @@ public class BattleShipBoard<T> implements Board<T> {
     this.height = height;
     this.myShips = new ArrayList<>();
     this.placementChecker = placementChecker;
-    this.enemyMisses = new HashSet<>();
+    this.enemyDiscovery = new HashMap<>();
     this.missInfo = missInfo;
   }
 
@@ -130,14 +131,17 @@ public class BattleShipBoard<T> implements Board<T> {
   protected T whatIsAt(Coordinate where, boolean isSelf) {
     for (Ship<T> ship : myShips) {
       if (ship.occupiesCoordinates(where)) {
+        if (ship.wasHitAt(where) && enemyDiscovery.containsKey(where) == false && isSelf == false) {
+          return null;
+        }
         return ship.getDisplayInfoAt(where, isSelf);
       }
     }
     if (isSelf) {
       return null;
     } else {
-      if (enemyMisses.contains(where)) {
-        return missInfo;
+      if (enemyDiscovery.containsKey(where)) {
+        return enemyDiscovery.get(where);
       } else {
         return null;
       }
@@ -155,10 +159,11 @@ public class BattleShipBoard<T> implements Board<T> {
       if (ship.occupiesCoordinates(c)) {
         ship.recordHitAt(c);
         ship.wasHitAt(c);
+        enemyDiscovery.put(c, ship.getDisplayInfoAt(c, false));
         return ship;
       }
     }
-    enemyMisses.add(c);
+    enemyDiscovery.put(c, missInfo);
     return null;
   }
 

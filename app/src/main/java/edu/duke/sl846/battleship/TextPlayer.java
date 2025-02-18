@@ -94,13 +94,13 @@ public class TextPlayer {
    */
   protected void setupShipCreationList() {
     //TODO: modify back to 2
-    shipsToPlace.addAll(Collections.nCopies(1, "Submarine"));
+    shipsToPlace.addAll(Collections.nCopies(0, "Submarine"));
     //TODO: modify back to 3
-    shipsToPlace.addAll(Collections.nCopies(1, "Destroyer"));
+    shipsToPlace.addAll(Collections.nCopies(0, "Destroyer"));
     //TODO: modify back to 3
     shipsToPlace.addAll(Collections.nCopies(1, "Battleship"));
     //TODO: modify back to 2
-    shipsToPlace.addAll(Collections.nCopies(1, "Carrier"));
+    shipsToPlace.addAll(Collections.nCopies(0, "Carrier"));
   }
 
   /**

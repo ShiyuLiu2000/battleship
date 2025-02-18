@@ -1,5 +1,7 @@
 package edu.duke.sl846.battleship;
 
+import java.util.ArrayList;
+
 /**
  * Builds a CombinedShip factory for the battleship game.
  */
@@ -14,41 +16,7 @@ public class V2ShipFactory implements AbstractShipFactory<Character> {
    */
   @Override
   public Ship<Character> makeBattleship(Placement where) {
-    char orientation = where.getOrientation();
-    Coordinate upperLeft = where.getWhere();
-    int row = upperLeft.getRow();
-    int column = upperLeft.getColumn();
-    CombinedShip<Character> ans = new CombinedShip<Character>("Battleship", 'b', '*');
-    switch (orientation) {
-      case 'U':
-        Placement placementUp1 = new Placement(new Coordinate(row, column + 1), 'H');
-        Placement placementUp2 = new Placement(new Coordinate(row + 1, column), 'H');
-        ans.addCompositionShip(makeShipParts(placementUp1, 1, 1, 'b'));
-        ans.addCompositionShip(makeShipParts(placementUp2, 1, 3, 'b'));
-        break;
-      case 'R':
-        Placement placementRight1 = new Placement(new Coordinate(row, column), 'V');
-        Placement placementRight2 = new Placement(new Coordinate(row + 1, column + 1), 'V');
-        ans.addCompositionShip(makeShipParts(placementRight1, 1, 3, 'b'));
-        ans.addCompositionShip(makeShipParts(placementRight2, 1, 1, 'b'));
-        break;
-      case 'D':
-        Placement placementDown1 = new Placement(new Coordinate(row, column), 'H');
-        Placement placementDown2 = new Placement(new Coordinate(row + 1, column + 1), 'H');
-        ans.addCompositionShip(makeShipParts(placementDown1, 1, 3, 'b'));
-        ans.addCompositionShip(makeShipParts(placementDown2, 1, 1, 'b'));
-        break;
-      case 'L':
-        Placement placementLeft1 = new Placement(new Coordinate(row + 1, column), 'V');
-        Placement placementLeft2 = new Placement(new Coordinate(row, column + 1), 'V');
-        ans.addCompositionShip(makeShipParts(placementLeft1, 1, 1, 'b'));
-        ans.addCompositionShip(makeShipParts(placementLeft2, 1, 3, 'b'));
-        break;
-      default:
-        throw new IllegalArgumentException(
-            "Battleship only accepts Up(u/U), Right(r/R), Down(d/D), Left(l/L) as orientation, but is " + orientation);
-    }
-    return ans;
+    return new CombinedShip<Character>("Battleship", makeBattleshipCoordinates(where), 'b', '*');
   }
 
   /**
@@ -60,41 +28,7 @@ public class V2ShipFactory implements AbstractShipFactory<Character> {
    */
   @Override
   public Ship<Character> makeCarrier(Placement where) {
-    char orientation = where.getOrientation();
-    Coordinate upperLeft = where.getWhere();
-    int row = upperLeft.getRow();
-    int column = upperLeft.getColumn();
-    CombinedShip<Character> ans = new CombinedShip<Character>("Carrier", 'c', '*');
-    switch (orientation) {
-      case 'U':
-        Placement placementUp1 = new Placement(new Coordinate(row, column), 'V');
-        Placement placementUp2 = new Placement(new Coordinate(row + 2, column + 1), 'V');
-        ans.addCompositionShip(makeShipParts(placementUp1, 1, 4, 'c'));
-        ans.addCompositionShip(makeShipParts(placementUp2, 1, 3, 'c'));
-        break;
-      case 'R':
-        Placement placementRight1 = new Placement(new Coordinate(row, column + 1), 'H');
-        Placement placementRight2 = new Placement(new Coordinate(row + 1, column), 'H');
-        ans.addCompositionShip(makeShipParts(placementRight1, 1, 4, 'c'));
-        ans.addCompositionShip(makeShipParts(placementRight2, 1, 3, 'c'));
-        break;
-      case 'D':
-        Placement placementDown1 = new Placement(new Coordinate(row, column), 'V');
-        Placement placementDown2 = new Placement(new Coordinate(row + 1, column + 1), 'V');
-        ans.addCompositionShip(makeShipParts(placementDown1, 1, 3, 'c'));
-        ans.addCompositionShip(makeShipParts(placementDown2, 1, 4, 'c'));
-        break;
-      case 'L':
-        Placement placementLeft1 = new Placement(new Coordinate(row, column + 2), 'H');
-        Placement placementLeft2 = new Placement(new Coordinate(row + 1, column), 'H');
-        ans.addCompositionShip(makeShipParts(placementLeft1, 1, 3, 'c'));
-        ans.addCompositionShip(makeShipParts(placementLeft2, 1, 4, 'c'));
-        break;
-      default:
-        throw new IllegalArgumentException(
-            "Carrier only accepts up (u/U), right (r/R), down (d/D), left (l/L) as orientation, but is " + orientation);
-    }
-    return ans;
+    return new CombinedShip<Character>("Carrier", makeCarrierCoordinates(where), 'c', '*');
   }
 
   /**
@@ -106,13 +40,7 @@ public class V2ShipFactory implements AbstractShipFactory<Character> {
    */
   @Override
   public Ship<Character> makeDestroyer(Placement where) {
-    char orientation = where.getOrientation();
-    if (orientation != 'H' && orientation != 'V') {
-      throw new IllegalArgumentException(
-          "Destroyer only accepts horizontal (h/H) and vertical (v/V) as orientation, but is " + orientation);
-    }
-    V1ShipFactory rectangleFactory = new V1ShipFactory();
-    return rectangleFactory.makeDestroyer(where);
+    return new CombinedShip<Character>("Destroyer", makeDestroyerCoordinates(where), 'd', '*');
   }
 
   /**
@@ -124,35 +52,169 @@ public class V2ShipFactory implements AbstractShipFactory<Character> {
    */
   @Override
   public Ship<Character> makeSubmarine(Placement where) {
-    char orientation = where.getOrientation();
-    if (orientation != 'H' && orientation != 'V') {
-      throw new IllegalArgumentException(
-          "Submarine only accepts horizontal (h/H) and vertical (v/V) as orientation, but is " + orientation);
-
-    }
-    V1ShipFactory rectangleFactory = new V1ShipFactory();
-    return rectangleFactory.makeSubmarine(where);
+    return new CombinedShip<Character>("Submarine", makeSubmarineCoordinates(where), 's', '*');
   }
 
   /**
-   * A helper function to build small parts of RectangleShips that finally combine
-   * together to become a CombinedShip.
+   * Makes an ordered ArrayList of the pieces of new battleship.
    * 
-   * @param where  is the Placement of the Ship.
-   * @param width  is the width of the ship.
-   * @param height is the height of the ship.
-   * @param letter is the letter of the Ship.
-   * @return the generated battleship or carrier ship, or null if letter is
-   *         neither 'b' or 'c'.
+   * @param where is the Placement of the ship.
+   * @return the ordered pieces of the Ship.
+   * @throws IllegalArgumentException if Placement orientation is not valid.
    */
-  public Ship<Character> makeShipParts(Placement where, int width, int height, char letter) {
-    V1ShipFactory rectangleFactory = new V1ShipFactory();
-    if (letter == 'b') {
-      return rectangleFactory.createShip(where, width, height, letter, "Battleship");
+  public ArrayList<Coordinate> makeBattleshipCoordinates(Placement where) {
+    char orientation = where.getOrientation();
+    Coordinate upperLeft = where.getWhere();
+    int row = upperLeft.getRow();
+    int column = upperLeft.getColumn();
+    ArrayList<Coordinate> ans = new ArrayList<>();
+    switch (orientation) {
+      case 'U':
+        ans.add(new Coordinate(row, column + 1));
+        ans.add(new Coordinate(row + 1, column));
+        ans.add(new Coordinate(row + 1, column + 1));
+        ans.add(new Coordinate(row + 1, column + 2));
+        break;
+      case 'R':
+        ans.add(new Coordinate(row + 1, column + 1));
+        ans.add(new Coordinate(row, column));
+        ans.add(new Coordinate(row + 1, column));
+        ans.add(new Coordinate(row + 2, column));
+        break;
+      case 'D':
+        ans.add(new Coordinate(row + 1, column + 1));
+        ans.add(new Coordinate(row, column + 2));
+        ans.add(new Coordinate(row, column + 1));
+        ans.add(new Coordinate(row, column));
+        break;
+      case 'L':
+        ans.add(new Coordinate(row + 1, column));
+        ans.add(new Coordinate(row + 2, column + 1));
+        ans.add(new Coordinate(row + 1, column + 1));
+        ans.add(new Coordinate(row, column + 1));
+        break;
+      default:
+        throw new IllegalArgumentException(
+            "Battleship only accepts Up(u/U), Right(r/R), Down(d/D), Left(l/L) as orientation, but is " + orientation);
     }
-    if (letter == 'c') {
-      return rectangleFactory.createShip(where, width, height, letter, "Carrier");
+    return ans;
+
+  }
+
+  /**
+   * Makes an ordered ArrayList of the pieces of new carrier.
+   * 
+   * @param where is the Placement of the ship.
+   * @return the ordered pieces of the Ship.
+   * @throws IllegalArgumentException if Placement orientation is not valid.
+   */
+  public ArrayList<Coordinate> makeCarrierCoordinates(Placement where) {
+    char orientation = where.getOrientation();
+    Coordinate upperLeft = where.getWhere();
+    int row = upperLeft.getRow();
+    int column = upperLeft.getColumn();
+    ArrayList<Coordinate> ans = new ArrayList<>();
+    switch (orientation) {
+      case 'U':
+        ans.add(new Coordinate(row, column));
+        ans.add(new Coordinate(row + 1, column));
+        ans.add(new Coordinate(row + 2, column));
+        ans.add(new Coordinate(row + 3, column));
+        ans.add(new Coordinate(row + 2, column + 1));
+        ans.add(new Coordinate(row + 3, column + 1));
+        ans.add(new Coordinate(row + 4, column + 1));
+        break;
+      case 'R':
+        ans.add(new Coordinate(row, column + 4));
+        ans.add(new Coordinate(row, column + 3));
+        ans.add(new Coordinate(row, column + 2));
+        ans.add(new Coordinate(row, column + 1));
+        ans.add(new Coordinate(row + 1, column + 2));
+        ans.add(new Coordinate(row + 1, column + 1));
+        ans.add(new Coordinate(row + 1, column));
+        break;
+      case 'D':
+        ans.add(new Coordinate(row + 4, column + 1));
+        ans.add(new Coordinate(row + 3, column + 1));
+        ans.add(new Coordinate(row + 2, column + 1));
+        ans.add(new Coordinate(row + 1, column + 1));
+        ans.add(new Coordinate(row + 2, column));
+        ans.add(new Coordinate(row + 1, column));
+        ans.add(new Coordinate(row, column));
+        break;
+      case 'L':
+        ans.add(new Coordinate(row + 1, column));
+        ans.add(new Coordinate(row + 1, column + 1));
+        ans.add(new Coordinate(row + 1, column + 2));
+        ans.add(new Coordinate(row + 1, column + 3));
+        ans.add(new Coordinate(row, column + 2));
+        ans.add(new Coordinate(row, column + 3));
+        ans.add(new Coordinate(row, column + 4));
+        break;
+      default:
+        throw new IllegalArgumentException(
+            "Carrier only accepts up (u/U), right (r/R), down (d/D), left (l/L) as orientation, but is " + orientation);
     }
-    return null;
+    return ans;
+  }
+
+  /**
+   * Makes an ordered ArrayList of the pieces of new submarine.
+   * 
+   * @param where is the Placement of the ship.
+   * @return the ordered pieces of the Ship.
+   * @throws IllegalArgumentException if Placement orientation is not valid.
+   */
+  public ArrayList<Coordinate> makeSubmarineCoordinates(Placement where) {
+    char orientation = where.getOrientation();
+    Coordinate upperLeft = where.getWhere();
+    int row = upperLeft.getRow();
+    int column = upperLeft.getColumn();
+    ArrayList<Coordinate> ans = new ArrayList<>();
+    switch (orientation) {
+      case 'H':
+        ans.add(new Coordinate(row, column));
+        ans.add(new Coordinate(row, column + 1));
+        break;
+      case 'V':
+        ans.add(new Coordinate(row, column));
+        ans.add(new Coordinate(row + 1, column));
+        break;
+      default:
+        throw new IllegalArgumentException(
+            "Submarine only accepts horizontal (h/H) and vertical (v/V) as orientation, but is " + orientation);
+    }
+    return ans;
+  }
+
+  /**
+   * Makes an ordered ArrayList of the pieces of new destroyer.
+   * 
+   * @param where is the Placement of the ship.
+   * @return the ordered pieces of the Ship.
+   * @throws IllegalArgumentException if Placement orientation is not valid.
+   */
+  public ArrayList<Coordinate> makeDestroyerCoordinates(Placement where) {
+    char orientation = where.getOrientation();
+    Coordinate upperLeft = where.getWhere();
+    int row = upperLeft.getRow();
+    int column = upperLeft.getColumn();
+    ArrayList<Coordinate> ans = new ArrayList<>();
+    switch (orientation) {
+      case 'H':
+        ans.add(new Coordinate(row, column));
+        ans.add(new Coordinate(row, column + 1));
+        ans.add(new Coordinate(row, column + 2));
+        break;
+      case 'V':
+        ans.add(new Coordinate(row, column));
+        ans.add(new Coordinate(row + 1, column));
+        ans.add(new Coordinate(row + 2, column));
+        break;
+      default:
+        throw new IllegalArgumentException(
+            "Destroyer only accepts horizontal (h/H) and vertical (v/V) as orientation, but is " + orientation);
+    }
+    return ans;
   }
 }

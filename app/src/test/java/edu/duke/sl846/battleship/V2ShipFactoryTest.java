@@ -88,7 +88,6 @@ public class V2ShipFactoryTest {
     assertThrows(IllegalArgumentException.class, () -> factory.makeSubmarine(invalidPlacement));
     assertThrows(IllegalArgumentException.class, () -> factory.makeDestroyer(invalidPlacement));
 
-    assertNull(factory.makeShipParts(horizontal, 1, 1, 'a'));
   }
 
   private void checkShip(Ship<Character> testShip, String expectedName, char expectedLetter,
@@ -99,5 +98,4 @@ public class V2ShipFactoryTest {
       assertEquals(expectedLetter, testShip.getDisplayInfoAt(c, true));
     }
   }
-
 }

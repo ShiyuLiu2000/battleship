@@ -1,5 +1,6 @@
 package edu.duke.sl846.battleship;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -7,7 +8,9 @@ import java.util.HashMap;
  */
 public abstract class BasicShip<T> implements Ship<T> {
   // put all coordinates the ship occupies, and track which ones have been hit
-  protected HashMap<Coordinate, Boolean> myPieces;
+  protected HashMap<Coordinate, Integer> myPiecesIndexMap;
+  protected ArrayList<Coordinate> myOrderedPieces;
+  protected ArrayList<Boolean> myOrderedWasHit;
   protected ShipDisplayInfo<T> myDisplayInfo;
   protected ShipDisplayInfo<T> enemyDisplayInfo;
 
@@ -20,9 +23,15 @@ public abstract class BasicShip<T> implements Ship<T> {
    * @param enemyDisplayInfo is the information display settings for enemy's Ship.
    */
   public BasicShip(Iterable<Coordinate> where, ShipDisplayInfo<T> myDisplayInfo, ShipDisplayInfo<T> enemyDisplayInfo) {
-    this.myPieces = new HashMap<Coordinate, Boolean>();
-    for (Coordinate c : where) {
-      myPieces.put(c, false);
+    this.myPiecesIndexMap = new HashMap<Coordinate, Integer>();
+    this.myOrderedPieces = new ArrayList<>();
+    this.myOrderedWasHit = new ArrayList<>();
+    int i = 0;
+    for (Coordinate c: where) {
+      myPiecesIndexMap.put(c, i);
+      myOrderedPieces.add(c);
+      myOrderedWasHit.add(false);
+      i++;
     }
     this.myDisplayInfo = myDisplayInfo;
     this.enemyDisplayInfo = enemyDisplayInfo;
@@ -36,7 +45,7 @@ public abstract class BasicShip<T> implements Ship<T> {
    */
   @Override
   public boolean occupiesCoordinates(Coordinate where) {
-    return myPieces.containsKey(where);
+    return myPiecesIndexMap.containsKey(where);
   }
 
   /**
@@ -47,7 +56,7 @@ public abstract class BasicShip<T> implements Ship<T> {
    */
   @Override
   public boolean isSunk() {
-    for (Coordinate c : myPieces.keySet()) {
+    for (Coordinate c : myPiecesIndexMap.keySet()) {
       if (wasHitAt(c) == false) {
         return false;
       }
@@ -65,7 +74,8 @@ public abstract class BasicShip<T> implements Ship<T> {
   @Override
   public void recordHitAt(Coordinate where) {
     checkCoordinateInThisShip(where);
-    myPieces.put(where, true);
+    int index = myPiecesIndexMap.get(where);
+    myOrderedWasHit.set(index, true);
   }
 
   /**
@@ -80,7 +90,8 @@ public abstract class BasicShip<T> implements Ship<T> {
   @Override
   public boolean wasHitAt(Coordinate where) {
     checkCoordinateInThisShip(where);
-    if (myPieces.get(where) == true) {
+    int index = myPiecesIndexMap.get(where);
+    if (myOrderedWasHit.get(index) == true) {
       return true;
     } else {
       return false;
@@ -114,7 +125,7 @@ public abstract class BasicShip<T> implements Ship<T> {
    * @throws IllegalArgumentException if the Coordinate is not in the ship.
    */
   public void checkCoordinateInThisShip(Coordinate c) {
-    if (myPieces.containsKey(c) == false) {
+    if (myPiecesIndexMap.containsKey(c) == false) {
       throw new IllegalArgumentException("The Coordinate " + c.toString() + " is not in the ship.");
     }
   }
@@ -126,6 +137,6 @@ public abstract class BasicShip<T> implements Ship<T> {
    */
   @Override
   public Iterable<Coordinate> getCoordinates() {
-    return myPieces.keySet();
+    return myOrderedPieces;
   }
 }

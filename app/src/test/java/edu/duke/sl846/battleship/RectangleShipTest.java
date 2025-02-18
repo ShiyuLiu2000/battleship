@@ -4,14 +4,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
 import java.util.Set;
-
+import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 
 public class RectangleShipTest {
   @Test
   public void test_makeCoordinates() {
     Coordinate upperLeft = new Coordinate(1, 2);
-    HashSet<Coordinate> coordinates = RectangleShip.makeCoordinates(upperLeft, 2, 3);
+    ArrayList<Coordinate> coordinates = RectangleShip.makeCoordinates(upperLeft, 2, 3);
     assertNotNull(coordinates);
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 2; j++) {
@@ -64,7 +64,7 @@ public class RectangleShipTest {
     Iterable<Coordinate> coordinates = ship.getCoordinates();
     assertTrue(coordinates.iterator().hasNext());
     int length = 0;
-    for (Coordinate c: coordinates) {
+    for (Coordinate c : coordinates) {
       assertTrue(ship.occupiesCoordinates(c));
       length += 1;
     }

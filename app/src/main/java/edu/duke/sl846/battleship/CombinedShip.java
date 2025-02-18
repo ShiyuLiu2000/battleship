@@ -1,6 +1,6 @@
 package edu.duke.sl846.battleship;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 /**
  * Represents a non-rectangle ship whose shape can be achieved by combining some
@@ -10,39 +10,32 @@ public class CombinedShip<T> extends BasicShip<T> {
   private final String name;
 
   /**
-   * Adds a Ship that makes part of this combined Ship.
-   * 
-   * @param ship is the ship to be added to the parts.
-   */
-  public void addCompositionShip(Ship<T> ship) {
-    for (Coordinate c : ship.getCoordinates()) {
-      myPieces.put(c, false);
-    }
-  }
-
-  /**
-   * Constructs an empty CombinedShip with a name and the view-specific display
-   * information of the Ship.
+   * Constructs a CombinedShip with a name, an ordered list of Coordinates, and
+   * the view-specific display information of the Ship.
    * 
    * @param name             is the name of the Ship.
+   * @param myOrderedPieces  is the ordered list of Coordinates;
    * @param myDisplayInfo    is the view-specific information of self's Ship.
    * @param enemyDisplayInfo is the view-specific information of enemy's Ship.
    */
-  public CombinedShip(String name, ShipDisplayInfo<T> myDisplayInfo, ShipDisplayInfo<T> enemyDisplayInfo) {
-    super(new HashSet<>(), myDisplayInfo, enemyDisplayInfo);
+  public CombinedShip(String name, ArrayList<Coordinate> myOrderedPieces, ShipDisplayInfo<T> myDisplayInfo,
+      ShipDisplayInfo<T> enemyDisplayInfo) {
+    super(myOrderedPieces, myDisplayInfo, enemyDisplayInfo);
     this.name = name;
   }
 
   /**
-   * Conviniently constructs an empty CombinedShip with a name and the
-   * view-specific display information of the Ship.
+   * Constructs a CombinedShip with a name, an ordered list of Coordinates, and
+   * the view-specific display information of the Ship.
    * 
-   * @param name  is the name of the Ship.
-   * @param data  is the view-specific information of the Ship when not hit.
-   * @param onHit is the view-specific information of the Ship when hit.
+   * @param name            is the name of the Ship.
+   * @param myOrderedPieces is the ordered list of Coordinates;
+   * @param data            is the view-specific information of the Ship when not
+   *                        hit.
+   * @param onHit           is the view-specific information of the Ship when hit.
    */
-  public CombinedShip(String name, T data, T onHit) {
-    this(name, new SimpleShipDisplayInfo<T>(data, onHit), new SimpleShipDisplayInfo<T>(null, data));
+  public CombinedShip(String name, ArrayList<Coordinate> myOrderedPieces, T data, T onHit) {
+    this(name, myOrderedPieces, new SimpleShipDisplayInfo<T>(data, onHit), new SimpleShipDisplayInfo<T>(null, data));
   }
 
   /**

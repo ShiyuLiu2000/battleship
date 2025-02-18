@@ -27,8 +27,8 @@ public class TextPlayer {
   final ArrayList<String> shipsToPlace;
   final HashMap<String, Function<Placement, Ship<Character>>> shipCreationFns;
 
-  final int moveUses;
-  final int sonarUses;
+  int moveUses;
+  int sonarUses;
 
   /**
    * Constructs the TextPlayer with given Board, input source, output stream, ship
@@ -215,7 +215,6 @@ public class TextPlayer {
     return ans;
   }
 
-  
   /**
    * Does 'Fire At' action during the game.
    * 
@@ -242,7 +241,50 @@ public class TextPlayer {
       out.print(hitInfo);
     }
   }
-  
+
+  /**
+   * Does 'Move' action during the game.
+   * 
+   * @return problemString if the doMove fails (user inputs a coordinate that is
+   *         not part of any ship), null otherwise.
+   * @throws IOException if the user input cannot build a valid Placement.
+   */
+  public String doMove() throws IOException {
+    String prompt = "--------------------------------------------------------------------------------\n" + "Player "
+        + name + " which ship do you want to move? (Select any coordinate inside that ship)\n"
+        + "--------------------------------------------------------------------------------";
+    Coordinate coordinate = readCoordinate(prompt);
+    while (coordinate == null) {
+      coordinate = readCoordinate(prompt);
+    }
+    Ship<Character> oldShip = theBoard.getShipThatOccupies(coordinate);
+    if (oldShip == null) {
+      String problemDescription = "No ship occupies that coordinate! Please choose a coordinate again.\n";
+      return problemDescription;
+    } else {
+      String shipName = oldShip.getName();
+      String placementPrompt = "--------------------------------------------------------------------------------\n"
+          + "Please give a placement for your new " + shipName + ":";
+      String placementProblem = null;
+      do {
+        try {
+          Placement placement = readPlacement(placementPrompt);
+          while (placement == null) {
+            placement = readPlacement(placementPrompt);
+          }
+          Ship<Character> newShip = shipCreationFns.get(shipName).apply(placement);
+          copyHitMarks(oldShip, newShip);
+          theBoard.removeShip(oldShip);
+          placementProblem = theBoard.tryAddShip(newShip);
+        } catch (IllegalArgumentException e) {
+          out.println("The placement is not valid: " + e.getMessage());
+        }
+      } while (placementProblem != null);
+      out.print(view.displayMyOwnBoard());
+      return placementProblem;
+    }
+  }
+
   /**
    * Runs the attacking phase for the player during the game.
    * 
@@ -255,9 +297,74 @@ public class TextPlayer {
     String myHeader = "Your ocean";
     String enemyHeader = "Player " + enemy.name + "'s ocean";
     out.print(view.displayMyBoardWithEnemyNextToIt(enemy.view, myHeader, enemyHeader));
-    doFireAt(enemy);
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("--------------------------------------------------------------------------------\n");
+    stringBuilder.append("Possible actions for Player " + name + ":\n");
+    stringBuilder.append("\n");
+    stringBuilder.append("F Fire at a square\n");
+    stringBuilder.append("M Move a ship to another square (" + moveUses + " remaining)\n");
+    stringBuilder.append("S Sonar scan (" + sonarUses + " remaining)\n");
+    stringBuilder.append("\n");
+    stringBuilder.append("Player " + name + ", what would you like to do?\n");
+    stringBuilder.append("--------------------------------------------------------------------------------");
+    String prompt = stringBuilder.toString();
+    char actionType = 'F';
+    while (true) {
+      try {
+        actionType = readActionType(prompt);
+        break;
+      } catch (IllegalArgumentException e) {
+        prompt = "--------------------------------------------------------------------------------\n" + e.getMessage();
+      }
+    }
+    switch (actionType) {
+      case 'F':
+        doFireAt(enemy);
+        break;
+      case 'M':
+        String problemDescription = doMove();
+        while (problemDescription != null) {
+          out.print(problemDescription);
+          problemDescription = doMove();
+        }
+        moveUses--;
+        break;
+    }
     out.print(view.displayMyBoardWithEnemyNextToIt(enemy.view, myHeader, enemyHeader));
     out.print("--------------------------------------------------------------------------------\n");
+  }
+
+  /**
+   * Reads user input for action types.
+   * 
+   * @param prompt is the prompt as instruction.
+   * @return the uppercased action type character.
+   * @throws IOException if the user input is not a valid action type.
+   */
+  public char readActionType(String prompt) throws IOException {
+    out.println(prompt);
+    String s = inputReader.readLine();
+    if (s == null) {
+      throw new EOFException("The input for action is empty.");
+    }
+    s = s.toUpperCase();
+    if (s.length() != 1) {
+      throw new IllegalArgumentException(
+          "Expect the input for action to be length 1, but is " + s.length() + ". Please enter again.");
+    }
+    char actionType = s.charAt(0);
+    if (actionType != 'F' && actionType != 'M' && actionType != 'S') {
+      throw new IllegalArgumentException(
+          "Action type can only be fire at (f/F), move (m/M), or sonar scan (s/S), but is " + actionType
+              + ". Please enter again.");
+    }
+    if (actionType == 'M' && moveUses <= 0) {
+      throw new IllegalArgumentException("You are out of move uses. Please select another action.");
+    }
+    if (actionType == 'S' && sonarUses <= 0) {
+      throw new IllegalArgumentException("You are out of sonar scan uses. Please select another action.");
+    }
+    return s.charAt(0);
   }
 
   public void printWinningMessage() {

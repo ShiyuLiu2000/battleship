@@ -25,9 +25,9 @@ class AppTest {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     PrintStream out = new PrintStream(bytes, true);
     // get an InputStream for input.txt file
-    InputStream input = getClass().getClassLoader().getResourceAsStream("input9.txt");
+    InputStream input = getClass().getClassLoader().getResourceAsStream("input10.txt");
     assertNotNull(input);
-    InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("output9.txt");
+    InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("output10.txt");
     assertNotNull(expectedStream);
     InputStream oldIn = System.in;
     PrintStream oldOut = System.out;

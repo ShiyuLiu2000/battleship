@@ -52,8 +52,10 @@ public class TextPlayer {
     setupShipCreationList();
     this.shipCreationFns = new HashMap<>();
     setupShipCreationMap();
+    //TODO: modify back to 3
     this.moveUses = 1;
-    this.sonarUses = 1;
+    //TODO: modify back to 3
+    this.sonarUses = 0;
   }
 
   /**

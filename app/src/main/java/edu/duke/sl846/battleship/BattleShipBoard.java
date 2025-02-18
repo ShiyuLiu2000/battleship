@@ -16,8 +16,8 @@ public class BattleShipBoard<T> implements Board<T> {
   final ArrayList<Ship<T>> myShips;
   private final PlacementRuleChecker<T> placementChecker;
   final T missInfo;
-  HashMap<Coordinate, T> enemyDiscovery; 
-  
+  HashMap<Coordinate, T> enemyDiscovery;
+
   /**
    * Constructs a Board with given width and height.
    * By default, the rule of this board is:
@@ -131,7 +131,10 @@ public class BattleShipBoard<T> implements Board<T> {
   protected T whatIsAt(Coordinate where, boolean isSelf) {
     for (Ship<T> ship : myShips) {
       if (ship.occupiesCoordinates(where)) {
-        if (ship.wasHitAt(where) && enemyDiscovery.containsKey(where) == false && isSelf == false) {
+        if (isSelf == false && enemyDiscovery.containsKey(where) && enemyDiscovery.get(where).equals(missInfo)) {
+          return missInfo;
+        }
+        if (isSelf == false && ship.wasHitAt(where) && !enemyDiscovery.containsKey(where)) {
           return null;
         }
         return ship.getDisplayInfoAt(where, isSelf);

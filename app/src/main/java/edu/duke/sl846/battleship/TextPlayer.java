@@ -215,6 +215,13 @@ public class TextPlayer {
     return ans;
   }
 
+  
+  /**
+   * Does 'Fire At' action during the game.
+   * 
+   * @param enemy is the enemy TextPlayer.
+   * @throws IOException if the user input cannot build a valid Placement.
+   */
   public void doFireAt(TextPlayer enemy) throws IOException {
     String prompt = "--------------------------------------------------------------------------------\n" + "Player "
         + name + " where do you want to attack?\n"
@@ -239,7 +246,7 @@ public class TextPlayer {
   /**
    * Runs the attacking phase for the player during the game.
    * 
-   * @param enemyBoard is enemy's Board.
+   * @param enemy is the enemy TextPlayer.
    * @throws IOException if the user input cannot build a valid Placement.
    */
   public void doAttackingPhase(TextPlayer enemy) throws IOException {

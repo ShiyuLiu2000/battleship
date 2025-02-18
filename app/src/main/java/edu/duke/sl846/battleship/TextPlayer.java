@@ -215,18 +215,7 @@ public class TextPlayer {
     return ans;
   }
 
-  /**
-   * Runs the attacking phase for the player during the game.
-   * 
-   * @param enemyBoard is enemy's Board.
-   * @throws IOException if the user input cannot build a valid Placement.
-   */
-  public void doAttackingPhase(TextPlayer enemy) throws IOException {
-    out.print("\n\n--------------------------------------------------------------------------------\n");
-    out.print("Player " + name + "'s turn:\n");
-    String myHeader = "Your ocean";
-    String enemyHeader = "Player " + enemy.name + "'s ocean";
-    out.print(view.displayMyBoardWithEnemyNextToIt(enemy.view, myHeader, enemyHeader));
+  public void doFireAt(TextPlayer enemy) throws IOException {
     String prompt = "--------------------------------------------------------------------------------\n" + "Player "
         + name + " where do you want to attack?\n"
         + "--------------------------------------------------------------------------------";
@@ -245,6 +234,21 @@ public class TextPlayer {
           + "--------------------------------------------------------------------------------\n";
       out.print(hitInfo);
     }
+  }
+  
+  /**
+   * Runs the attacking phase for the player during the game.
+   * 
+   * @param enemyBoard is enemy's Board.
+   * @throws IOException if the user input cannot build a valid Placement.
+   */
+  public void doAttackingPhase(TextPlayer enemy) throws IOException {
+    out.print("\n\n--------------------------------------------------------------------------------\n");
+    out.print("Player " + name + "'s turn:\n");
+    String myHeader = "Your ocean";
+    String enemyHeader = "Player " + enemy.name + "'s ocean";
+    out.print(view.displayMyBoardWithEnemyNextToIt(enemy.view, myHeader, enemyHeader));
+    doFireAt(enemy);
     out.print(view.displayMyBoardWithEnemyNextToIt(enemy.view, myHeader, enemyHeader));
     out.print("--------------------------------------------------------------------------------\n");
   }

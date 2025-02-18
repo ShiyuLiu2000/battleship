@@ -15,9 +15,9 @@ public class Placement {
    */
   public void checkValidOrientation(char orientation) {
     char uppercaseOrientation = Character.toUpperCase(orientation);
-    if (uppercaseOrientation != 'V' && uppercaseOrientation != 'H') {
+    if (uppercaseOrientation != 'V' && uppercaseOrientation != 'H' && uppercaseOrientation != 'U' && uppercaseOrientation != 'R' && uppercaseOrientation != 'D' && uppercaseOrientation != 'L') {
       throw new IllegalArgumentException(
-          "Orientation must be vertical (v/V) or horizontal (h/H), but is " + orientation);
+          "Orientation must be vertical (v/V) or horizontal (h/H) or up (u/U) or right (r/R) or down (d/D) or left (l/L), but is " + orientation);
     }
   }
 

@@ -92,7 +92,7 @@ public class V2ShipFactory implements AbstractShipFactory<Character> {
         break;
       default:
         throw new IllegalArgumentException(
-            "Carrier only accepts Up(u/U), Right(r/R), Down(d/D), Left(l/L) as orientation, but is " + orientation);
+            "Carrier only accepts up (u/U), right (r/R), down (d/D), left (l/L) as orientation, but is " + orientation);
     }
     return ans;
   }
@@ -106,6 +106,12 @@ public class V2ShipFactory implements AbstractShipFactory<Character> {
    */
   @Override
   public Ship<Character> makeDestroyer(Placement where) {
+    char orientation = where.getOrientation();
+    if (orientation != 'H' && orientation != 'V') {
+      throw new IllegalArgumentException(
+          "Destroyer only accepts horizontal (h/H) and vertical (v/V) as orientation, but is " + orientation);
+
+    }
     V1ShipFactory rectangleFactory = new V1ShipFactory();
     return rectangleFactory.makeDestroyer(where);
   }
@@ -119,6 +125,12 @@ public class V2ShipFactory implements AbstractShipFactory<Character> {
    */
   @Override
   public Ship<Character> makeSubmarine(Placement where) {
+    char orientation = where.getOrientation();
+    if (orientation != 'H' && orientation != 'V') {
+      throw new IllegalArgumentException(
+          "Submarine only accepts horizontal (h/H) and vertical (v/V) as orientation, but is " + orientation);
+
+    }
     V1ShipFactory rectangleFactory = new V1ShipFactory();
     return rectangleFactory.makeSubmarine(where);
   }

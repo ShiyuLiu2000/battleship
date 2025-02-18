@@ -110,7 +110,6 @@ public class V2ShipFactory implements AbstractShipFactory<Character> {
     if (orientation != 'H' && orientation != 'V') {
       throw new IllegalArgumentException(
           "Destroyer only accepts horizontal (h/H) and vertical (v/V) as orientation, but is " + orientation);
-
     }
     V1ShipFactory rectangleFactory = new V1ShipFactory();
     return rectangleFactory.makeDestroyer(where);

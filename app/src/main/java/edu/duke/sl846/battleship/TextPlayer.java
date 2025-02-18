@@ -120,11 +120,16 @@ public class TextPlayer {
         + name + " where do you want to place a " + shipName + "?\n"
         + "--------------------------------------------------------------------------------";
     Placement placement = readPlacement(prompt);
+    String placementProblem = null;
     while (placement == null) {
       placement = readPlacement(prompt);
     }
-    Ship<Character> ship = createFn.apply(placement);
-    String placementProblem = theBoard.tryAddShip(ship);
+    try {
+      Ship<Character> ship = createFn.apply(placement);
+      placementProblem = theBoard.tryAddShip(ship);
+    } catch (IllegalArgumentException e) {
+      return "The placement is not valid: " + e.getMessage();
+    }
     out.print(view.displayMyOwnBoard());
     return placementProblem;
   }

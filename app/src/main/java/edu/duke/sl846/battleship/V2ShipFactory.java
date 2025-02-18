@@ -64,7 +64,7 @@ public class V2ShipFactory implements AbstractShipFactory<Character> {
     Coordinate upperLeft = where.getWhere();
     int row = upperLeft.getRow();
     int column = upperLeft.getColumn();
-    CombinedShip<Character> ans = new CombinedShip<Character>("Carrier", 'b', '*');
+    CombinedShip<Character> ans = new CombinedShip<Character>("Carrier", 'c', '*');
     switch (orientation) {
       case 'U':
         Placement placementUp1 = new Placement(new Coordinate(row, column), 'V');

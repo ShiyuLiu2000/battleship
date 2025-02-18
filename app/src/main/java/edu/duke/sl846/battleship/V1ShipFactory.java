@@ -3,7 +3,7 @@ package edu.duke.sl846.battleship;
 import java.io.IOException;
 
 /**
- * Builds a Ship factory for the battleship game.
+ * Builds a RectangleShip factory for the battleship game.
  */
 public class V1ShipFactory implements AbstractShipFactory<Character> {
   /**

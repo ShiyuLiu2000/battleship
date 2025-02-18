@@ -27,6 +27,9 @@ public class TextPlayer {
   final ArrayList<String> shipsToPlace;
   final HashMap<String, Function<Placement, Ship<Character>>> shipCreationFns;
 
+  final int moveUses;
+  final int sonarUses;
+  
   /**
    * Constructs the TextPlayer with given Board, input source, output stream, ship
    * factory, and a name.
@@ -49,6 +52,8 @@ public class TextPlayer {
     setupShipCreationList();
     this.shipCreationFns = new HashMap<>();
     setupShipCreationMap();
+    this.moveUses = 3;
+    this.sonarUses = 3;
   }
 
   /**

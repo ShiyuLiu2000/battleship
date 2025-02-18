@@ -62,7 +62,7 @@ public class V2ShipFactory implements AbstractShipFactory<Character> {
    * @return the ordered pieces of the Ship.
    * @throws IllegalArgumentException if Placement orientation is not valid.
    */
-  public ArrayList<Coordinate> makeBattleshipCoordinates(Placement where) {
+  private ArrayList<Coordinate> makeBattleshipCoordinates(Placement where) {
     char orientation = where.getOrientation();
     Coordinate upperLeft = where.getWhere();
     int row = upperLeft.getRow();
@@ -108,7 +108,7 @@ public class V2ShipFactory implements AbstractShipFactory<Character> {
    * @return the ordered pieces of the Ship.
    * @throws IllegalArgumentException if Placement orientation is not valid.
    */
-  public ArrayList<Coordinate> makeCarrierCoordinates(Placement where) {
+  private ArrayList<Coordinate> makeCarrierCoordinates(Placement where) {
     char orientation = where.getOrientation();
     Coordinate upperLeft = where.getWhere();
     int row = upperLeft.getRow();
@@ -165,7 +165,7 @@ public class V2ShipFactory implements AbstractShipFactory<Character> {
    * @return the ordered pieces of the Ship.
    * @throws IllegalArgumentException if Placement orientation is not valid.
    */
-  public ArrayList<Coordinate> makeSubmarineCoordinates(Placement where) {
+  private ArrayList<Coordinate> makeSubmarineCoordinates(Placement where) {
     char orientation = where.getOrientation();
     Coordinate upperLeft = where.getWhere();
     int row = upperLeft.getRow();
@@ -194,7 +194,7 @@ public class V2ShipFactory implements AbstractShipFactory<Character> {
    * @return the ordered pieces of the Ship.
    * @throws IllegalArgumentException if Placement orientation is not valid.
    */
-  public ArrayList<Coordinate> makeDestroyerCoordinates(Placement where) {
+  private ArrayList<Coordinate> makeDestroyerCoordinates(Placement where) {
     char orientation = where.getOrientation();
     Coordinate upperLeft = where.getWhere();
     int row = upperLeft.getRow();

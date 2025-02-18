@@ -52,8 +52,8 @@ public class TextPlayer {
     setupShipCreationList();
     this.shipCreationFns = new HashMap<>();
     setupShipCreationMap();
-    this.moveUses = 3;
-    this.sonarUses = 3;
+    this.moveUses = 1;
+    this.sonarUses = 1;
   }
 
   /**
@@ -93,10 +93,14 @@ public class TextPlayer {
    * Sets up list of available ships to facilitate game process.
    */
   protected void setupShipCreationList() {
-    shipsToPlace.addAll(Collections.nCopies(2, "Submarine"));
-    shipsToPlace.addAll(Collections.nCopies(3, "Destroyer"));
-    shipsToPlace.addAll(Collections.nCopies(3, "Battleship"));
-    shipsToPlace.addAll(Collections.nCopies(2, "Carrier"));
+    //TODO: modify back to 2
+    shipsToPlace.addAll(Collections.nCopies(1, "Submarine"));
+    //TODO: modify back to 3
+    shipsToPlace.addAll(Collections.nCopies(1, "Destroyer"));
+    //TODO: modify back to 3
+    shipsToPlace.addAll(Collections.nCopies(1, "Battleship"));
+    //TODO: modify back to 2
+    shipsToPlace.addAll(Collections.nCopies(1, "Carrier"));
   }
 
   /**
@@ -266,7 +270,7 @@ public class TextPlayer {
       String placementPrompt = "--------------------------------------------------------------------------------\n"
           + "Please give a placement for your new " + shipName + ":";
       String placementProblem = null;
-      do {
+      while (true) {
         try {
           Placement placement = readPlacement(placementPrompt);
           while (placement == null) {
@@ -274,12 +278,19 @@ public class TextPlayer {
           }
           Ship<Character> newShip = shipCreationFns.get(shipName).apply(placement);
           copyHitMarks(oldShip, newShip);
-          theBoard.removeShip(oldShip);
           placementProblem = theBoard.tryAddShip(newShip);
+          if (placementProblem != null) {
+            out.print(placementProblem + "\n");
+            continue;
+          } else {
+            theBoard.removeShip(oldShip);
+            break;
+          }
         } catch (IllegalArgumentException e) {
           out.println("The placement is not valid: " + e.getMessage());
+          continue;
         }
-      } while (placementProblem != null);
+      }
       out.print(view.displayMyOwnBoard());
       return placementProblem;
     }

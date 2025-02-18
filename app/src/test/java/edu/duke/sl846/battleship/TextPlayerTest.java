@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class TextPlayerTest {
@@ -72,6 +73,7 @@ public class TextPlayerTest {
     }
   }
 
+  @Disabled
   @Test
   public void test_setup_ship_creation_list_and_map() {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();

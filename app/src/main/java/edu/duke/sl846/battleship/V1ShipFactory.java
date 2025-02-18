@@ -17,7 +17,7 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
    * @return a RectangleShip corresponded.
    * @throws IllegalArgumentException if Placement orientation is not valid.
    */
-  protected Ship<Character> createShip(Placement where, int width, int height, char letter, String name) {
+  public Ship<Character> createShip(Placement where, int width, int height, char letter, String name) {
     int newWidth = width;
     int newHeight = height;
     char orientation = where.getOrientation();

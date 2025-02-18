@@ -29,7 +29,7 @@ public class TextPlayer {
 
   final int moveUses;
   final int sonarUses;
-  
+
   /**
    * Constructs the TextPlayer with given Board, input source, output stream, ship
    * factory, and a name.
@@ -54,6 +54,28 @@ public class TextPlayer {
     setupShipCreationMap();
     this.moveUses = 3;
     this.sonarUses = 3;
+  }
+
+  /**
+   * Copies the hit marks from old ship to new ship after move.
+   * 
+   * @param oldShip is the Ship to be moved.
+   * @param newShip is the Ship created at the newly moved-to place.
+   */
+  static void copyHitMarks(Ship<Character> oldShip, Ship<Character> newShip) {
+    ArrayList<Coordinate> oldCoordinates = new ArrayList<>();
+    for (Coordinate c : oldShip.getCoordinates()) {
+      oldCoordinates.add(c);
+    }
+    ArrayList<Coordinate> newCoordinates = new ArrayList<>();
+    for (Coordinate c : newShip.getCoordinates()) {
+      newCoordinates.add(c);
+    }
+    for (int i = 0; i < oldCoordinates.size(); i++) {
+      if (oldShip.wasHitAt(oldCoordinates.get(i))) {
+        newShip.recordHitAt(newCoordinates.get(i));
+      }
+    }
   }
 
   /**

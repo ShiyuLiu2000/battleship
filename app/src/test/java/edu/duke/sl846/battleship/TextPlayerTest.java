@@ -114,4 +114,16 @@ public class TextPlayerTest {
     assertEquals(expectedWinMessage, bytes.toString());
     bytes.reset();
   }
+
+  @Test
+  public void test_copy_hit_marks() {
+    V2ShipFactory factory = new V2ShipFactory();
+    Ship<Character> oldShip = factory.makeBattleship(new Placement("A0U"));
+    Ship<Character> newShip = factory.makeBattleship(new Placement("A0D"));
+    oldShip.recordHitAt(new Coordinate("A1"));
+    oldShip.recordHitAt(new Coordinate("B0"));
+    TextPlayer.copyHitMarks(oldShip, newShip);
+    assertTrue(newShip.wasHitAt(new Coordinate("B1")));
+    assertTrue(newShip.wasHitAt(new Coordinate("A2")));
+  }
 }

@@ -8,22 +8,16 @@ import java.util.HashSet;
  */
 public class CombinedShip<T> extends BasicShip<T> {
   private final String name;
-  private HashSet<Ship<T>> shipComposition;
 
   /**
-   * Returns a HashSet of all Coordinates that are occupied by the RectangleShip
-   * compositions of this CombinedShip.
+   * Adds a Ship that makes part of this combined Ship.
    * 
-   * @return a HashSet of Coordinates occupied by this whole CombinedShip.
+   * @param ship is the ship to be added to the parts.
    */
-  protected HashSet<Coordinate> getAllShipCoordinates() {
-    HashSet<Coordinate> ans = new HashSet<>();
-    for (Ship<T> ship : shipComposition) {
-      for (Coordinate c : ship.getCoordinates()) {
-        ans.add(c);
-      }
+  public void addCompositionShip(Ship<T> ship) {
+    for (Coordinate c : ship.getCoordinates()) {
+      myPieces.put(c, false);
     }
-    return ans;
   }
 
   /**
@@ -37,7 +31,6 @@ public class CombinedShip<T> extends BasicShip<T> {
   public CombinedShip(String name, ShipDisplayInfo<T> myDisplayInfo, ShipDisplayInfo<T> enemyDisplayInfo) {
     super(new HashSet<>(), myDisplayInfo, enemyDisplayInfo);
     this.name = name;
-    this.shipComposition = new HashSet<>();
   }
 
   /**

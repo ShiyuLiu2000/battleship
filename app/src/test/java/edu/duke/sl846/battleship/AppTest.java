@@ -4,14 +4,14 @@
 package edu.duke.sl846.battleship;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.io.StringReader;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.ResourceAccessMode;
 import org.junit.jupiter.api.parallel.ResourceLock;
@@ -47,7 +47,17 @@ class AppTest {
     assertEquals(expected, actual);
   }
 
-  @Disabled
+  @Test
+  public void test_read_null_input() {
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    InputStream inputStream = getClass().getClassLoader().getResourceAsStream("EOFfile.txt");
+    BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
+    Board<Character> theBoard = new BattleShipBoard<Character>(10, 20, 'X');
+
+    assertThrows(EOFException.class, () -> App.readTextPlayer("A", theBoard, input, System.out));
+  }
+
+  // @Disabled
   @Test
   @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
   public void test_main_human_computer() throws IOException {

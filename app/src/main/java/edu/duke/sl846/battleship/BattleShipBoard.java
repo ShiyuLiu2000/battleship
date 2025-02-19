@@ -171,6 +171,73 @@ public class BattleShipBoard<T> implements Board<T> {
   }
 
   /**
+   * Gets the sonar scan result as a HashMap, counting how many squares are
+   * occupied by each kind of Ship.
+   * 
+   * @center is the center Coordinate of the sonar scan.
+   * @return a HashMap of the sonar scan results.
+   */
+  public HashMap<String, Integer> sonarScanAt(Coordinate center) {
+    HashMap<String, Integer> shipCountMap = new HashMap<>();
+    int submarineSquareCount = 0;
+    int destroyerSquareCount = 0;
+    int battleshipSqaureCount = 0;
+    int carrierSqaureCount = 0;
+    HashSet<Coordinate> toBeScanned = getCoordinatesForSonarScan(center);
+    for (Coordinate c : toBeScanned) {
+      for (Ship<T> ship : myShips) {
+        if (ship.occupiesCoordinates(c)) {
+          String name = ship.getName();
+          switch (name) {
+            case "Submarine":
+              submarineSquareCount++;
+              break;
+            case "Destroyer":
+              destroyerSquareCount++;
+              break;
+            case "Battleship":
+              battleshipSqaureCount++;
+              break;
+            case "Carrier":
+              carrierSqaureCount++;
+              break;
+          }
+        }
+      }
+    }
+    shipCountMap.put("Submarine", submarineSquareCount);
+    shipCountMap.put("Destroyer", destroyerSquareCount);
+    shipCountMap.put("Battleship", battleshipSqaureCount);
+    shipCountMap.put("Carrier", carrierSqaureCount);
+    return shipCountMap;
+  }
+
+  /**
+   * Gets the coordinates to be scanned in a sonar detect.
+   * 
+   * @param center is the center Coordinate of the sonar scan.
+   * @return the HashSet of the Coordinates to be scanned.
+   */
+  private HashSet<Coordinate> getCoordinatesForSonarScan(Coordinate center) {
+    HashSet<Coordinate> ans = new HashSet<>();
+    int startRow = center.getRow();
+    int startColumn = center.getColumn();
+    for (int i = -3; i <= 3; i++) {
+      int newRow = startRow + i;
+      if (newRow >= 0 && newRow < height) {
+        int horizontalOffset = 3 - Math.abs(i);
+        for (int j = -horizontalOffset; j <= horizontalOffset; j++) {
+          int newColumn = startColumn + j;
+          if (newColumn >= 0 && newColumn < width) {
+            ans.add(new Coordinate(newRow, newColumn));
+          }
+        }
+      }
+    }
+    return ans;
+  }
+
+  /**
    * Checks if all ships has sunk.
    * 
    * @return true if all ships on this Board are sunk, false otherwise.

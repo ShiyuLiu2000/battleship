@@ -52,10 +52,10 @@ public class TextPlayer {
     setupShipCreationList();
     this.shipCreationFns = new HashMap<>();
     setupShipCreationMap();
-    //TODO: modify back to 3
-    this.moveUses = 1;
-    //TODO: modify back to 3
-    this.sonarUses = 0;
+    // TODO: modify back to 3
+    this.moveUses = 2;
+    // TODO: modify back to 3
+    this.sonarUses = 5;
   }
 
   /**
@@ -95,14 +95,14 @@ public class TextPlayer {
    * Sets up list of available ships to facilitate game process.
    */
   protected void setupShipCreationList() {
-    //TODO: modify back to 2
-    shipsToPlace.addAll(Collections.nCopies(0, "Submarine"));
-    //TODO: modify back to 3
-    shipsToPlace.addAll(Collections.nCopies(0, "Destroyer"));
-    //TODO: modify back to 3
+    // TODO: modify back to 2
+    shipsToPlace.addAll(Collections.nCopies(2, "Submarine"));
+    // TODO: modify back to 3
+    shipsToPlace.addAll(Collections.nCopies(1, "Destroyer"));
+    // TODO: modify back to 3
     shipsToPlace.addAll(Collections.nCopies(1, "Battleship"));
-    //TODO: modify back to 2
-    shipsToPlace.addAll(Collections.nCopies(0, "Carrier"));
+    // TODO: modify back to 2
+    shipsToPlace.addAll(Collections.nCopies(1, "Carrier"));
   }
 
   /**
@@ -299,6 +299,46 @@ public class TextPlayer {
   }
 
   /**
+   * Does 'Sonar Scan' action during the game.
+   * 
+   * @param enemy is the enemy TextPlayer.
+   * @throws IOException if the user input cannot build a valid Coordinate.
+   */
+  public void doSonarScan(TextPlayer enemy) throws IOException {
+    String prompt = "--------------------------------------------------------------------------------\n" + "Player "
+        + name + ", please enter the center Coordinate for the sonar scan.\n"
+        + "--------------------------------------------------------------------------------";
+    Coordinate coordinate = readCoordinate(prompt);
+    while (coordinate == null) {
+      coordinate = readCoordinate(prompt);
+    }
+    HashMap<String, Integer> shipCountMap = enemy.theBoard.sonarScanAt(coordinate);
+    StringBuilder sonarResult = new StringBuilder();
+    sonarResult.append("--------------------------------------------------------------------------------\n");
+    sonarResult.append(
+        "You just performed the sonar scan on Coordinate" + coordinate.toString() + ", which is in this form:\n");
+    sonarResult.append("   *   \n");
+    sonarResult.append("  ***  \n");
+    sonarResult.append(" ***** \n");
+    sonarResult.append("***C***\n");
+    sonarResult.append(" ***** \n");
+    sonarResult.append("  ***  \n");
+    sonarResult.append("   *   \n");
+    sonarResult.append("The result of the sonar scan is:\n");
+    sonarResult.append("--------------------------------------------------------------------------------\n");
+    ArrayList<String> shipsToBeChecked = new ArrayList<>();
+    shipsToBeChecked.add("Submarine");
+    shipsToBeChecked.add("Destroyer");
+    shipsToBeChecked.add("Battleship");
+    shipsToBeChecked.add("Carrier");
+    for (String shipName : shipsToBeChecked) {
+      sonarResult.append(shipName + "s occupy " + shipCountMap.get(shipName) + " squares\n");
+    }
+    sonarResult.append("--------------------------------------------------------------------------------\n");
+    out.print(sonarResult.toString());
+  }
+
+  /**
    * Runs the attacking phase for the player during the game.
    * 
    * @param enemy is the enemy TextPlayer.
@@ -341,6 +381,10 @@ public class TextPlayer {
           problemDescription = doMove();
         }
         moveUses--;
+        break;
+      case 'S':
+        doSonarScan(enemy);
+        sonarUses--;
         break;
     }
     out.print(view.displayMyBoardWithEnemyNextToIt(enemy.view, myHeader, enemyHeader));

@@ -1,5 +1,7 @@
 package edu.duke.sl846.battleship;
 
+import java.util.HashMap;
+
 /**
  * Represents a general Board for our battleship game.
  */
@@ -53,6 +55,15 @@ public interface Board<T> {
    * @return the injured Ship if c is occupied by that Ship, null otherwise.
    */
   public Ship<T> fireAt(Coordinate c);
+
+  /**
+   * Gets the sonar scan result as a HashMap, counting how many squares are
+   * occupied by each kind of Ship.
+   * 
+   * @center is the center Coordinate of the sonar scan.
+   * @return a HashMap of the sonar scan results.
+   */
+  public HashMap<String, Integer> sonarScanAt(Coordinate center);
 
   /**
    * Remove the ship from the Board.

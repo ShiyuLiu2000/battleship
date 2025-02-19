@@ -48,6 +48,17 @@ public class App {
     }
   }
 
+  /**
+   * Prompts user to choose from human TextPlayer or computer TextPlayer, and
+   * generate the corresponding type of player for the game.
+   * 
+   * @param name        is the name given to the TextPlayer.
+   * @param theBoard    is the Board used in battleship game.
+   * @param inputReader is the input source to read from.
+   * @param out         is the output stream to print to.
+   * @return the TextPlayer of corresponding type.
+   * @throws IOException if the user input is null;
+   */
   static TextPlayer readTextPlayer(String name, Board<Character> theBoard, BufferedReader inputReader, PrintStream out)
       throws IOException {
     TextPlayer ans = null;

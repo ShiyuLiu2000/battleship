@@ -41,6 +41,13 @@ public class ComputerTextPlayer extends TextPlayer {
     return random.nextInt(max);
   }
 
+  /**
+   * Generates a random Coordinate.
+   * 
+   * @param prompt is the String to inform user on what to input.
+   * @return the randomly generated Coordinate within bounds.
+   * @throws IOException if the user input cannot build a valid Coordinate.
+   */
   @Override
   public Coordinate readCoordinate(String prompt) throws IOException {
     int width = theBoard.getWidth();
@@ -50,6 +57,13 @@ public class ComputerTextPlayer extends TextPlayer {
     return new Coordinate(randomRow, randomColumn);
   }
 
+  /**
+   * Generates a random Placement.
+   * 
+   * @param prompt is the String to inform user on what to input.
+   * @return the randomly generated Placement.
+   * @throws IOException if the user input cannot build a valid Placement.
+   */
   @Override
   public Placement readPlacement(String prompt) throws IOException {
     ArrayList<Character> possibleOrientations = new ArrayList<>();
@@ -64,6 +78,13 @@ public class ComputerTextPlayer extends TextPlayer {
     return new Placement(randomCoordinate, possibleOrientations.get(randomIndex));
   }
 
+  /**
+   * Reads user input for action types.
+   * 
+   * @param prompt is the prompt as instruction.
+   * @return the uppercased action type character.
+   * @throws IOException if the user input is not a valid action type.
+   */
   @Override
   public char readActionType(String prompt) throws IOException {
     return 'F';

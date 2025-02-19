@@ -55,10 +55,8 @@ public class TextPlayer {
     setupShipCreationList();
     this.shipCreationFns = new HashMap<>();
     setupShipCreationMap();
-    // TODO: modify back to 3
-    this.moveUses = 2;
-    // TODO: modify back to 3
-    this.sonarUses = 5;
+    this.moveUses = 3;
+    this.sonarUses = 3;
     this.isHuman = isHuman;
   }
 
@@ -99,14 +97,10 @@ public class TextPlayer {
    * Sets up list of available ships to facilitate game process.
    */
   protected void setupShipCreationList() {
-    // TODO: modify back to 2
-    shipsToPlace.addAll(Collections.nCopies(10, "Submarine"));
-    // TODO: modify back to 3
-    shipsToPlace.addAll(Collections.nCopies(0, "Destroyer"));
-    // TODO: modify back to 3
-    shipsToPlace.addAll(Collections.nCopies(0, "Battleship"));
-    // TODO: modify back to 2
-    shipsToPlace.addAll(Collections.nCopies(0, "Carrier"));
+    shipsToPlace.addAll(Collections.nCopies(2, "Submarine"));
+    shipsToPlace.addAll(Collections.nCopies(3, "Destroyer"));
+    shipsToPlace.addAll(Collections.nCopies(3, "Battleship"));
+    shipsToPlace.addAll(Collections.nCopies(2, "Carrier"));
   }
 
   /**
@@ -442,6 +436,9 @@ public class TextPlayer {
     return s.charAt(0);
   }
 
+  /**
+   * Prints the winning message.
+   */
   public void printWinningMessage() {
     String winMessage = "Player " + name + " wins! Congratulations!!!\n";
     out.print(winMessage);
@@ -449,6 +446,13 @@ public class TextPlayer {
     out.print("--------------------------------------------------------------------------------\n");
   }
 
+  /**
+   * Plays one turn of battleship game against an enemy.
+   * 
+   * @param enemy is the player we play against.
+   * @return true if the game ends after this turn, false otherwise.
+   * @throws IOException if the user input is null during the attacking phase.
+   */
   public boolean playOneTurnAgainst(TextPlayer enemy) throws IOException {
     doAttackingPhase(enemy);
     if (enemy.theBoard.isAllShipSunk()) {

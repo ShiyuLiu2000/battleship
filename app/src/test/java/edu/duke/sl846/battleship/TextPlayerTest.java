@@ -75,7 +75,6 @@ public class TextPlayerTest {
     }
   }
 
-  @Disabled
   @Test
   public void test_setup_ship_creation_list_and_map() {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();

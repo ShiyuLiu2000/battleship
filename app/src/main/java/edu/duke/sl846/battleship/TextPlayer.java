@@ -182,8 +182,8 @@ public class TextPlayer {
         "\n" +
         "2 \"Submarines\" ships that are 1x2\n" +
         "3 \"Destroyers\" that are 1x3\n" +
-        "3 \"Battleships\" that are 1x4\n" +
-        "2 \"Carriers\" that are 1x6\n";
+        "3 \"Battleships\" that occupies 4 squares\n" +
+        "2 \"Carriers\" that occupies 7 squares\n";
     if (isHuman) {
       out.print(message);
       out.print("--------------------------------------------------------------------------------\n");

@@ -47,16 +47,16 @@ class AppTest {
     assertEquals(expected, actual);
   }
 
-  @Disabled
+  // @Disabled
   @Test
   @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
   public void test_main_human_computer() throws IOException {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     PrintStream out = new PrintStream(bytes, true);
     // get an InputStream for input.txt file
-    InputStream input = getClass().getClassLoader().getResourceAsStream("input11.txt");
+    InputStream input = getClass().getClassLoader().getResourceAsStream("input13.txt");
     assertNotNull(input);
-    InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("output11.txt");
+    InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("output13.txt");
     assertNotNull(expectedStream);
     InputStream oldIn = System.in;
     PrintStream oldOut = System.out;

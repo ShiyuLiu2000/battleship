@@ -21,7 +21,7 @@ class AppTest {
   @Disabled
   @Test
   @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
-  public void test_main() throws IOException {
+  public void test_main_human_human() throws IOException {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     PrintStream out = new PrintStream(bytes, true);
     // get an InputStream for input.txt file
@@ -45,5 +45,51 @@ class AppTest {
     String actual = bytes.toString();
     // finally, compare them
     assertEquals(expected, actual);
+  }
+
+  @Disabled
+  @Test
+  @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
+  public void test_main_human_computer() throws IOException {
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    PrintStream out = new PrintStream(bytes, true);
+    // get an InputStream for input.txt file
+    InputStream input = getClass().getClassLoader().getResourceAsStream("input11.txt");
+    assertNotNull(input);
+    InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("output11.txt");
+    assertNotNull(expectedStream);
+    InputStream oldIn = System.in;
+    PrintStream oldOut = System.out;
+    try {
+      System.setIn(input);
+      System.setOut(out);
+      App.main(new String[0]);
+    } finally {
+      System.setIn(oldIn);
+      System.setOut(oldOut);
+    }
+  }
+
+  // @Disabled
+  @Test
+  @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
+  public void test_main_computer_computer() throws IOException {
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    PrintStream out = new PrintStream(bytes, true);
+    // get an InputStream for input.txt file
+    InputStream input = getClass().getClassLoader().getResourceAsStream("input12.txt");
+    assertNotNull(input);
+    InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("output12.txt");
+    assertNotNull(expectedStream);
+    InputStream oldIn = System.in;
+    PrintStream oldOut = System.out;
+    try {
+      System.setIn(input);
+      System.setOut(out);
+      App.main(new String[0]);
+    } finally {
+      System.setIn(oldIn);
+      System.setOut(oldOut);
+    }
   }
 }

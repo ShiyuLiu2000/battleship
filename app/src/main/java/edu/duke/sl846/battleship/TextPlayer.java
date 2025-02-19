@@ -30,6 +30,8 @@ public class TextPlayer {
   int moveUses;
   int sonarUses;
 
+  boolean isHuman;
+
   /**
    * Constructs the TextPlayer with given Board, input source, output stream, ship
    * factory, and a name.
@@ -39,9 +41,10 @@ public class TextPlayer {
    * @param inputSource is the input source to read from.
    * @param out         is the output stream to print to.
    * @param factory     is the ship factory to build ships.
+   * @param isHuman     is the boolean to tell if the user is human or computer.
    */
   public TextPlayer(String name, Board<Character> theBoard, BufferedReader inputSource, PrintStream out,
-      AbstractShipFactory<Character> factory) {
+      AbstractShipFactory<Character> factory, boolean isHuman) {
     this.name = name;
     this.theBoard = theBoard;
     this.view = new BoardTextView(theBoard);
@@ -56,6 +59,7 @@ public class TextPlayer {
     this.moveUses = 2;
     // TODO: modify back to 3
     this.sonarUses = 5;
+    this.isHuman = isHuman;
   }
 
   /**
@@ -96,13 +100,13 @@ public class TextPlayer {
    */
   protected void setupShipCreationList() {
     // TODO: modify back to 2
-    shipsToPlace.addAll(Collections.nCopies(2, "Submarine"));
+    shipsToPlace.addAll(Collections.nCopies(10, "Submarine"));
     // TODO: modify back to 3
-    shipsToPlace.addAll(Collections.nCopies(1, "Destroyer"));
+    shipsToPlace.addAll(Collections.nCopies(0, "Destroyer"));
     // TODO: modify back to 3
-    shipsToPlace.addAll(Collections.nCopies(1, "Battleship"));
+    shipsToPlace.addAll(Collections.nCopies(0, "Battleship"));
     // TODO: modify back to 2
-    shipsToPlace.addAll(Collections.nCopies(1, "Carrier"));
+    shipsToPlace.addAll(Collections.nCopies(0, "Carrier"));
   }
 
   /**
@@ -163,7 +167,9 @@ public class TextPlayer {
     } catch (IllegalArgumentException e) {
       return "The placement is not valid: " + e.getMessage();
     }
-    out.print(view.displayMyOwnBoard());
+    if (isHuman) {
+      out.print(view.displayMyOwnBoard());
+    }
     return placementProblem;
   }
 
@@ -184,19 +190,25 @@ public class TextPlayer {
         "3 \"Destroyers\" that are 1x3\n" +
         "3 \"Battleships\" that are 1x4\n" +
         "2 \"Carriers\" that are 1x6\n";
-    out.print(message);
-    out.print("--------------------------------------------------------------------------------\n");
-    out.print("Your current ocean:\n");
-    out.print(view.displayMyOwnBoard());
+    if (isHuman) {
+      out.print(message);
+      out.print("--------------------------------------------------------------------------------\n");
+      out.print("Your current ocean:\n");
+      out.print(view.displayMyOwnBoard());
+    }
     for (int i = 0; i < shipsToPlace.size(); i++) {
       String shipName = shipsToPlace.get(i);
       String placementProblem = doOnePlacement(shipName, shipCreationFns.get(shipName));
       while (placementProblem != null) {
-        out.println(placementProblem);
+        if (isHuman) {
+          out.println(placementProblem);
+        }
         placementProblem = doOnePlacement(shipName, shipCreationFns.get(shipName));
       }
     }
-    out.print("--------------------------------------------------------------------------------\n\n\n");
+    if (isHuman) {
+      out.print("--------------------------------------------------------------------------------\n\n\n");
+    }
   }
 
   /**
@@ -345,11 +357,15 @@ public class TextPlayer {
    * @throws IOException if the user input cannot build a valid Placement.
    */
   public void doAttackingPhase(TextPlayer enemy) throws IOException {
-    out.print("\n\n--------------------------------------------------------------------------------\n");
-    out.print("Player " + name + "'s turn:\n");
+    if (isHuman) {
+      out.print("\n\n--------------------------------------------------------------------------------\n");
+      out.print("Player " + name + "'s turn:\n");
+    }
     String myHeader = "Your ocean";
     String enemyHeader = "Player " + enemy.name + "'s ocean";
-    out.print(view.displayMyBoardWithEnemyNextToIt(enemy.view, myHeader, enemyHeader));
+    if (isHuman) {
+      out.print(view.displayMyBoardWithEnemyNextToIt(enemy.view, myHeader, enemyHeader));
+    }
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append("--------------------------------------------------------------------------------\n");
     stringBuilder.append("Possible actions for Player " + name + ":\n");
@@ -387,8 +403,10 @@ public class TextPlayer {
         sonarUses--;
         break;
     }
-    out.print(view.displayMyBoardWithEnemyNextToIt(enemy.view, myHeader, enemyHeader));
-    out.print("--------------------------------------------------------------------------------\n");
+    if (isHuman) {
+      out.print(view.displayMyBoardWithEnemyNextToIt(enemy.view, myHeader, enemyHeader));
+      out.print("--------------------------------------------------------------------------------\n");
+    }
   }
 
   /**

@@ -23,7 +23,7 @@ public class TextPlayerTest {
     // create a board and a factory
     Board<Character> board = new BattleShipBoard<Character>(w, h, 'X');
     V1ShipFactory shipFactory = new V1ShipFactory();
-    return new TextPlayer("A", board, input, output, shipFactory);
+    return new TextPlayer("A", board, input, output, shipFactory, true);
   }
 
   @Test

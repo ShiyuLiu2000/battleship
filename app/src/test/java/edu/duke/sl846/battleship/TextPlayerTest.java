@@ -53,6 +53,7 @@ public class TextPlayerTest {
     InputStream inputStream = getClass().getClassLoader().getResourceAsStream("EOFfile.txt");
     BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
     TextPlayer player = createTextPlayer(10, 20, input, bytes);
+    
     assertThrows(EOFException.class, () -> player.readPlacement("placement here"));
     assertThrows(EOFException.class, () -> player.readCoordinate("coordinate here"));
     assertThrows(EOFException.class, () -> player.readActionType("action type here"));

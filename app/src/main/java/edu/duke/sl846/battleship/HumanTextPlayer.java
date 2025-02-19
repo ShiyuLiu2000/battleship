@@ -11,7 +11,8 @@ import java.io.PrintStream;
 public class HumanTextPlayer extends TextPlayer {
 
   /**
-   * Constructs a HumanTextPlayer with given Board, input source, output stream, ship
+   * Constructs a HumanTextPlayer with given Board, input source, output stream,
+   * ship
    * factory, and a name.
    * 
    * @param name        is the name given to the TextPlayer.

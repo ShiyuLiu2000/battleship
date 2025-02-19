@@ -4,13 +4,10 @@
 package edu.duke.sl846.battleship;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.io.Reader;
-import java.io.StringReader;
 
 /**
  * Plays the Battleship game.
@@ -104,6 +101,5 @@ public class App {
 
     app.doPlacementPhase();
     app.doAttackingPhase();
-    // System.exit(0);
   }
 }

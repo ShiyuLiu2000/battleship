@@ -1,3 +1,4 @@
+```
 For this assignment, you are going to write a text-based version of
 the game "battleship".
 If you are not familiar with the game, you can read about it here:
@@ -524,7 +525,7 @@ thoughts on it evolved while you were away?  if so, that is ok).
 After you have refreshed your memory on what you came up with,
 open v1Overview.txt and read it. We'll walk you through Version 1,
 starting with our "think aloud" on this high-level design process.
-
+```
 
 
  
